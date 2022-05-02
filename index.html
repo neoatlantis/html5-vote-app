@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+<meta charset="utf-8" />
+<script src="vue.js"></script>
+<script src="main.js" type="module"></script>
+</head>
+<body>
+<div id="app">
+
+<svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg">
+
+    <filter id="filter-greyscale">
+        <feColorMatrix type="saturate" values="0.10"/>
+    </filter>
+    <rotated-option v-for="(choice, choice_i) in choices" v-bind:radius="800+(choice_i%3)*300"  v-bind:angle="base-100+10*choice_i" v-bind:text="choice.text"></rotated-option>
+
+</svg>
+
+
+
+
+
+</div>
+</body>
+</html>
