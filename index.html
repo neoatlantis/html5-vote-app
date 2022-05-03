@@ -5,22 +5,54 @@
 <meta charset="utf-8" />
 <script src="vue.js"></script>
 <script src="main.js" type="module"></script>
+<style>
+.noselect {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+svg text::selection {
+    background: none;
+}
+</style>
 </head>
 <body>
 <div id="app">
 
-<svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg">
+    <svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" v-show="!show_result">
 
-    <filter id="filter-greyscale">
-        <feColorMatrix type="saturate" values="0.10"/>
-    </filter>
-    <rotated-option v-for="(choice, choice_i) in choices" v-bind:radius="800+(choice_i%3)*300"  v-bind:angle="base-100+10*choice_i" v-bind:text="choice.text"></rotated-option>
+        <filter id="filter-greyscale">
+            <feColorMatrix type="saturate" values="0.10"/>
+        </filter>
 
-</svg>
+        <rotated-option 
+            v-for="(choice, choice_i) in choices"
+            v-bind:key="choice.id"
+            v-bind:radius="800+(choice_i%3)*300"
+            v-bind:angle="-100+10*choice_i"
+            v-bind:text="choice.text"
+            v-bind:src="choice.src"
+            @select="on_choice_select(choice.id, $event)"
+        ></rotated-option>
+
+        <svg-button x="700" y="2000" text="完成选择" v-on:click="on_finished"></svg-button>
+
+    </svg>
 
 
 
 
+    <svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" v-show="show_result">
+        <image
+            v-for="(choice, choice_i) in selected_choices"
+            v-bind:x="(choice_i % 4)*200"
+            v-bind:y="Math.floor(choice_i / 4)*250"
+            width="200" height="200"
+            :xlink:href="choice.src"
+        />
+    </svg>
 
 </div>
 </body>
