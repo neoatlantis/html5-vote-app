@@ -17,8 +17,6 @@ const app = new Vue({
         base: 0,
 
         choices: [
-            { id: id(), src: "images/1.png", text: '起过八' },
-            { id: id(), src: "images/1.png", text: '和群友喝酒' },
             { id: id(), src: "images/1.png", text: '参加GORUCK' },
             { id: id(), src: "images/1.png", text: '找到过Klue卡' },
             { id: id(), src: "images/1.png", text: '兑换过珍贵的人头牌' },
@@ -26,6 +24,8 @@ const app = new Vue({
             { id: id(), src: "images/1.png", text: '和本地玩家约饭' },
             { id: id(), src: "images/1.png", text: '参加过MD' },
             { id: id(), src: "images/1.png", text: '组织过IFS' },
+            { id: id(), src: "images/1.png", text: '起过八' },
+            { id: id(), src: "images/2.png", text: '鸮过群友' },
         ]
 
     },
