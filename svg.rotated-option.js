@@ -1,7 +1,7 @@
 Vue.component("rotated-option", {
     
     template: `
-    <svg v-on:click="on_click" class="noselect">
+    <g v-on:click="on_click" class="noselect">
         <animateTransform attributeName="transform"
                                   attributeType="XML"
                                   type="rotate"
@@ -18,7 +18,7 @@ Vue.component("rotated-option", {
             </text>
 
         </g>
-    </svg>
+    </g>
 
     `,
 
