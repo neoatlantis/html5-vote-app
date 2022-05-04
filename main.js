@@ -1,8 +1,7 @@
-import "./svg.rotated-option.js";
+import "./svg.option.js";
 import "./svg.button.js";
 
-
-var _id=0; function id(){ return _id++ };
+import { choices } from "./content.js";
 
 
 
@@ -10,24 +9,13 @@ var _id=0; function id(){ return _id++ };
 const app = new Vue({
     el: "#app",
     data: {
-        hwratio: 1.776,
-
         show_result: false,
         ready: false,
+        dragging: false,
+        dragging_start: null,
 
-        base: 0,
-
-        choices: [
-            { id: id(), src: "images/1.png", text: '参加GORUCK' },
-            { id: id(), src: "images/1.png", text: '找到过Klue卡' },
-            { id: id(), src: "images/1.png", text: '兑换过珍贵的人头牌' },
-            { id: id(), src: "images/1.png", text: '参加XMA的After Party' },
-            { id: id(), src: "images/1.png", text: '和本地玩家约饭' },
-            { id: id(), src: "images/1.png", text: '参加过MD' },
-            { id: id(), src: "images/1.png", text: '组织过IFS' },
-            { id: id(), src: "images/1.png", text: '起过八' },
-            { id: id(), src: "images/2.png", text: '鸮过群友' },
-        ]
+        choices: choices,
+        
 
     },
 
@@ -45,6 +33,23 @@ const app = new Vue({
         on_finished: function(){
             this.show_result = true;
         },
+
+    
+        on_menu_touchstart: function(e){
+            this.dragging = true;
+        },
+
+        on_menu_touchmove: function(e){
+        },
+
+        on_menu_touchend: function(){
+            this.dragging = false;
+        },
+
+        on_menu_touchcancel: function(){
+            this.dragging = false;
+        },
+
     }
 });
 
