@@ -1,8 +1,7 @@
 Vue.component("svg-button", {
     template: `
-    <svg 
+    <g 
         v-bind:transform="'translate(' + x + ' ' + y + ') translate(-150 0)'"
-        viewBox="0 0 300 100" width="300" height="100"
         v-on:click="on_click"
     >
         <rect x="0" y="0" 
@@ -19,7 +18,7 @@ Vue.component("svg-button", {
         >
             {{ text }}
         </text>
-    </svg>`,
+    </g>`,
 
     props: ["x", "y", "text"],
 

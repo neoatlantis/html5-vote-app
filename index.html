@@ -20,10 +20,16 @@ svg text::selection {
 </head>
 <body>
 <div id="app">
+    <img
+        v-for="(choice, choice_i) in selected_choices"
+        :src="choice.src"
+        style="display:none"
+    />
 
     <svg 
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
         style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" v-show="!show_result"
+        v-if="ready"
     >
 
         <filter id="filter-greyscale">
@@ -47,7 +53,7 @@ svg text::selection {
 
 
 
-    <svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" version="1.1" v-show="show_result">
+    <svg style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" version="1.1" v-show="show_result" v-if="ready">
         <image
             v-for="(choice, choice_i) in selected_choices"
             v-bind:x="(choice_i % 4)*200"

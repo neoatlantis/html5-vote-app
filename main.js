@@ -13,6 +13,7 @@ const app = new Vue({
         hwratio: 1.776,
 
         show_result: false,
+        ready: false,
 
         base: 0,
 
@@ -47,3 +48,5 @@ const app = new Vue({
     }
 });
 
+
+setTimeout(()=>app.ready=true, 1000);
