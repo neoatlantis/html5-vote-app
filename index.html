@@ -3,9 +3,14 @@
 <head>
 <title>Test</title>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="vue.js"></script>
 <script src="main.js" type="module"></script>
 <style>
+body{
+    padding: 0px;
+    margin: 0px;
+}
 .noselect {
     cursor: pointer;
     -webkit-user-select: none;
@@ -15,6 +20,24 @@
 }
 svg text::selection {
     background: none;
+}
+
+.smooth-transtion{
+    transition: 5s;
+}
+
+.menu-option-svg{
+    position: relative;
+    width: 33.33%;
+}
+
+#btn-finished-selection{
+    position: fixed;
+    right: 10%;
+    bottom: 5%;
+    z-index: 100;
+    width: 15%;
+
 }
 </style>
 </head>
@@ -26,72 +49,30 @@ svg text::selection {
         style="display:none"
     />
 
+    <div v-if="!show_result">
 
-    <div id="menu-container" v-if="ready">
-        <svg-option 
-            v-if="ready"
-            style="width: 30%"
-            v-for="(choice, choice_i) in choices"
-            v-bind:key="choice.id"
-            v-bind:text="choice.text"
-            v-bind:src="choice.src"
-            @select="on_choice_select(choice.id, $event)"
-        ></svg-option>
-    </div>
-
-
-
-    <!--<svg 
-        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-        style="background:#FFCC00; width:100%; height:100%" viewBox="0 0 1440 2560" v-show="!show_result"
-        v-if="ready"
-    >
-        <defs>
-            <linearGradient id="top-gradient" gradientTransform="rotate(90)">
-                <stop offset="5%"  stop-color="#CC0000FF"/>
-                <stop offset="95%" stop-color="#FFCC0000"/>
-            </linearGradient>
-            
-            <filter id="filter-greyscale">
-                <feColorMatrix type="saturate" values="0.10"/>
-            </filter>
-        </defs>
-        
-
-        <g
-            v-on:mousedown="on_menu_touchstart"
-            v-on:touchstart="on_menu_touchstart"
-            v-on:touchend="on_menu_touchend"
-            v-on:touchmove="on_menu_touchmove"
-            v-on:touchcancel="on_menu_touchcancel"
-        >
-            <animateTransform
-                attributeName="transform"
-                attributeType="XML"
-                type="translate"
-                v-bind:by="'0 ' + (2560-Math.ceil(choices.length/3)*480)"
-                dur="120s"
-            />
-            <svg-option 
+        <div id="menu-container" v-if="ready">
+            <div
                 v-for="(choice, choice_i) in choices"
-                v-bind:key="choice.id"
-                v-bind:x="(choice_i % 3)*480"
-                v-bind:y="Math.floor(choice_i / 3)*480"
-                v-bind:text="choice.text"
-                v-bind:src="choice.src"
-                @select="on_choice_select(choice.id, $event)"
-            ></svg-option>
-        </g>
+            >
+                <svg-option 
+                    class="menu-option-svg"
+                    v-if="ready"
+                    v-bind:style="'left: ' + choices_positions[choice_i] * 33.333 + '%'"
+                    v-bind:key="choice.id"
+                    v-bind:text="choice.text"
+                    v-bind:src="choice.src"
+                    @select="on_choice_select(choice.id, $event)"
+                ></svg-option>
+            </div>
+        </div>
 
-        <g>
-            <rect x="0" y="0" width="1440" height="480" fill="url(#top-gradient)" />
-                
-        </g>
 
-        <svg-button x="700" y="2000" text="完成选择" v-on:click="on_finished"></svg-button>
+        <div id="btn-finished-selection" v-show="selected_choices.length>0">
+            <svg-button text="完成选择" v-on:click="on_finished"></svg-button>
+        </div>
 
-    </svg>-->
-
+    </div>
 
 
 

@@ -25,19 +25,19 @@ Vue.component("svg-option", {
         <g class="noselect" v-on:click="on_click">
             <g>
                 <animateTransform
-                    id="translate2"
+                    id="translate"
                     attributeName="transform"
                     attributeType="XML"
                     type="translate"
                     v-bind:values="animate"
                     v-bind:dur="(9+2*Math.random()) + 's'"
                     repeatCount="indefinite"
-                    restart="always"
+                    v-bind:restart="selected?'never':'always'"
                 />
 
-                <image class="noselect" x="180" y="300" width="360" height="360" :xlink:href="src" /> <!-- v-bind:filter="!selected?'url(#filter-greyscale)':''"/>-->
-                <circle class="noselect" v-show="selected" cx="320" cy="20" r="50" fill="red"/>
-                <text class="noselect" x="0" y="300" font-size="60" v-bind:style="selected?'stroke: #660000; fill: #660000':'stroke: #666600; fill: #666600'">
+                <image class="noselect" x="180" y="200" width="360" height="360" :xlink:href="src" /> <!-- v-bind:filter="!selected?'url(#filter-greyscale)':''"/>-->
+                <circle class="noselect" v-show="selected" cx="500" cy="220" r="50" fill="red"/>
+                <text class="noselect" x="120" y="700" font-size="60" v-bind:style="selected?'stroke: #660000; fill: #660000':'stroke: #666600; fill: #666600'">
                     {{ text }}
                 </text>
             </g>

@@ -3,7 +3,7 @@ import "./svg.button.js";
 import "./scrolling.js";
 
 import { choices } from "./content.js";
-
+const choices_positions = choices.map((e)=>Math.floor(Math.random()*3));
 
 
 
@@ -12,10 +12,9 @@ const app = new Vue({
     data: {
         show_result: false,
         ready: false,
-        dragging: false,
-        dragging_start: null,
 
         choices: choices,
+        choices_positions: choices_positions,
         
 
     },
@@ -36,21 +35,6 @@ const app = new Vue({
         },
 
     
-        on_menu_touchstart: function(e){
-            this.dragging = true;
-        },
-
-        on_menu_touchmove: function(e){
-        },
-
-        on_menu_touchend: function(){
-            this.dragging = false;
-        },
-
-        on_menu_touchcancel: function(){
-            this.dragging = false;
-        },
-
     }
 });
 
