@@ -1,5 +1,6 @@
 import "./svg.option.js";
 import "./svg.button.js";
+import "./scrolling.js";
 
 import { choices } from "./content.js";
 
