@@ -14,6 +14,7 @@ body{
     background:#FFCC00;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    scroll-behavior: smooth;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -84,15 +85,19 @@ svg text::selection {
 
 
 
-    <svg style=" width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" version="1.1" v-show="show_result" v-if="ready">
-        <image
-            v-for="(choice, choice_i) in selected_choices"
-            v-bind:x="(choice_i % 4)*200"
-            v-bind:y="100+Math.floor(choice_i / 4)*250"
-            width="200" height="200"
-            :xlink:href="choice.src"
-        />
-    </svg>
+    <div id="output" v-show="show_result">
+        <svg style="display:none; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <image
+                v-for="(choice, choice_i) in selected_choices"
+                v-bind:x="(choice_i % 4)*200"
+                v-bind:y="100+Math.floor(choice_i / 4)*250"
+                width="200" height="200"
+                :xlink:href="choice.src"
+            />
+        </svg>
+
+
+    </div>
 
 </div>
 </body>

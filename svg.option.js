@@ -32,7 +32,7 @@ Vue.component("svg-option", {
                     v-bind:values="animate"
                     v-bind:dur="(9+2*Math.random()) + 's'"
                     repeatCount="indefinite"
-                    v-bind:restart="selected?'never':'always'"
+                    restart="always"
                 />
 
                 <image class="noselect" x="180" y="200" width="360" height="360" :xlink:href="src" /> <!-- v-bind:filter="!selected?'url(#filter-greyscale)':''"/>-->
