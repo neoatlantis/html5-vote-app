@@ -43,4 +43,4 @@ const choices = [
     { id: id(), src: "images/1.png", text: "满级重生" },*/
 ];
 
-export { choices };
+module.exports = choices;
