@@ -5,7 +5,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="vue.js"></script>
-<script src="main.js" type="module"></script>
 <style>
 body{
     padding: 0px;
@@ -16,51 +15,31 @@ body{
     scrollbar-width: none;  /* Firefox */
     scroll-behavior: smooth;
 }
-::-webkit-scrollbar {
-    display: none;
-}
-
-.noselect {
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-svg text::selection {
-    background: none;
-}
-
-.smooth-transtion{
-    transition: 5s;
-}
-
-.menu-option-svg{
-    position: relative;
-    width: 33.33%;
-}
-
-#btn-finished-selection{
+#app{
     position: fixed;
-    right: 10%;
-    bottom: 5%;
-    z-index: 100;
-    width: 15%;
-
+    top:0;
+    bottom:0;
+    left: 0;
+    right:0;
+    padding: 0;
+    margin: 0;
 }
 </style>
 </head>
 <body>
 <div id="app">
-    <img
+    <!--<img
         v-for="(choice, choice_i) in selected_choices"
         :src="choice.src"
         style="display:none"
-    />
+    />-->
 
-    <div v-if="!show_result">
+    <canvas id="options" style="width:100%;height:100%">
+    </canvas>
 
-        <div id="menu-container" v-if="ready">
+    <div v-if="!show_result" style="display:none">
+
+        <div id="menu-container" v-if="ready" style="display:none">
             <div
                 v-for="(choice, choice_i) in choices"
             >
@@ -85,7 +64,7 @@ svg text::selection {
 
 
 
-    <div id="output" v-show="show_result">
+    <!--<div id="output" v-show="show_result">
         <svg style="display:none; width:100%; height:100%" viewBox="0 0 1440 2560" xmlns="http://www.w3.org/2000/svg" version="1.1">
             <image
                 v-for="(choice, choice_i) in selected_choices"
@@ -97,8 +76,12 @@ svg text::selection {
         </svg>
 
 
-    </div>
+    </div>-->
 
 </div>
+
+
+
+<script src="main.js" type="module"></script>
 </body>
 </html>

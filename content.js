@@ -15,7 +15,7 @@ const choices = [
     { id: id(), src: "images/1.png", text: "在公众号发表文章" },
     { id: id(), src: "images/1.png", text: "和群友组队参加 Anomaly" },
     { id: id(), src: "images/1.png", text: "在 Kaltenberg 搬砖" },
-    { id: id(), src: "images/1.png", text: "约饭牌黑了" },
+    /*{ id: id(), src: "images/1.png", text: "约饭牌黑了" },
     { id: id(), src: "images/1.png", text: "打赢一场 Anomaly" },
     { id: id(), src: "images/1.png", text: "夜刷 Mission Day" },
     { id: id(), src: "images/1.png", text: "Mission Day 制霸" },
@@ -40,7 +40,7 @@ const choices = [
     { id: id(), src: "images/1.png", text: "向别人安利 Ingress 成功" },
     { id: id(), src: "images/1.png", text: "和群友交换明信片" },
     { id: id(), src: "images/1.png", text: "制作自己的 biocard" },
-    { id: id(), src: "images/1.png", text: "满级重生" },
+    { id: id(), src: "images/1.png", text: "满级重生" },*/
 ];
 
 export { choices };
