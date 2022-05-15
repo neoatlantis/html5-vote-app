@@ -98,26 +98,43 @@ module.exports = async function update_result(options, args){
 
     let touchstart_time = 0;
     let touching = false;
+    let download_touch_timer = null;
     //const canvas = document.getElementById("result");
     //console.log(canvas);
-    canvas.ontouchstart = ()=>{
-        touchstart_time = new Date().getTime();
-        touching = true;
-    }
-    canvas.ontouchend = ()=>{
-        if(touching){
-            touching = false;
-            if(
-                new Date().getTime() - touchstart_time > 
-                constants.RESULT_LONG_PRESS_SAVE_TIME
-            ){
-                canvas.toBlob(function(blob) {
-                    saveAs(blob, "result.png");
-                });
-            }
+    function start_image_download(){
+        if(!touching) return;
+        if(
+            new Date().getTime() - touchstart_time > 
+            constants.RESULT_LONG_PRESS_SAVE_TIME
+        ){
+            canvas.toBlob(function(blob) {
+                saveAs(blob, "result.png");
+            });
+        } else {
+            download_touch_timer = setTimeout(start_image_download, 100);
         }
     }
-
+    function clear_download_timer(){
+        if(null == download_touch_timer) return;
+        clearTimeout(download_touch_timer);
+    }
+    canvas.ontouchstart = (e)=>{
+        touchstart_time = new Date().getTime();
+        touching = true;
+        download_touch_timer = setTimeout(start_image_download, 100);
+        console.log("set dw touch timer");
+        e.preventDefault();
+    }
+    canvas.ontouchend = canvas.ontouchcancel = (e)=>{
+        touching = false;
+        clear_download_timer();
+        e.preventDefault();
+    }
+/*    canvas.ontouchcancel = (e)=>{
+        touching = false;
+        clear_download_timer();
+        e.preventDefault();
+    }*/
 }
 
 
