@@ -154,11 +154,25 @@ module.exports = CanvasOption;
 
 },{"./constants.js":4}],3:[function(require,module,exports){
 const choices = require("./content.js");
-const choices_positions = choices.map((e)=>Math.floor(Math.random()*3));
 const { get_image } = require("./resource-loader.js");
 const CanvasOption = require("./canvas-option.js");
 const constants = require("./constants");
 
+const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
+const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
+let current_pos = initial_position;
+let choices_positions = [];
+for(let i=0; i<choices.length; i++){
+    current_pos += position_deltas[i];
+    if(current_pos < 0){
+        current_pos += constants.MENU_CHOICES_PER_ROW;
+    }
+    if(current_pos >= constants.MENU_CHOICES_PER_ROW){
+        current_pos -= constants.MENU_CHOICES_PER_ROW;
+    }
+    choices_positions.push(current_pos);
+}
+console.log(choices_positions);
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -276,6 +290,7 @@ module.exports = {
 
     RESOURCE_ICON_TILE_SIZE: 360,
 
+    MENU_CHOICES_PER_ROW: 3,
     MENU_CHOICE_OSC_A: 0.1,
     MENU_CHOICE_OSC_T: 2000,
 

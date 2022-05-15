@@ -1,9 +1,23 @@
 const choices = require("./content.js");
-const choices_positions = choices.map((e)=>Math.floor(Math.random()*3));
 const { get_image } = require("./resource-loader.js");
 const CanvasOption = require("./canvas-option.js");
 const constants = require("./constants");
 
+const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
+const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
+let current_pos = initial_position;
+let choices_positions = [];
+for(let i=0; i<choices.length; i++){
+    current_pos += position_deltas[i];
+    if(current_pos < 0){
+        current_pos += constants.MENU_CHOICES_PER_ROW;
+    }
+    if(current_pos >= constants.MENU_CHOICES_PER_ROW){
+        current_pos -= constants.MENU_CHOICES_PER_ROW;
+    }
+    choices_positions.push(current_pos);
+}
+console.log(choices_positions);
 
 //////////////////////////////////////////////////////////////////////////////
 

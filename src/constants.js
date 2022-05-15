@@ -3,6 +3,7 @@ module.exports = {
 
     RESOURCE_ICON_TILE_SIZE: 360,
 
+    MENU_CHOICES_PER_ROW: 3,
     MENU_CHOICE_OSC_A: 0.1,
     MENU_CHOICE_OSC_T: 2000,
 
