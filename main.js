@@ -172,7 +172,6 @@ for(let i=0; i<choices.length; i++){
     }
     choices_positions.push(current_pos);
 }
-console.log(choices_positions);
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -183,7 +182,7 @@ module.exports = async function init(canvas, callback){
 
 
 
-    const scrollspeed = canvas.height / 500;
+    const scrollspeed = canvas.height / 1000;
 
     const row_size = Math.round(canvas.width / 4);
     const ctx = canvas.getContext("2d");
