@@ -42,6 +42,7 @@ function may_show_result(){
 async function init(){
 
 
+    document.getElementById("app").style.display = "block";
 
 
     const canvas = document.getElementById("options");
