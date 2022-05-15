@@ -110,7 +110,7 @@ module.exports = async function init(canvas, callback){
         touchscrolled = true;
 
         const currenty = e.changedTouches[0].clientY;
-        delta_y0_scroll += (currenty - touch_lasty);
+        delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
         touch_lasty = currenty;
     }
 }
