@@ -49,7 +49,7 @@ body{
         <button v-on:click="name_done=true">查看结果</button>
     </div>
 
-    <div class="fullscreen" v-show="choices_done && name_done">
+    <div class="fullscreen" v-show="choices_done && name_done" style="overflow-y: scroll">
         <canvas id="result" style="width:100%"></canvas>
         <img id="result-img">
     </div>
