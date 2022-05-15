@@ -46,7 +46,6 @@ async function assure_loaded(percentage_callback){
             let all_loaded = true;
             for(let img_name in loaded_images){
                 let img = loaded_images[img_name];
-                console.log(img.completedPercentage);
                 if(img.loaded){
                     actual_total += 100;
                 } else {

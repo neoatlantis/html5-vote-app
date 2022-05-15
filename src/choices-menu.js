@@ -2,13 +2,13 @@ const choices = require("./content.js");
 const choices_positions = choices.map((e)=>Math.floor(Math.random()*3));
 const { get_image } = require("./resource-loader.js");
 const CanvasOption = require("./canvas-option.js");
-
+const constants = require("./constants");
 
 
 //////////////////////////////////////////////////////////////////////////////
 
 
-module.exports = async function init(canvas){
+module.exports = async function init(canvas, callback){
     
     const options_image = await get_image("options");
 
@@ -22,8 +22,9 @@ module.exports = async function init(canvas){
 
     const options_instances = choices.map((choice, choice_i)=>{
         return new CanvasOption({
+            choice_id: choice.id,
             text: choice.text,
-            image_id: 0,
+            image_id: choice.pos,
             image_src: options_image,
             row: choice_i,
             col: choices_positions[choice_i],
@@ -66,6 +67,15 @@ module.exports = async function init(canvas){
     function on_click(x, y){
         // handle a touch-click or mouseclick event
         options_instances.forEach((oi)=>oi.handle_click(x, y));
+
+        let selected_ids = options_instances    
+            .filter((oi)=>oi.choosen)
+            .map((oi)=>oi.choice_id)
+        ;
+        try{
+            callback(selected_ids);
+        } catch(e){
+        }
     }
 
 
@@ -86,7 +96,10 @@ module.exports = async function init(canvas){
         if(!touchscrolled){
             // touch-"clicked" something
             let touch = e.changedTouches[0];
-            on_click(touch.clientX, touch.clientY);
+            on_click(
+                touch.clientX * constants.SCALE_FACTOR,
+                touch.clientY * constants.SCALE_FACTOR
+            );
         }
 
         delta_y0_scroll = 0;

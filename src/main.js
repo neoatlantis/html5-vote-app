@@ -1,54 +1,65 @@
-/*import "./svg.option.js";
-import "./svg.button.js";
-import "./scrolling.js";
-*/
+require("./svg.button.js");
+const utils = require("./utils");
+const update_result = require("./save-image.js");
 
+const choices = require("./content.js");
+
+
+const app = new Vue({
+    el: "#app",
+    data: {
+        entering_name: true,
+        username: "",
+        show_result: false,
+        selected_choices: [],
+    },
+
+    methods: {
+        on_finished: function(){
+            update_result(
+                JSON.parse(JSON.stringify(this.selected_choices)),
+                {
+                    username: this.username,
+                }
+            );
+            this.show_result = true;
+        },
+    }
+});
+
+function on_selection_changed(selected_ids){
+    let selected_choices = choices
+        .filter((e)=>selected_ids.indexOf(e.id) >= 0);
+    app.selected_choices = selected_choices;
+}
+
+function name_is_entered(){
+    return new Promise((resolve, reject)=>{
+        function check(){
+            if(app.entering_name == false){
+                resolve();
+            } else {
+                setTimeout(check, 100);
+            }
+        }
+        check();
+    });
+}
 
 
 async function init(){
 
-    const canvas = document.getElementById("options");
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
 
-    await require("./choices-menu.js")(canvas);
+    await name_is_entered();
+
+
+    const canvas = document.getElementById("options");
+    utils.setup_canvas(canvas);
+    
+    await require("./choices-menu.js")(canvas, on_selection_changed);
 
 }
 
 init();
 
-/*
 
-const app = new Vue({
-    el: "#app",
-    data: {
-        show_result: false,
-        ready: false,
-
-        choices: choices,
-        choices_positions: choices_positions,
-        
-
-    },
-
-    computed: {
-        selected_choices: function(){
-            return this.choices.filter(e=>e.selected);
-        }
-    },
-
-    methods: {
-        on_choice_select: function(id, selected){
-            this.choices.filter((e)=>e.id==id)[0].selected = selected;
-            this.choices = JSON.parse(JSON.stringify(this.choices));
-        },
-        on_finished: function(){
-            this.show_result = true;
-        },
-
-    
-    }
-});
-
-
-setTimeout(()=>app.ready=true, 1000);*/

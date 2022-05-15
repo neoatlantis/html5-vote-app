@@ -1,3 +1,7 @@
+const constants = require("./constants.js");
+
+
+
 
 class CanvasOption{
     /*
@@ -14,6 +18,7 @@ class CanvasOption{
      */
 
     constructor({
+        choice_id,
         text,
         image_id,
         image_src,
@@ -23,10 +28,11 @@ class CanvasOption{
         ctx,
         canvas_height
     }){
+        this.choice_id = choice_id;
         this.text = text;
-        this.image_id = 0;
+        this.image_id = image_id;
         this.image_src = image_src;
-        this.image_tile_size = 360;
+        this.image_tile_size = constants.RESOURCE_ICON_TILE_SIZE;
 
         this.row = row;
         this.col = col;
@@ -38,9 +44,9 @@ class CanvasOption{
 
         // Oscillating effect
 
-        this.osc_A = this.size * 0.5;
+        this.osc_A = this.size * constants.MENU_CHOICE_OSC_A;
         this.osc_t = 0;
-        this.osc_T = 2000;
+        this.osc_T = constants.MENU_CHOICE_OSC_T;
         this.osc_t0 = new Date().getTime();
         this.osc_p0 = Math.random() * 2 * Math.PI;
         this.osc_reset = ()=>{
@@ -80,12 +86,13 @@ class CanvasOption{
 
         this.y = target_y0;
         
-        if(this.choosen && this.animating_to_origin){
+        if(this.animating_to_origin){
             const move_dx = target_x0 - this.x;
             const move_err = 5;
             if(Math.abs(move_dx) < move_err){
                 // no need to animate anymore
                 this.animating_to_origin = false;
+                this.osc_reset();
             } else {
                 this.x += move_dx/10;
             }
