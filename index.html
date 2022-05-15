@@ -37,6 +37,12 @@ body{
 <body>
 <div id="app" style="display:none">
 
+    <div class="fullscreen" v-show="!init_done" style="display: flex; justify-content: center; align-items: center;">
+        <div>
+            {{ init_percent }}%
+        </div>
+    </div>
+
     <div class="fullscreen" v-show="init_done && !choices_done">
         <canvas id="options" style="width:100%;height:100%"></canvas>
         <div id="btn-finished-selection" v-show="selected_choices.length>0">

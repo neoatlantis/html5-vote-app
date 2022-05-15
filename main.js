@@ -355,6 +355,7 @@ module.exports = choices;
 require("./svg.button.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
+const { assure_loaded } = require("./resource-loader.js");
 
 const choices = require("./content.js");
 
@@ -363,8 +364,9 @@ const app = new Vue({
     el: "#app",
     data: {
         username: "",
+        init_percent: 0,
 
-        init_done: true,
+        init_done: false,
         name_done: false,
         choices_done: false,
         
@@ -394,13 +396,14 @@ function may_show_result(){
 
 
 async function init(){
-
-
     document.getElementById("app").style.display = "block";
-
+    await assure_loaded(function(percentage){
+        app.init_percent = percentage;
+    });
+    app.init_done = true;
 
     const canvas = document.getElementById("options");
-    utils.setup_canvas(canvas);
+    utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
     await require("./choices-menu.js")(canvas, on_selection_changed);
 
@@ -419,10 +422,11 @@ init();
 
 
 
-},{"./choices-menu.js":3,"./content.js":5,"./save-image.js":10,"./svg.button.js":11,"./utils":12}],7:[function(require,module,exports){
+},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./utils":12}],7:[function(require,module,exports){
 const images = {
     "options": "./images/options.png",
-}
+    "ballast": "./images/random_big_ballast.png",
+};
 
 
 // https://stackoverflow.com/questions/14218607/javascript-loading-progress-of-an-image
@@ -496,6 +500,7 @@ async function get_image(image_name){
 
 module.exports = {
     get_image,
+    assure_loaded,
 }
 
 },{}],8:[function(require,module,exports){

@@ -1,6 +1,7 @@
 const images = {
     "options": "./images/options.png",
-}
+    "ballast": "./images/random_big_ballast.png",
+};
 
 
 // https://stackoverflow.com/questions/14218607/javascript-loading-progress-of-an-image
@@ -74,4 +75,5 @@ async function get_image(image_name){
 
 module.exports = {
     get_image,
+    assure_loaded,
 }

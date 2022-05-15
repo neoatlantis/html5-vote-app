@@ -1,6 +1,7 @@
 require("./svg.button.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
+const { assure_loaded } = require("./resource-loader.js");
 
 const choices = require("./content.js");
 
@@ -9,8 +10,9 @@ const app = new Vue({
     el: "#app",
     data: {
         username: "",
+        init_percent: 0,
 
-        init_done: true,
+        init_done: false,
         name_done: false,
         choices_done: false,
         
@@ -40,13 +42,14 @@ function may_show_result(){
 
 
 async function init(){
-
-
     document.getElementById("app").style.display = "block";
-
+    await assure_loaded(function(percentage){
+        app.init_percent = percentage;
+    });
+    app.init_done = true;
 
     const canvas = document.getElementById("options");
-    utils.setup_canvas(canvas);
+    utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
     await require("./choices-menu.js")(canvas, on_selection_changed);
 
