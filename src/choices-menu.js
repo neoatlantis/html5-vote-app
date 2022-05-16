@@ -101,6 +101,7 @@ module.exports = async function init(canvas, callback){
         touchscrolled = false;
         delta_y0_scroll = 0;
         touch_lasty = e.changedTouches[0].clientY;
+        e.preventDefault();
     }
 
     canvas.ontouchend = (e)=>{
@@ -116,6 +117,7 @@ module.exports = async function init(canvas, callback){
         }
 
         delta_y0_scroll = 0;
+        e.preventDefault();
     }
 
     canvas.ontouchmove = (e)=>{
@@ -125,5 +127,6 @@ module.exports = async function init(canvas, callback){
         const currenty = e.changedTouches[0].clientY;
         delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
         touch_lasty = currenty;
+        e.preventDefault();
     }
 }
