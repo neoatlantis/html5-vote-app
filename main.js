@@ -204,9 +204,12 @@ module.exports = async function init(canvas, callback){
 
 
     const delta_y0_min = canvas.height - row_size * options_instances.length;
-    let delta_y0 = 0;
+    const delta_y0_max = canvas.height / 2;
+    let delta_y0 = delta_y0_max; //0;
+    console.log(delta_y0);
     let delta_y0_scroll = false;
     let autoscroll = true;
+
     function draw(){
         const nowtime = new Date().getTime();
 
@@ -219,8 +222,8 @@ module.exports = async function init(canvas, callback){
         if(delta_y0 < delta_y0_min){
             delta_y0 = delta_y0_min;
         }
-        if(delta_y0 > 0){
-            delta_y0 = 0;
+        if(delta_y0 > delta_y0_max){
+            delta_y0 = delta_y0_max;
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
