@@ -1,4 +1,5 @@
 require("./svg.button.js");
+require("./svg.choices-header.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
@@ -15,7 +16,8 @@ const app = new Vue({
         init_done: false,
         name_done: false,
         choices_done: false,
-        
+
+        total_choices: choices.length,
         selected_choices: [],
     },
 

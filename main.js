@@ -359,6 +359,7 @@ module.exports = choices;
 
 },{}],6:[function(require,module,exports){
 require("./svg.button.js");
+require("./svg.choices-header.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
@@ -375,7 +376,8 @@ const app = new Vue({
         init_done: false,
         name_done: false,
         choices_done: false,
-        
+
+        total_choices: choices.length,
         selected_choices: [],
     },
 
@@ -428,10 +430,11 @@ init();
 
 
 
-},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./utils":12}],7:[function(require,module,exports){
+},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-header.js":12,"./utils":13}],7:[function(require,module,exports){
 const images = {
     "options": "./images/options.png",
     "ballast": "./images/random_big_ballast.png",
+    "header": "./images/options_header.svg",
 };
 
 
@@ -505,6 +508,7 @@ async function get_image(image_name){
 }
 
 module.exports = {
+    images,
     get_image,
     assure_loaded,
 }
@@ -696,7 +700,7 @@ module.exports = async function update_result(options, args){
 
 
 
-},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":12}],11:[function(require,module,exports){
+},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":13}],11:[function(require,module,exports){
 Vue.component("svg-button", {
     template: `
     <svg 
@@ -733,6 +737,42 @@ Vue.component("svg-button", {
 });
 
 },{}],12:[function(require,module,exports){
+const { images } = require("./resource-loader.js");
+
+Vue.component("svg-choices-header", {
+    template: `
+    <div style="position:fixed; width:100%">
+        <img
+            style="position:fixed;width:100%;z-index:10"
+            v-bind:src="background"
+        ></img>
+        <svg
+            style="position:fixed;width:100%;z-index:20"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+            viewBox="0 0 1560 300"
+            id="choices-header-svg"
+        >
+            <text text-anchor="end" x="1390" y="230" class="big">{{ selected }}</text>
+            <text x="1440" y="228" class="small">{{ total }}</text>
+        </svg>
+    </div>
+    `,
+
+    props: ["selected", "total"],
+
+    data: function(){ return {
+        background: images["header"],
+    } },
+
+    methods: {
+        on_click: function(e){
+            this.$emit("click");
+        }
+    },
+
+});
+
+},{"./resource-loader.js":7}],13:[function(require,module,exports){
 const constants = require("./constants.js");
 function setup_canvas(canvas, width, height) {
     // width & height: css display size

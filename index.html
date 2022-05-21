@@ -10,10 +10,13 @@ body{
     padding: 0px;
     margin: 0px;
     overflow-x: hidden;
-    background:#FFCC00;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     scroll-behavior: smooth;
+}
+#options{
+    background: linear-gradient(180deg, #9794f0, #fac7d4);
+    background-size: cover;
 }
 .fullscreen{
     position: fixed;
@@ -32,6 +35,15 @@ body{
     height: auto;
     z-index: 100;
 }
+
+#choices-header-svg .small {
+    font: 30px sans;
+}
+#choices-header-svg .big {  
+    font: bold 115px sans-serif;
+    fill: #e37373;
+}
+
 </style>
 </head>
 <body>
@@ -44,6 +56,10 @@ body{
     </div>
 
     <div class="fullscreen" v-show="init_done && !choices_done">
+        <svg-choices-header
+            v-bind:selected="selected_choices.length"
+            v-bind:total="total_choices"
+        ></svg-choices-header>  
         <canvas id="options" style="width:100%;height:100%"></canvas>
         <div id="btn-finished-selection" v-show="selected_choices.length>0">
             <svg-button text="完成选择" v-on:click="choices_done=true"></svg-button>

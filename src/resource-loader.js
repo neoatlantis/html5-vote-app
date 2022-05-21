@@ -1,6 +1,7 @@
 const images = {
     "options": "./images/options.png",
     "ballast": "./images/random_big_ballast.png",
+    "header": "./images/options_header.svg",
 };
 
 
@@ -74,6 +75,7 @@ async function get_image(image_name){
 }
 
 module.exports = {
+    images,
     get_image,
     assure_loaded,
 }
