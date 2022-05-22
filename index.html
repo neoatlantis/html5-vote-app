@@ -14,6 +14,7 @@ body{
     scrollbar-width: none;  /* Firefox */
     scroll-behavior: smooth;
 }
+input:focus { outline: none }
 #options{
     background: linear-gradient(180deg, #9794f0, #fac7d4);
     background-size: cover;
@@ -36,6 +37,12 @@ body{
     z-index: 100;
 }
 
+#choices-header::after{ 
+    content: " "; 
+    display: block;
+    clear: both;
+} 
+
 #choices-header-svg .small {
     font: 30px sans;
 }
@@ -52,8 +59,14 @@ body{
     background: #f9c1a3;
 }
 #add-item-input{
-    padding-left: 1em;
-    padding-right: 1em;
+    position:absolute;
+    border:none;/*border-radius:999999px;*/
+    background: none;
+    left: 29%; top: 59%;
+    width: 29%;
+    height:25%;
+    z-index:30;
+
     text-align: center;
     opacity: 80%;
 }
@@ -116,7 +129,11 @@ body{
             v-bind:selected="selected_choices.length"
             v-bind:total="total_choices"
         ></svg-choices-header>  
+        <svg-choices-basket
+            v-bind:selected_choices="selected_choices"
+        ></svg-choices-basket>
         <canvas id="options" style="width:100%;height:100%"></canvas>
+
         <svg-choices-footer
             v-bind:selected="selected_choices.length"
             v-bind:total="total_choices"

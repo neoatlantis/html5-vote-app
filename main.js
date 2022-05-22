@@ -360,6 +360,7 @@ module.exports = choices;
 },{}],6:[function(require,module,exports){
 require("./svg.button.js");
 require("./svg.choices-header.js");
+require("./svg.choices-basket.js");
 require("./svg.choices-footer.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
@@ -431,7 +432,7 @@ init();
 
 
 
-},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-footer.js":12,"./svg.choices-header.js":13,"./utils":14}],7:[function(require,module,exports){
+},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-basket.js":12,"./svg.choices-footer.js":13,"./svg.choices-header.js":14,"./utils":15}],7:[function(require,module,exports){
 const images = {
     "options": "./images/options.png",
     //"ballast": "./images/random_big_ballast.png",
@@ -702,7 +703,7 @@ module.exports = async function update_result(options, args){
 
 
 
-},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":14}],11:[function(require,module,exports){
+},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":15}],11:[function(require,module,exports){
 Vue.component("svg-button", {
     template: `
     <svg 
@@ -741,6 +742,38 @@ Vue.component("svg-button", {
 },{}],12:[function(require,module,exports){
 const { images } = require("./resource-loader.js");
 
+Vue.component("svg-choices-basket", {
+    template: `
+    <div style="border-radius:1em; width: 10%; height:10%; background-color: #FFFFFF; z-index:30; position:fixed; top: 20%; right: 5%; height:50%; width: 60%; overflow-y: scroll; overflow-x: hidden;">
+        <div>
+            <ul>
+                <li v-for="choice in selected_choices">{{ choice.text }}</li>
+            </ul>
+        </div>
+    </div>
+    `,
+
+    props: ["selected_choices"],
+
+    data: function(){ return {
+    } },
+
+    methods: {
+        on_click: function(e){
+            this.$emit("click");
+            e.preventDefault();
+        }
+    },
+
+    mounted: function(){
+        //setInterval(()=>make_round(), 100);
+    }
+
+});
+
+},{"./resource-loader.js":7}],13:[function(require,module,exports){
+const { images } = require("./resource-loader.js");
+
 function make_round(){
     const el_i = document.getElementById("add-item-input");
     const el_b = document.getElementById("add-item-button");
@@ -756,20 +789,6 @@ function make_round(){
 Vue.component("svg-choices-footer", {
     template: `
     <div style="position:fixed; bottom:0; width:100%; display:flex; flex-direction:row" class="fade-in-div">
-        <div style="flex-basis:75%; display:flex" id="footer-container">
-
-        
-            <div style="display:flex;flex-grow:1;flex-direction:column;justify-content:center"><!-- Vertical center -->
-                
-                <div style="height:60%; display:flex; padding-left:5%;">
-                    <input id="add-item-input" type="text" style="border:none;border-radius:999999px;width:50%" placeholder="手动添加更多成就"/>
-                    <button id="add-item-button" type="button" style="border:none;border-radius:999999px;">&#10004;</button>
-                    <button id="view-item-button" type="button" style="border:none;border-radius:999999px;">&#9776;</button>
-                </div>
-
-            </div>
-
-        </div>
         <div style="flex-basis:25%" id="footer-btn-done" v-on:click="on_click">
             <img
                 v-bind:src="btn_done_background"
@@ -793,30 +812,43 @@ Vue.component("svg-choices-footer", {
     },
 
     mounted: function(){
-        setInterval(()=>make_round(), 100);
+        //setInterval(()=>make_round(), 100);
     }
 
 });
 
-},{"./resource-loader.js":7}],13:[function(require,module,exports){
+},{"./resource-loader.js":7}],14:[function(require,module,exports){
 const { images } = require("./resource-loader.js");
+
+function fix_header(){
+    const el_h = document.getElementById("choices-header");
+    const el_bg = document.getElementById("choices-header-bg");
+    const el_i = document.getElementById("add-item-input");
+    const h = el_bg.getBoundingClientRect().height;
+    el_h.style["height"] = `${h}px`;
+    el_i.style["font-size"] = `${h*0.15}px`;
+}
+
 
 Vue.component("svg-choices-header", {
     template: `
-    <div style="position:fixed; width:100%">
+    <div style="position:fixed; width:100%" id="choices-header">
         <img
-            style="position:fixed;width:100%;z-index:10"
+            style="position:absolute;width:100%;z-index:10"
             v-bind:src="background"
+            id="choices-header-bg"
         ></img>
         <svg
-            style="position:fixed;width:100%;z-index:20"
+            style="position:absolute;width:100%;z-index:20"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
             viewBox="0 0 1560 300"
             id="choices-header-svg"
         >
-            <text text-anchor="end" x="1390" y="230" class="big">{{ selected }}</text>
-            <text x="1440" y="228" class="small">{{ total }}</text>
+            <text text-anchor="end" x="1400" y="230" class="big">{{ selected }}</text>
+            <text x="1450" y="235" class="small">{{ total }}</text>
         </svg>
+
+        <input id="add-item-input" type="text" placeholder="手动添加更多成就"/>
     </div>
     `,
 
@@ -832,9 +864,13 @@ Vue.component("svg-choices-header", {
         }
     },
 
+    mounted: function(){
+        setInterval(fix_header, 100);
+    }
+
 });
 
-},{"./resource-loader.js":7}],14:[function(require,module,exports){
+},{"./resource-loader.js":7}],15:[function(require,module,exports){
 const constants = require("./constants.js");
 function setup_canvas(canvas, width, height) {
     // width & height: css display size

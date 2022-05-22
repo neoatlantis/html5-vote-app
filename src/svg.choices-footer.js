@@ -15,20 +15,6 @@ function make_round(){
 Vue.component("svg-choices-footer", {
     template: `
     <div style="position:fixed; bottom:0; width:100%; display:flex; flex-direction:row" class="fade-in-div">
-        <div style="flex-basis:75%; display:flex" id="footer-container">
-
-        
-            <div style="display:flex;flex-grow:1;flex-direction:column;justify-content:center"><!-- Vertical center -->
-                
-                <div style="height:60%; display:flex; padding-left:5%;">
-                    <input id="add-item-input" type="text" style="border:none;border-radius:999999px;width:50%" placeholder="手动添加更多成就"/>
-                    <button id="add-item-button" type="button" style="border:none;border-radius:999999px;">&#10004;</button>
-                    <button id="view-item-button" type="button" style="border:none;border-radius:999999px;">&#9776;</button>
-                </div>
-
-            </div>
-
-        </div>
         <div style="flex-basis:25%" id="footer-btn-done" v-on:click="on_click">
             <img
                 v-bind:src="btn_done_background"
@@ -52,7 +38,7 @@ Vue.component("svg-choices-footer", {
     },
 
     mounted: function(){
-        setInterval(()=>make_round(), 100);
+        //setInterval(()=>make_round(), 100);
     }
 
 });
