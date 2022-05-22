@@ -7,6 +7,7 @@ function make_round(){
     el_i.style["border-radius"] = el_b.style["border-radius"] = `${h/2}px`;
     el_b.style["width"] = el_b.style["height"] = `${h}px`;
 
+    el_i.style["font-size"] = el_b.style["font-size"] = `${h*0.5}px`;
 
 }
 
@@ -20,7 +21,7 @@ Vue.component("svg-choices-footer", {
                 
                 <div style="height:60%; display:flex; padding-left:5%;">
                     <input id="add-item-input" type="text" style="border:none;border-radius:30px;width:60%" placeholder="手动添加更多成就"/>
-                    <button id="add-item-button" type="button" style="border:none;border-radius:30px;">X</button>
+                    <button id="add-item-button" type="button" style="border:none;border-radius:30px;">&#10004;</button>
                 </div>
 
             </div>
