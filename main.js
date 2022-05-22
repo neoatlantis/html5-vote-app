@@ -434,7 +434,7 @@ init();
 },{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-footer.js":12,"./svg.choices-header.js":13,"./utils":14}],7:[function(require,module,exports){
 const images = {
     "options": "./images/options.png",
-    "ballast": "./images/random_big_ballast.png",
+    //"ballast": "./images/random_big_ballast.png",
     "header": "./images/options_header.svg",
     "footer-btn-done": "./images/options_footer_btn_done.svg",
 };
@@ -744,11 +744,12 @@ const { images } = require("./resource-loader.js");
 function make_round(){
     const el_i = document.getElementById("add-item-input");
     const el_b = document.getElementById("add-item-button");
+    const el_v = document.getElementById("view-item-button");
     const h = el_i.getBoundingClientRect().height;
     el_i.style["border-radius"] = el_b.style["border-radius"] = `999999px`; //`${h/2}px`;
-    el_b.style["width"] = el_b.style["height"] = `${h}px`;
+    el_v.style["width"] = el_v.style["height"] = el_b.style["width"] = el_b.style["height"] = `${h}px`;
 
-    el_i.style["font-size"] = el_b.style["font-size"] = `${h*0.5}px`;
+    el_i.style["font-size"] = el_b.style["font-size"] = el_v.style["font-size"] = `${h*0.5}px`;
 
 }
 
@@ -761,8 +762,9 @@ Vue.component("svg-choices-footer", {
             <div style="display:flex;flex-grow:1;flex-direction:column;justify-content:center"><!-- Vertical center -->
                 
                 <div style="height:60%; display:flex; padding-left:5%;">
-                    <input id="add-item-input" type="text" style="border:none;border-radius:30px;width:60%" placeholder="手动添加更多成就"/>
-                    <button id="add-item-button" type="button" style="border:none;border-radius:30px;">&#10004;</button>
+                    <input id="add-item-input" type="text" style="border:none;border-radius:999999px;width:50%" placeholder="手动添加更多成就"/>
+                    <button id="add-item-button" type="button" style="border:none;border-radius:999999px;">&#10004;</button>
+                    <button id="view-item-button" type="button" style="border:none;border-radius:999999px;">&#9776;</button>
                 </div>
 
             </div>
