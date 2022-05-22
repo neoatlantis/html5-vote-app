@@ -4,7 +4,7 @@ function make_round(){
     const el_i = document.getElementById("add-item-input");
     const el_b = document.getElementById("add-item-button");
     const h = el_i.getBoundingClientRect().height;
-    el_i.style["border-radius"] = el_b.style["border-radius"] = `${h/2}px`;
+    el_i.style["border-radius"] = el_b.style["border-radius"] = `999999px`; //`${h/2}px`;
     el_b.style["width"] = el_b.style["height"] = `${h}px`;
 
     el_i.style["font-size"] = el_b.style["font-size"] = `${h*0.5}px`;
