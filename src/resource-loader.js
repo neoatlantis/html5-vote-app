@@ -2,6 +2,7 @@ const images = {
     "options": "./images/options.png",
     "ballast": "./images/random_big_ballast.png",
     "header": "./images/options_header.svg",
+    "footer-btn-done": "./images/options_footer_btn_done.svg",
 };
 
 

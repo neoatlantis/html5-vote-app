@@ -360,6 +360,7 @@ module.exports = choices;
 },{}],6:[function(require,module,exports){
 require("./svg.button.js");
 require("./svg.choices-header.js");
+require("./svg.choices-footer.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
@@ -430,11 +431,12 @@ init();
 
 
 
-},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-header.js":12,"./utils":13}],7:[function(require,module,exports){
+},{"./choices-menu.js":3,"./content.js":5,"./resource-loader.js":7,"./save-image.js":10,"./svg.button.js":11,"./svg.choices-footer.js":12,"./svg.choices-header.js":13,"./utils":14}],7:[function(require,module,exports){
 const images = {
     "options": "./images/options.png",
     "ballast": "./images/random_big_ballast.png",
     "header": "./images/options_header.svg",
+    "footer-btn-done": "./images/options_footer_btn_done.svg",
 };
 
 
@@ -700,7 +702,7 @@ module.exports = async function update_result(options, args){
 
 
 
-},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":13}],11:[function(require,module,exports){
+},{"./FileSaver.min.js":1,"./constants.js":4,"./resource-loader.js":7,"./save-image.draw-background.js":8,"./save-image.draw-header.js":9,"./utils":14}],11:[function(require,module,exports){
 Vue.component("svg-button", {
     template: `
     <svg 
@@ -739,6 +741,63 @@ Vue.component("svg-button", {
 },{}],12:[function(require,module,exports){
 const { images } = require("./resource-loader.js");
 
+function make_round(){
+    const el_i = document.getElementById("add-item-input");
+    const el_b = document.getElementById("add-item-button");
+    const h = el_i.getBoundingClientRect().height;
+    el_i.style["border-radius"] = el_b.style["border-radius"] = `${h/2}px`;
+    el_b.style["width"] = el_b.style["height"] = `${h}px`;
+
+
+}
+
+Vue.component("svg-choices-footer", {
+    template: `
+    <div style="position:fixed; bottom:0; width:100%; display:flex; flex-direction:row" class="fade-in-div">
+        <div style="flex-basis:75%; display:flex" id="footer-container">
+
+        
+            <div style="display:flex;flex-grow:1;flex-direction:column;justify-content:center"><!-- Vertical center -->
+                
+                <div style="height:60%; display:flex; padding-left:5%;">
+                    <input id="add-item-input" type="text" style="border:none;border-radius:30px;width:60%" placeholder="手动添加更多成就"/>
+                    <button id="add-item-button" type="button" style="border:none;border-radius:30px;">X</button>
+                </div>
+
+            </div>
+
+        </div>
+        <div style="flex-basis:25%" id="footer-btn-done" v-on:click="on_click">
+            <img
+                v-bind:src="btn_done_background"
+                style="max-width:100%"
+            ></img>
+        </div>
+    </div>
+    `,
+
+    props: ["selected", "total"],
+
+    data: function(){ return {
+        btn_done_background: images["footer-btn-done"],
+    } },
+
+    methods: {
+        on_click: function(e){
+            this.$emit("click");
+            e.preventDefault();
+        }
+    },
+
+    mounted: function(){
+        setInterval(()=>make_round(), 100);
+    }
+
+});
+
+},{"./resource-loader.js":7}],13:[function(require,module,exports){
+const { images } = require("./resource-loader.js");
+
 Vue.component("svg-choices-header", {
     template: `
     <div style="position:fixed; width:100%">
@@ -772,7 +831,7 @@ Vue.component("svg-choices-header", {
 
 });
 
-},{"./resource-loader.js":7}],13:[function(require,module,exports){
+},{"./resource-loader.js":7}],14:[function(require,module,exports){
 const constants = require("./constants.js");
 function setup_canvas(canvas, width, height) {
     // width & height: css display size

@@ -1,5 +1,6 @@
 require("./svg.button.js");
 require("./svg.choices-header.js");
+require("./svg.choices-footer.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
