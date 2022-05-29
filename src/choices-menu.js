@@ -20,8 +20,17 @@ for(let i=0; i<choices.length; i++){
 
 //////////////////////////////////////////////////////////////////////////////
 
+let header_height = 0;
 
-module.exports = async function init(canvas, callback){
+function set_header_height(h){
+    header_height = h * constants.SCALE_FACTOR;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+async function start_and_wait_done(canvas, callback){
     
     const options_image = await get_image("options");
 
@@ -51,7 +60,6 @@ module.exports = async function init(canvas, callback){
     const delta_y0_min = canvas.height - row_size * options_instances.length;
     const delta_y0_max = canvas.height / 2;
     let delta_y0 = delta_y0_max; //0;
-    console.log(delta_y0);
     let delta_y0_scroll = false;
     let autoscroll = true;
 
@@ -71,10 +79,14 @@ module.exports = async function init(canvas, callback){
             delta_y0 = delta_y0_max;
         }
 
+        // clear whole canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // draw each icon
         options_instances.forEach((oi)=>{
             oi.next({ delta_y0: delta_y0, nowtime: nowtime });
         });
+        // clear header region
+        ctx.clearRect(0, 0, canvas.width, header_height);
         requestAnimationFrame(draw);
     }
     requestAnimationFrame(draw);
@@ -132,4 +144,13 @@ module.exports = async function init(canvas, callback){
         touch_lasty = currenty;
         e.preventDefault();
     }
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+module.exports = {
+    start_and_wait_done,
+    set_header_height,
 }

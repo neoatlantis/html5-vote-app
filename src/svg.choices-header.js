@@ -1,12 +1,13 @@
 const { images } = require("./resource-loader.js");
 
-function fix_header(){
+function fix_header(comp){
     const el_h = document.getElementById("choices-header");
     const el_bg = document.getElementById("choices-header-bg");
     const el_i = document.getElementById("add-item-input");
     const h = el_bg.getBoundingClientRect().height;
     el_h.style["height"] = `${h}px`;
     el_i.style["font-size"] = `${h*0.15}px`;
+    comp.height = h;
 }
 
 
@@ -36,6 +37,7 @@ Vue.component("svg-choices-header", {
 
     data: function(){ return {
         background: images["header"],
+        height: false,
     } },
 
     methods: {
@@ -44,8 +46,14 @@ Vue.component("svg-choices-header", {
         }
     },
 
+    watch: {
+        height: function(){
+            this.$emit("resize-height", this.height);
+        },
+    },
+
     mounted: function(){
-        setInterval(fix_header, 100);
+        setInterval(()=>fix_header(this), 100);
     }
 
 });

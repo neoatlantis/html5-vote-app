@@ -2,6 +2,7 @@ require("./svg.button.js");
 require("./svg.choices-header.js");
 require("./svg.choices-basket.js");
 require("./svg.choices-footer.js");
+const choices_menu = require("./choices-menu.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
@@ -21,8 +22,15 @@ const app = new Vue({
 
         total_choices: choices.length,
         selected_choices: [],
+
     },
 
+
+    methods: {
+        on_choices_header_resized: function(new_height){
+            choices_menu.set_header_height(new_height);
+        }
+    }
 });
 
 function on_selection_changed(selected_ids){
@@ -55,7 +63,7 @@ async function init(){
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
-    await require("./choices-menu.js")(canvas, on_selection_changed);
+    await choices_menu.start_and_wait_done(canvas, on_selection_changed);
 
     await may_show_result();
 

@@ -175,8 +175,17 @@ for(let i=0; i<choices.length; i++){
 
 //////////////////////////////////////////////////////////////////////////////
 
+let header_height = 0;
 
-module.exports = async function init(canvas, callback){
+function set_header_height(h){
+    header_height = h * constants.SCALE_FACTOR;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+async function start_and_wait_done(canvas, callback){
     
     const options_image = await get_image("options");
 
@@ -206,7 +215,6 @@ module.exports = async function init(canvas, callback){
     const delta_y0_min = canvas.height - row_size * options_instances.length;
     const delta_y0_max = canvas.height / 2;
     let delta_y0 = delta_y0_max; //0;
-    console.log(delta_y0);
     let delta_y0_scroll = false;
     let autoscroll = true;
 
@@ -226,10 +234,14 @@ module.exports = async function init(canvas, callback){
             delta_y0 = delta_y0_max;
         }
 
+        // clear whole canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // draw each icon
         options_instances.forEach((oi)=>{
             oi.next({ delta_y0: delta_y0, nowtime: nowtime });
         });
+        // clear header region
+        ctx.clearRect(0, 0, canvas.width, header_height);
         requestAnimationFrame(draw);
     }
     requestAnimationFrame(draw);
@@ -287,6 +299,15 @@ module.exports = async function init(canvas, callback){
         touch_lasty = currenty;
         e.preventDefault();
     }
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+module.exports = {
+    start_and_wait_done,
+    set_header_height,
 }
 
 },{"./canvas-option.js":2,"./constants":4,"./content.js":5,"./resource-loader.js":7}],4:[function(require,module,exports){
@@ -362,6 +383,7 @@ require("./svg.button.js");
 require("./svg.choices-header.js");
 require("./svg.choices-basket.js");
 require("./svg.choices-footer.js");
+const choices_menu = require("./choices-menu.js");
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
@@ -381,8 +403,15 @@ const app = new Vue({
 
         total_choices: choices.length,
         selected_choices: [],
+
     },
 
+
+    methods: {
+        on_choices_header_resized: function(new_height){
+            choices_menu.set_header_height(new_height);
+        }
+    }
 });
 
 function on_selection_changed(selected_ids){
@@ -415,7 +444,7 @@ async function init(){
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
-    await require("./choices-menu.js")(canvas, on_selection_changed);
+    await choices_menu.start_and_wait_done(canvas, on_selection_changed);
 
     await may_show_result();
 
@@ -820,13 +849,14 @@ Vue.component("svg-choices-footer", {
 },{"./resource-loader.js":7}],14:[function(require,module,exports){
 const { images } = require("./resource-loader.js");
 
-function fix_header(){
+function fix_header(comp){
     const el_h = document.getElementById("choices-header");
     const el_bg = document.getElementById("choices-header-bg");
     const el_i = document.getElementById("add-item-input");
     const h = el_bg.getBoundingClientRect().height;
     el_h.style["height"] = `${h}px`;
     el_i.style["font-size"] = `${h*0.15}px`;
+    comp.height = h;
 }
 
 
@@ -856,6 +886,7 @@ Vue.component("svg-choices-header", {
 
     data: function(){ return {
         background: images["header"],
+        height: false,
     } },
 
     methods: {
@@ -864,8 +895,14 @@ Vue.component("svg-choices-header", {
         }
     },
 
+    watch: {
+        height: function(){
+            this.$emit("resize-height", this.height);
+        },
+    },
+
     mounted: function(){
-        setInterval(fix_header, 100);
+        setInterval(()=>fix_header(this), 100);
     }
 
 });

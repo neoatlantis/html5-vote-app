@@ -128,6 +128,7 @@ input:focus { outline: none }
         <svg-choices-header
             v-bind:selected="selected_choices.length"
             v-bind:total="total_choices"
+            v-on:resize-height="on_choices_header_resized"
         ></svg-choices-header>  
         <svg-choices-basket
             v-bind:selected_choices="selected_choices"
