@@ -248,6 +248,8 @@ async function start_and_wait_done(canvas, callback){
 
 
     function on_click(x, y){
+        if(y < header_height) return; // clicking header region ignored
+
         // handle a touch-click or mouseclick event
         options_instances.forEach((oi)=>oi.handle_click(x, y));
 
@@ -404,6 +406,7 @@ const app = new Vue({
         total_choices: choices.length,
         selected_choices: [],
 
+        show_basket: false,
     },
 
 
@@ -876,9 +879,12 @@ Vue.component("svg-choices-header", {
         >
             <text text-anchor="end" x="1400" y="230" class="big">{{ selected }}</text>
             <text x="1450" y="235" class="small">{{ total }}</text>
+
+            <circle cx="1015" cy="215" r="42" fill="transparent" stroke="transparent" v-on:touchend="on_submit_click"/>
+            <circle cx="1115" cy="215" r="42" fill="transparent" stroke="transparent" v-on:touchend="on_basket_toggle"/>
         </svg>
 
-        <input id="add-item-input" type="text" placeholder="手动添加更多成就"/>
+        <input id="add-item-input" v-model="additional" type="text" placeholder="手动添加更多成就"/>
     </div>
     `,
 
@@ -887,12 +893,18 @@ Vue.component("svg-choices-header", {
     data: function(){ return {
         background: images["header"],
         height: false,
+        additional: "",
     } },
 
     methods: {
-        on_click: function(e){
-            this.$emit("click");
-        }
+        on_submit_click: function(){
+            console.log("manual add", this.additional);
+            this.$emit("submit", this.additional);
+        },
+
+        on_basket_toggle: function(){
+            this.$emit("toggle-basket");
+        },
     },
 
     watch: {

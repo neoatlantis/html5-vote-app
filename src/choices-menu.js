@@ -93,6 +93,8 @@ async function start_and_wait_done(canvas, callback){
 
 
     function on_click(x, y){
+        if(y < header_height) return; // clicking header region ignored
+
         // handle a touch-click or mouseclick event
         options_instances.forEach((oi)=>oi.handle_click(x, y));
 

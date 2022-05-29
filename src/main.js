@@ -23,6 +23,7 @@ const app = new Vue({
         total_choices: choices.length,
         selected_choices: [],
 
+        show_basket: false,
     },
 
 

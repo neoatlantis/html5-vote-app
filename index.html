@@ -129,9 +129,11 @@ input:focus { outline: none }
             v-bind:selected="selected_choices.length"
             v-bind:total="total_choices"
             v-on:resize-height="on_choices_header_resized"
+            v-on:toggle-basket="show_basket=!show_basket"
         ></svg-choices-header>  
         <svg-choices-basket
             v-bind:selected_choices="selected_choices"
+            v-show="show_basket"
         ></svg-choices-basket>
         <canvas id="options" style="width:100%;height:100%"></canvas>
 
