@@ -1,24 +1,10 @@
-const { images } = require("./resource-loader.js");
-
-function fix_header(comp){
-    const el_h = document.getElementById("choices-header");
-    const el_bg = document.getElementById("choices-header-bg");
-    const el_i = document.getElementById("add-item-input");
-    const h = el_bg.getBoundingClientRect().height;
-    el_h.style["height"] = `${h}px`;
-    el_i.style["font-size"] = `${h*0.15}px`;
-    comp.height = h;
-}
-
-
-Vue.component("svg-choices-header", {
-    template: `
+<template>
     <div style="position:fixed; width:100%" id="choices-header">
         <img
             style="position:absolute;width:100%;z-index:10"
             v-bind:src="background"
             id="choices-header-bg"
-        ></img>
+        />
         <svg
             style="position:absolute;width:100%;z-index:20"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
@@ -34,11 +20,25 @@ Vue.component("svg-choices-header", {
 
         <input id="add-item-input" v-model="additional" type="text" placeholder="手动添加更多成就"/>
     </div>
-    `,
+</template>
+<script>
 
+const { images } = require("app/resource-loader.js");
+
+function fix_header(comp){
+    const el_h = document.getElementById("choices-header");
+    const el_bg = document.getElementById("choices-header-bg");
+    const el_i = document.getElementById("add-item-input");
+    const h = el_bg.getBoundingClientRect().height;
+    el_h.style["height"] = `${h}px`;
+    el_i.style["font-size"] = `${h*0.15}px`;
+    comp.height = h;
+}
+
+export default {
     props: ["selected", "total"],
 
-    data: function(){ return {
+    data(){ return {
         background: images["header"],
         height: false,
         additional: "",
@@ -65,4 +65,7 @@ Vue.component("svg-choices-header", {
         setInterval(()=>fix_header(this), 100);
     }
 
-});
+};
+
+
+</script>

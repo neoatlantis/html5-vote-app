@@ -1,38 +1,22 @@
-require("./svg.button.js");
-require("./svg.choices-header.js");
-require("./svg.choices-basket.js");
-require("./svg.choices-footer.js");
-const choices_menu = require("./choices-menu.js");
+import choices from "app/content.js";
+import choices_menu from "app/choices-menu.js";
+
+
+/*require("./svg.choices-header.js");
+require("./svg.choices-footer.js");*/
 const utils = require("./utils");
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
 
-const choices = require("./content.js");
+
+import { createApp } from "vue";
+import App from "sfc/app.vue";
 
 
-const app = new Vue({
-    el: "#app",
-    data: {
-        username: "",
-        init_percent: 0,
-
-        init_done: false,
-        name_done: false,
-        choices_done: false,
-
-        total_choices: choices.length,
-        selected_choices: [],
-
-        show_basket: false,
-    },
 
 
-    methods: {
-        on_choices_header_resized: function(new_height){
-            choices_menu.set_header_height(new_height);
-        }
-    }
-});
+const app = createApp(App);
+app.mount("#app");
 
 function on_selection_changed(selected_ids){
     let selected_choices = choices
@@ -78,5 +62,3 @@ async function init(){
 }
 
 init();
-
-

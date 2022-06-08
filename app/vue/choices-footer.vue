@@ -1,4 +1,16 @@
-const { images } = require("./resource-loader.js");
+<template>
+    <div style="position:fixed; bottom:0; width:100%; display:flex; flex-direction:row" class="fade-in-div">
+        <div style="flex-basis:25%" id="footer-btn-done" v-on:click="on_click">
+            <img
+                v-bind:src="btn_done_background"
+                style="max-width:100%"
+            />
+        </div>
+    </div>
+
+</template>
+<script>
+const { images } = require("app/resource-loader.js");
 
 function make_round(){
     const el_i = document.getElementById("add-item-input");
@@ -12,18 +24,8 @@ function make_round(){
 
 }
 
-Vue.component("svg-choices-footer", {
-    template: `
-    <div style="position:fixed; bottom:0; width:100%; display:flex; flex-direction:row" class="fade-in-div">
-        <div style="flex-basis:25%" id="footer-btn-done" v-on:click="on_click">
-            <img
-                v-bind:src="btn_done_background"
-                style="max-width:100%"
-            ></img>
-        </div>
-    </div>
-    `,
 
+export default {
     props: ["selected", "total"],
 
     data: function(){ return {
@@ -41,4 +43,5 @@ Vue.component("svg-choices-footer", {
         //setInterval(()=>make_round(), 100);
     }
 
-});
+};
+</script>

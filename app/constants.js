@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     SCALE_FACTOR: 300/96,
 
     RESOURCE_ICON_TILE_SIZE: 360,

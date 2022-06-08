@@ -1,7 +1,8 @@
-const choices = require("./content.js");
+import choices      from "app/content.js";
+import constants    from "app/constants.js";
+
 const { get_image } = require("./resource-loader.js");
 const CanvasOption = require("./canvas-option.js");
-const constants = require("./constants");
 
 const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
 const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
@@ -152,7 +153,7 @@ async function start_and_wait_done(canvas, callback){
 
 
 //////////////////////////////////////////////////////////////////////////////
-module.exports = {
+export default {
     start_and_wait_done,
     set_header_height,
 }

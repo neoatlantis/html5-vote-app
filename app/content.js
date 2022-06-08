@@ -43,4 +43,4 @@ const choices = [
     { id: id(), pos: 1, text: "满级重生" },
 ];
 
-module.exports = choices;
+export default choices;
