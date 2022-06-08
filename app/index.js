@@ -2,9 +2,8 @@ import choices from "app/content.js";
 import choices_menu from "app/choices-menu.js";
 
 
-/*require("./svg.choices-header.js");
-require("./svg.choices-footer.js");*/
-const utils = require("./utils");
+import utils from "app/utils.js";
+
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
 
@@ -15,8 +14,7 @@ import App from "sfc/app.vue";
 
 
 
-const app = createApp(App);
-app.mount("#app");
+const app = createApp(App).mount("#app");
 
 function on_selection_changed(selected_ids){
     let selected_choices = choices

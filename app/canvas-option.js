@@ -1,4 +1,4 @@
-const constants = require("./constants.js");
+import constants    from "app/constants.js";
 
 
 
@@ -142,4 +142,4 @@ class CanvasOption{
 
 
 
-module.exports = CanvasOption;
+export default CanvasOption;

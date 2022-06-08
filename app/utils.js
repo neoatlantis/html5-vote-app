@@ -1,4 +1,5 @@
-const constants = require("./constants.js");
+import constants    from "app/constants.js";
+
 function setup_canvas(canvas, width, height) {
     // width & height: css display size
     if(!width || !height){
@@ -19,6 +20,4 @@ function setup_canvas(canvas, width, height) {
 }
 
 
-module.exports = {
-    setup_canvas
-}
+export default { setup_canvas };

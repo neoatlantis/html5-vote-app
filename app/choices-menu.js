@@ -1,8 +1,9 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
 
+import CanvasOption from "./canvas-option.js";
+
 const { get_image } = require("./resource-loader.js");
-const CanvasOption = require("./canvas-option.js");
 
 const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
 const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
@@ -34,7 +35,6 @@ function set_header_height(h){
 async function start_and_wait_done(canvas, callback){
     
     const options_image = await get_image("options");
-
 
 
     const scrollspeed = canvas.height / 1000;
