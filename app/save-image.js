@@ -1,5 +1,5 @@
-const constants = require("./constants.js");
-const utils = require("./utils");
+import constants    from "app/constants.js";
+import utils from "app/utils.js";
 
 
 const appendix_height = 100;
@@ -39,7 +39,7 @@ function setup_sizes(options_count){
 
 
 
-module.exports = async function update_result(options, args){
+export default async function update_result(options, args){
     setup_sizes(options.length);
 
     const canvas = document.getElementById("result");

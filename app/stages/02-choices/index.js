@@ -1,11 +1,12 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
+import utils        from "app/utils.js";
 
 import CanvasController from "app/canvascontrol.js";
 
 import CanvasOption from "./canvas-option.js";
 
-const { get_image } = require("./resource-loader.js");
+const { get_image } = require("app/resource-loader.js");
 
 const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
 const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
@@ -100,7 +101,7 @@ class ChoiceMenuCanvasController extends CanvasController {
                 .map((oi)=>oi.choice_id)
             ;
             try{
-                callback(selected_ids);
+                this.callback(selected_ids);
             } catch(e){
             }
         }
@@ -152,7 +153,11 @@ class ChoiceMenuCanvasController extends CanvasController {
 
 //////////////////////////////////////////////////////////////////////////////
 
-async function start_and_wait_done(canvas, callback){
+async function interaction({
+    canvas,
+    callback,
+    app
+}){
    
     const image_src = await get_image("options");
     const canvascontrol = new ChoiceMenuCanvasController({
@@ -162,6 +167,10 @@ async function start_and_wait_done(canvas, callback){
     });
     canvascontrol.start_animation();
 
+    await utils.until(()=>app.choices_done === true);
+
+    canvascontrol.destroy();
+
 }
 
 
@@ -169,6 +178,6 @@ async function start_and_wait_done(canvas, callback){
 
 //////////////////////////////////////////////////////////////////////////////
 export default {
-    start_and_wait_done,
+    interaction,
     set_header_height,
 }

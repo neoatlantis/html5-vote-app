@@ -1,5 +1,5 @@
 import choices from "app/content.js";
-import choices_menu from "app/choices-menu.js";
+import choices_menu from "app/stages/02-choices";
 
 
 import utils from "app/utils.js";
@@ -46,7 +46,11 @@ async function init(){
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
-    await choices_menu.start_and_wait_done(canvas, on_selection_changed);
+    await choices_menu.interaction({
+        canvas,
+        callback: on_selection_changed,
+        app,
+    });
 
     await may_show_result();
 
