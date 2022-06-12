@@ -90,7 +90,6 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
     }
 
-
     bind_events(){
         function on_click(x, y){
             if(y < HEADER_HEIGHT) return; // clicking header region ignored

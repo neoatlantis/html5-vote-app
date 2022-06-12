@@ -60,6 +60,9 @@ class CanvasController{
         // stop animation
         this.stop_animation();
         // unbind all events
+        ["ontouchstart", "ontouchend", "ontouchmove"].forEach((e)=>{
+            this.canvas[e] = null;
+        });
     }
 
 }
