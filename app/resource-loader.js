@@ -1,6 +1,7 @@
 const images = {
     "options": "./images/options.png",
 //    "ballast": "./images/random_big_ballast.png",
+    "hex-bold": "./images/hex-bold.png",
     "header": "./images/options_header.svg",
     "footer-btn-done": "./images/options_footer_btn_done.svg",
 };

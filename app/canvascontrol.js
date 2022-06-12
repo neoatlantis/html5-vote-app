@@ -41,6 +41,7 @@ class CanvasController{
 
     start_animation(){
         this.flag_animation_playing = true;
+        this.starttime = new Date().getTime();
         this._play_animation();
     }
 
@@ -51,6 +52,23 @@ class CanvasController{
     animation_frame(){
         throw Error("Must override this.");
     }
+
+    ctx_clearall(){
+        // clear whole canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    ctx_drawImage(image, x, y, scale, rotation){
+        this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+        this.ctx.rotate(rotation);
+        this.ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    } 
+
+    ctx_drawImageCenter(image, x, y, cx, cy, scale, rotation){
+        this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+        this.ctx.rotate(rotation);
+        this.ctx.drawImage(image, -cx, -cy);
+    } 
 
     bind_events(canvas){
         

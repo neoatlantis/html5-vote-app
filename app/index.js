@@ -1,5 +1,7 @@
 import choices from "app/content.js";
-import choices_menu from "app/stages/02-choices";
+
+import stage_intro   from "app/stages/01-intro";
+import stage_choices from "app/stages/02-choices";
 
 
 import utils from "app/utils.js";
@@ -17,9 +19,14 @@ import App from "sfc/app.vue";
 const app = createApp(App).mount("#app");
 
 function on_selection_changed(selected_ids){
+    // On choosing page, when selected_choices changed
     let selected_choices = choices
         .filter((e)=>selected_ids.indexOf(e.id) >= 0);
     app.selected_choices = selected_choices;
+}
+
+function on_intro_done(){
+    // In intro page, when user decided to continue
 }
 
 function may_show_result(){
@@ -46,7 +53,15 @@ async function init(){
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
-    await choices_menu.interaction({
+    console.log("Stage #1");
+    await stage_intro.interaction({
+        canvas,
+        callback: on_intro_done,
+        app,
+    });
+
+    console.log("Stage #2");
+    await stage_choices.interaction({
         canvas,
         callback: on_selection_changed,
         app,

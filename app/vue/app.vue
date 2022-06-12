@@ -7,28 +7,28 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && !choices_done">
-        <choices-header
-            v-bind:selected="selected_choices.length"
-            v-bind:total="total_choices"
-            v-on:resize-height="on_choices_header_resized"
-            v-on:toggle-basket="show_basket=!show_basket"
-        ></choices-header>  
-
-        <choices-basket
-            v-bind:selected_choices="selected_choices"
-            v-show="show_basket"
-        ></choices-basket>
+    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done)">
         <canvas id="options" style="width:100%;height:100%"></canvas>
 
-        <choices-footer
-            v-bind:selected="selected_choices.length"
-            v-bind:total="total_choices"
-            v-on:click="choices_done=true"
-        ></choices-footer>  
-        <!--<div id="btn-finished-selection" v-show="selected_choices.length>0">
-            <svg-button text="完成选择" v-on:click="choices_done=true"></svg-button>
-        </div>-->
+        <template v-show="intro_done && !choices_done">
+            <choices-header
+                v-bind:selected="selected_choices.length"
+                v-bind:total="total_choices"
+                v-on:resize-height="on_choices_header_resized"
+                v-on:toggle-basket="show_basket=!show_basket"
+            ></choices-header>  
+
+            <choices-basket
+                v-bind:selected_choices="selected_choices"
+                v-show="show_basket"
+            ></choices-basket>
+
+            <choices-footer
+                v-bind:selected="selected_choices.length"
+                v-bind:total="total_choices"
+                v-on:click="choices_done=true"
+            ></choices-footer>  
+        </template>
     </div>
 
     <div class="fullscreen" v-show="init_done && choices_done && !name_done">
@@ -61,8 +61,9 @@ export default {
         init_percent: 0,
 
         init_done: false,
-        name_done: false,
+        intro_done: false,
         choices_done: false,
+        name_done: false,
 
         total_choices: choices.length,
         selected_choices: [],
