@@ -1,6 +1,8 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
 
+import CanvasController from "app/canvascontrol.js";
+
 import CanvasOption from "./canvas-option.js";
 
 const { get_image } = require("./resource-loader.js");
@@ -22,131 +24,145 @@ for(let i=0; i<choices.length; i++){
 
 //////////////////////////////////////////////////////////////////////////////
 
-let header_height = 0;
+let HEADER_HEIGHT = 0;
 
 function set_header_height(h){
-    header_height = h * constants.SCALE_FACTOR;
+    HEADER_HEIGHT = h * constants.SCALE_FACTOR;
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+class ChoiceMenuCanvasController extends CanvasController {
+
+    constructor({canvas, image_src, callback}){
+        super(canvas);
+
+        this.callback = callback;
+        this.scrollspeed = canvas.height / 4000;
+
+        this.row_size = Math.round(canvas.width / 4);
+
+        this.options_instances = choices.map((choice, choice_i)=>{
+            return new CanvasOption({
+                choice_id: choice.id,
+                text: choice.text,
+                image_id: choice.pos,
+                image_src: image_src,
+                row: choice_i,
+                col: choices_positions[choice_i],
+                size: this.row_size,
+                ctx: this.ctx,
+                canvas_height: this.canvas.height,
+            });
+        });
+
+
+        this.delta_y0_min = canvas.height - this.row_size * this.options_instances.length;
+        this.delta_y0_max = canvas.height / 2;
+        this.delta_y0 = this.delta_y0_max; //0;
+        this.delta_y0_scroll = false;
+        this.autoscroll = true;
+    }
+
+
+    animation_frame(){
+        const nowtime = new Date().getTime();
+        if(this.autoscroll){
+            this.delta_y0 -= this.scrollspeed;
+        }
+        this.delta_y0 += this.delta_y0_scroll;
+        this.delta_y0_scroll = 0;
+
+        if(this.delta_y0 < this.delta_y0_min){
+            this.delta_y0 = this.delta_y0_min;
+        }
+        if(this.delta_y0 > this.delta_y0_max){
+            this.delta_y0 = this.delta_y0_max;
+        }
+
+        // clear whole canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // draw each icon
+        this.options_instances.forEach((oi)=>{
+            oi.next({ delta_y0: this.delta_y0, nowtime: nowtime });
+        });
+        // clear header region
+        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
+    }
+
+
+    bind_events(){
+        function on_click(x, y){
+            if(y < HEADER_HEIGHT) return; // clicking header region ignored
+            // handle a touch-click or mouseclick event
+            this.options_instances.forEach((oi)=>oi.handle_click(x, y));
+            let selected_ids = this.options_instances    
+                .filter((oi)=>oi.choosen)
+                .map((oi)=>oi.choice_id)
+            ;
+            try{
+                callback(selected_ids);
+            } catch(e){
+            }
+        }
+
+        let touchscrolled = false;
+        let touch_lasty = 0;
+        this.canvas.ontouchstart = (e)=>{
+            this.autoscroll = false;
+            touchscrolled = false;
+            this.delta_y0_scroll = 0;
+            touch_lasty = e.changedTouches[0].clientY;
+            e.preventDefault();
+        }
+
+        this.canvas.ontouchend = (e)=>{
+            this.autoscroll = true;
+
+            if(!touchscrolled){
+                // touch-"clicked" something
+                let touch = e.changedTouches[0];
+                on_click.call(
+                    this,
+                    touch.clientX * constants.SCALE_FACTOR,
+                    touch.clientY * constants.SCALE_FACTOR
+                );
+            }
+
+            this.delta_y0_scroll = 0;
+            e.preventDefault();
+        }
+
+        this.canvas.ontouchmove = (e)=>{
+            if(this.autoscroll) return;
+            touchscrolled = true;
+
+            const currenty = e.changedTouches[0].clientY;
+            this.delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
+            touch_lasty = currenty;
+            e.preventDefault();
+        }
+        
+    }
+}
+
+
+
 
 
 
 //////////////////////////////////////////////////////////////////////////////
 
 async function start_and_wait_done(canvas, callback){
-    
-    const options_image = await get_image("options");
-
-
-    const scrollspeed = canvas.height / 1000;
-
-    const row_size = Math.round(canvas.width / 4);
-    const ctx = canvas.getContext("2d");
-
-
-    const options_instances = choices.map((choice, choice_i)=>{
-        return new CanvasOption({
-            choice_id: choice.id,
-            text: choice.text,
-            image_id: choice.pos,
-            image_src: options_image,
-            row: choice_i,
-            col: choices_positions[choice_i],
-            size: row_size,
-            ctx: ctx,
-            canvas_height: canvas.height,
-        });
+   
+    const image_src = await get_image("options");
+    const canvascontrol = new ChoiceMenuCanvasController({
+        canvas,
+        image_src,
+        callback
     });
+    canvascontrol.start_animation();
 
-
-    const delta_y0_min = canvas.height - row_size * options_instances.length;
-    const delta_y0_max = canvas.height / 2;
-    let delta_y0 = delta_y0_max; //0;
-    let delta_y0_scroll = false;
-    let autoscroll = true;
-
-    function draw(){
-        const nowtime = new Date().getTime();
-
-        if(autoscroll){
-            delta_y0 -= scrollspeed;
-        }
-        delta_y0 += delta_y0_scroll;
-        delta_y0_scroll = 0;
-
-        if(delta_y0 < delta_y0_min){
-            delta_y0 = delta_y0_min;
-        }
-        if(delta_y0 > delta_y0_max){
-            delta_y0 = delta_y0_max;
-        }
-
-        // clear whole canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // draw each icon
-        options_instances.forEach((oi)=>{
-            oi.next({ delta_y0: delta_y0, nowtime: nowtime });
-        });
-        // clear header region
-        ctx.clearRect(0, 0, canvas.width, header_height);
-        requestAnimationFrame(draw);
-    }
-    requestAnimationFrame(draw);
-
-
-    function on_click(x, y){
-        if(y < header_height) return; // clicking header region ignored
-
-        // handle a touch-click or mouseclick event
-        options_instances.forEach((oi)=>oi.handle_click(x, y));
-
-        let selected_ids = options_instances    
-            .filter((oi)=>oi.choosen)
-            .map((oi)=>oi.choice_id)
-        ;
-        try{
-            callback(selected_ids);
-        } catch(e){
-        }
-    }
-
-
-
-
-    let touchscrolled = false;
-    let touch_lasty = 0;
-    canvas.ontouchstart = (e)=>{
-        autoscroll = false;
-        touchscrolled = false;
-        delta_y0_scroll = 0;
-        touch_lasty = e.changedTouches[0].clientY;
-        e.preventDefault();
-    }
-
-    canvas.ontouchend = (e)=>{
-        autoscroll = true;
-
-        if(!touchscrolled){
-            // touch-"clicked" something
-            let touch = e.changedTouches[0];
-            on_click(
-                touch.clientX * constants.SCALE_FACTOR,
-                touch.clientY * constants.SCALE_FACTOR
-            );
-        }
-
-        delta_y0_scroll = 0;
-        e.preventDefault();
-    }
-
-    canvas.ontouchmove = (e)=>{
-        if(autoscroll) return;
-        touchscrolled = true;
-
-        const currenty = e.changedTouches[0].clientY;
-        delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
-        touch_lasty = currenty;
-        e.preventDefault();
-    }
 }
 
 
