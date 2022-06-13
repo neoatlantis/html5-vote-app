@@ -67,7 +67,7 @@ async function interaction({
     });
     canvascontrol.start_animation();
 
-    await utils.until(()=>app.choices_done === true);
+    await utils.until(()=>app.intro_done === true);
 
     canvascontrol.destroy();
 
