@@ -68,12 +68,19 @@ class IntroCanvasController extends CanvasController {
         ) && this.ctx_reset_transform();
 
 
-        this.rotation += 0.01;
+        this.rotation += 0.005;
 
         
     }
 
     bind_events(){
+
+        this.canvas.ontouchstart = (e)=>{
+            this.bgcontroller.scroll_to_stage(1);
+//            this.callback();
+            e.preventDefault();
+        }
+
     }
 }
 
