@@ -1,5 +1,6 @@
 import choices from "app/content.js";
 
+import get_background_controller from "app/canvasbg.js"; 
 import stage_intro   from "app/stages/01-intro";
 import stage_choices from "app/stages/02-choices";
 
@@ -53,9 +54,12 @@ async function init(){
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
     
+    const bgcontroller = await get_background_controller(canvas);
+    
     console.log("Stage #1");
     await stage_intro.interaction({
         canvas,
+        bgcontroller,
         callback: on_intro_done,
         app,
     });
@@ -63,6 +67,7 @@ async function init(){
     console.log("Stage #2");
     await stage_choices.interaction({
         canvas,
+        bgcontroller,
         callback: on_selection_changed,
         app,
     });

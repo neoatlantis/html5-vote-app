@@ -7,6 +7,8 @@ export default {
     MENU_CHOICE_OSC_A: 0.1,
     MENU_CHOICE_OSC_T: 2000,
 
+    BACKGROUND_BAR_N: 3, // background color bar includes 3 stages
+
     RESULT_HEADER_HEIGHT_WIDTH_RATIO: 0.50,
 
     RESULT_ICONS_PER_ROW: 3,

@@ -1,7 +1,12 @@
 const images = {
     "options": "./images/options.png",
-//    "ballast": "./images/random_big_ballast.png",
+    "bgcolor": "./images/bgcolor.png",
+
+    "stars": "./images/stars.png",
     "hex-bold": "./images/hex-bold.png",
+    "hex-1": "./images/hex-1.png",
+    
+
     "header": "./images/options_header.svg",
     "footer-btn-done": "./images/options_footer_btn_done.svg",
 };
