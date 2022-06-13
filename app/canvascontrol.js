@@ -55,6 +55,7 @@ class CanvasController{
 
     ctx_clearall(){
         // clear whole canvas
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0); // rest transform
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

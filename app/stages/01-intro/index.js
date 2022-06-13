@@ -4,7 +4,6 @@ import utils        from "app/utils.js";
 
 import CanvasController from "app/canvascontrol.js";
 
-import CanvasOption from "./canvas-option.js";
 
 const { get_image } = require("app/resource-loader.js");
 
@@ -26,14 +25,13 @@ class IntroCanvasController extends CanvasController {
 
     animation_frame(){
         // clear whole canvas
-        //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx_clearall();
 
         this.ctx_drawImage(
             this.images["hex-bold"],
             this.rot_center_x,
             this.rot_center_y,
-            1,
+            0.5,
             this.rotation
         );
 
