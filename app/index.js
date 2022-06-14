@@ -28,6 +28,7 @@ function on_selection_changed(selected_ids){
 
 function on_intro_done(){
     // In intro page, when user decided to continue
+    app.intro_done = true;
 }
 
 function may_show_result(){

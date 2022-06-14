@@ -35,9 +35,10 @@ function set_header_height(h){
 
 class ChoiceMenuCanvasController extends CanvasController {
 
-    constructor({canvas, image_src, callback}){
+    constructor({canvas, image_src, bgcontroller, callback}){
         super(canvas);
 
+        this.bgcontroller = bgcontroller;
         this.callback = callback;
         this.scrollspeed = canvas.height / 4000;
 
@@ -65,6 +66,34 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.autoscroll = true;
     }
 
+    _draw_bg(){
+        this.ctx.drawImage(
+            this.bgcontroller.bgimg,
+            0,  // sx = 0
+            this.bgcontroller.get_y(), // sy = whatever
+            this.bgcontroller.bgimg.width, // sWidth
+            this.bgcontroller.unit_height, // sHeight
+            0,  // dx = 0
+            0,  // dy = 0
+            this.canvas.width,
+            this.canvas.height
+        );
+    }
+
+    _draw_fg(){
+        const factor = HEADER_HEIGHT / this.canvas.height;
+        this.ctx.drawImage(
+            this.bgcontroller.bgimg,
+            0,  // sx = 0
+            this.bgcontroller.get_y(), // sy = whatever
+            this.bgcontroller.bgimg.width, // sWidth
+            this.bgcontroller.unit_height * factor, // sHeight
+            0,  // dx = 0
+            0,  // dy = 0
+            this.canvas.width,
+            HEADER_HEIGHT
+        );
+    }
 
     animation_frame(){
         const nowtime = new Date().getTime();
@@ -82,13 +111,17 @@ class ChoiceMenuCanvasController extends CanvasController {
         }
 
         // clear whole canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx_clearall();
+        // draw bg
+        this._draw_bg();
         // draw each icon
         this.options_instances.forEach((oi)=>{
             oi.next({ delta_y0: this.delta_y0, nowtime: nowtime });
         });
         // clear header region
-        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
+        this.ctx_reset_filter();
+        this._draw_fg();
+//        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
     }
 
     bind_events(){
@@ -156,6 +189,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 async function interaction({
     canvas,
     callback,
+    bgcontroller,
     app
 }){
    
@@ -163,6 +197,7 @@ async function interaction({
     const canvascontrol = new ChoiceMenuCanvasController({
         canvas,
         image_src,
+        bgcontroller,
         callback
     });
     canvascontrol.start_animation();

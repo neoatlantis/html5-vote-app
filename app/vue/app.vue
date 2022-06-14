@@ -8,9 +8,8 @@
     </div>
 
     <div class="fullscreen" v-show="init_done && !(intro_done && choices_done)">
-        <canvas id="options" style="width:100%;height:100%"></canvas>
 
-        <template v-show="intro_done && !choices_done">
+        <div v-show="intro_done && !choices_done">
             <choices-header
                 v-bind:selected="selected_choices.length"
                 v-bind:total="total_choices"
@@ -28,7 +27,9 @@
                 v-bind:total="total_choices"
                 v-on:click="choices_done=true"
             ></choices-footer>  
-        </template>
+        </div>
+
+        <canvas id="options" style="width:100%;height:100%"></canvas>
     </div>
 
     <div class="fullscreen" v-show="init_done && choices_done && !name_done">

@@ -77,7 +77,7 @@ class IntroCanvasController extends CanvasController {
 
         this.canvas.ontouchstart = (e)=>{
             this.bgcontroller.scroll_to_stage(1);
-//            this.callback();
+            this.callback();
             e.preventDefault();
         }
 
