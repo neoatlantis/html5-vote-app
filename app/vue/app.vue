@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done)">
+    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done)" @touchend="play_music">
 
         <div v-show="intro_done && !choices_done">
             <choices-header
@@ -43,6 +43,8 @@
     </div>
 
 
+    <Bgm ref="bgm"></Bgm>
+
 
 </template>
 <script>
@@ -53,6 +55,8 @@ import choices      from "app/content.js";
 import ChoicesBasket from "sfc/choices-basket.vue";
 import ChoicesHeader from "sfc/choices-header.vue";
 import ChoicesFooter from "sfc/choices-footer.vue";
+
+import Bgm from "sfc/bgm.vue";
 
 
 export default {
@@ -75,13 +79,18 @@ export default {
     methods: {
         on_choices_header_resized: function(new_height){
             choices_menu.set_header_height(new_height);
-        }
+        },
+
+        play_music(){
+            this.$refs["bgm"].play();
+        },
     },
 
     components: {
         ChoicesBasket,
         ChoicesHeader,
         ChoicesFooter,
+        Bgm,
     }
 }
 

@@ -16,7 +16,6 @@ import App from "sfc/app.vue";
 
 
 
-
 const app = createApp(App).mount("#app");
 
 function on_selection_changed(selected_ids){
