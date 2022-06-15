@@ -2,9 +2,13 @@ const images = {
     "options": "./images/options.png",
     "bgcolor": "./images/bgcolor.png",
 
+    "introtitle": "./images/introtitle.png",
     "stars": "./images/stars.png",
+    "glow": "./images/glow.png",
     "hex-bold": "./images/hex-bold.png",
     "hex-1": "./images/hex-1.png",
+    "hex-2": "./images/hex-2.png",
+    "hex-3": "./images/hex-3.png",
     
 
     "header": "./images/options_header.svg",

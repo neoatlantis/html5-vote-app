@@ -1,4 +1,4 @@
-<template>
+<template><div>
 
 
     <div class="fullscreen" v-show="!init_done" style="display: flex; justify-content: center; align-items: center;">
@@ -46,7 +46,7 @@
     <Bgm ref="bgm"></Bgm>
 
 
-</template>
+</div></template>
 <script>
 
 import choices_menu from "app/stages/02-choices"; 

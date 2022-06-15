@@ -18,7 +18,6 @@ class IntroCanvasController extends CanvasController {
         this.images = images;
         this.bgcontroller = bgcontroller;
 
-        this.rotation = 0;
         this.rot_center_x = this.canvas.width / 2;
         this.rot_center_y = this.canvas.height / 2;
     }
@@ -46,6 +45,9 @@ class IntroCanvasController extends CanvasController {
     }
 
     animation_frame(){
+        const elapsed_time = new Date().getTime() - this.starttime;
+        const rotation = elapsed_time / 1000 * 0.8;
+
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
@@ -56,7 +58,23 @@ class IntroCanvasController extends CanvasController {
             this.rot_center_x,
             this.rot_center_y,
             0.5,
-            -this.rotation
+            -rotation
+        ) && this.ctx_reset_transform();
+
+        this.ctx_drawImage(
+            this.images["hex-2"],
+            this.rot_center_x,
+            this.rot_center_y,
+            0.5,
+            -rotation * 1.1 
+        ) && this.ctx_reset_transform();
+
+        this.ctx_drawImage(
+            this.images["hex-3"],
+            this.rot_center_x,
+            this.rot_center_y,
+            0.5,
+            -rotation * 1.7 
         ) && this.ctx_reset_transform();
 
         this.ctx_drawImage(
@@ -64,9 +82,24 @@ class IntroCanvasController extends CanvasController {
             this.rot_center_x,
             this.rot_center_y,
             0.5,
-            this.rotation
+            rotation
         ) && this.ctx_reset_transform();
 
+        this.ctx_drawImage(
+            this.images["glow"],
+            this.rot_center_x,
+            this.rot_center_y,
+            0.5,
+            0
+        ) && this.ctx_reset_transform();
+
+        this.ctx_drawImage(
+            this.images["introtitle"],
+            this.rot_center_x,
+            this.rot_center_y,
+            0.5,
+            0
+        ) && this.ctx_reset_transform();
 
         this.rotation += 0.005;
 
@@ -101,7 +134,11 @@ async function interaction({
     const images = {
         "hex-bold": await get_image("hex-bold"),
         "hex-1": await get_image("hex-1"),
+        "hex-2": await get_image("hex-2"),
+        "hex-3": await get_image("hex-3"),
         "stars": await get_image("stars"),
+        "glow": await get_image("glow"),
+        "introtitle": await get_image("introtitle"),
     };
     const canvascontrol = new IntroCanvasController({
         canvas,
