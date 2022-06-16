@@ -3,6 +3,7 @@ import choices from "app/content.js";
 import get_background_controller from "app/canvasbg.js"; 
 import stage_intro   from "app/stages/01-intro";
 import stage_choices from "app/stages/02-choices";
+import stage_name    from "app/stages/03-name";
 
 
 import utils from "app/utils.js";
@@ -30,17 +31,8 @@ function on_intro_done(){
     app.intro_done = true;
 }
 
-function may_show_result(){
-    return new Promise((resolve, reject)=>{
-        function check(){
-            if(app.name_done && app.choices_done){
-                resolve();
-            } else {
-                setTimeout(check, 100);
-            }
-        }
-        check();
-    });
+function on_name_set(){
+    app.name_done = true;    
 }
 
 
@@ -72,7 +64,15 @@ async function init(){
         app,
     });
 
-    await may_show_result();
+    console.log("Stage #3");
+    await stage_name.interaction({
+        canvas,
+        bgcontroller,
+        callback: on_name_set,
+        app,
+    });
+
+//    await may_show_result();
 
     await require("./save-image.js")(
         JSON.parse(JSON.stringify(app.selected_choices)),

@@ -9,7 +9,7 @@ const { get_image } = require("app/resource-loader.js");
 
 //////////////////////////////////////////////////////////////////////////////
 
-class IntroCanvasController extends CanvasController {
+class NameCanvasController extends CanvasController {
 
     constructor({canvas, images, bgcontroller, callback}){
         super(canvas);
@@ -23,7 +23,6 @@ class IntroCanvasController extends CanvasController {
     }
 
     _draw_bg(){
-        const stars = this.images["stars"];
         this.ctx.drawImage(
             this.bgcontroller.bgimg,
             0,  // sx = 0
@@ -35,23 +34,17 @@ class IntroCanvasController extends CanvasController {
             this.canvas.width,
             this.canvas.height
         );
-        this.ctx.drawImage(
-            stars,
-            0, // dx
-            -this.bgcontroller.get_y(), // dy
-            this.canvas.width,
-            this.canvas.width/stars.width * stars.height
-        );
     }
 
     exit_animation_frame(){
-        const elapsed_time = new Date().getTime() - this.starttime;
+        return false;
+        /*const elapsed_time = new Date().getTime() - this.starttime;
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
         this._draw_bg();
 
-        return elapsed_time < 3000;
+        return elapsed_time < 3000;*/
     }
     
 
@@ -90,16 +83,6 @@ class IntroCanvasController extends CanvasController {
             0
         ) && this.ctx_reset_transform();
 
-        this.ctx_drawImage(
-            this.images["introtitle"],
-            this.rot_center_x,
-            this.rot_center_y,
-            0.5,
-            0
-        ) && this.ctx_reset_transform();
-
-
-
         this.rotation += 0.005;
 
         
@@ -108,6 +91,7 @@ class IntroCanvasController extends CanvasController {
     bind_events(){
 
         this.canvas.ontouchstart = (e)=>{
+            this.bgcontroller.scroll_to_stage(2);
             this.callback();
             e.preventDefault();
         }
@@ -132,11 +116,9 @@ async function interaction({
     const images = {
         "hex-bold": await get_image("hex-bold"),
         "hex-thin": await get_image("hex-thin"),
-        "stars": await get_image("stars"),
         "glow": await get_image("glow"),
-        "introtitle": await get_image("introtitle"),
     };
-    const canvascontrol = new IntroCanvasController({
+    const canvascontrol = new NameCanvasController({
         canvas,
         images,
         bgcontroller,
@@ -144,9 +126,8 @@ async function interaction({
     });
     canvascontrol.start_animation();
 
-    await utils.until(()=>app.intro_done === true);
+    await utils.until(()=>app.name_done === true);
 
-    bgcontroller.scroll_to_stage(1);
     await canvascontrol.destroy();
 
 }

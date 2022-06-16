@@ -114,6 +114,7 @@ class CanvasController{
         await this.stop_animation();
         // plays exiting animation
         this.flag_exit_animation_done = false;
+        this.starttime = new Date().getTime();
         this._play_exit_animation();
         await utils.until(()=>this.flag_exit_animation_done, 10);
     }

@@ -204,6 +204,7 @@ async function interaction({
 
     await utils.until(()=>app.choices_done === true);
 
+    bgcontroller.scroll_to_stage(2);
     await canvascontrol.destroy();
 
 }
