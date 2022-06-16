@@ -21,13 +21,13 @@ class IntroCanvasController extends CanvasController {
         this.rot_center_x = this.canvas.width * 0.5;
         this.rot_center_y = this.canvas.width * 0.7;
         this.glow_center_x = this.canvas.width * 0.5;
-        this.glow_center_y = this.canvas.width * 0.755;
+        this.glow_center_y = this.canvas.width * 0.75;
         this.logo_center_x = this.canvas.width * 0.46;
         this.logo_center_y = this.canvas.width * 0.755;
         this.slogan_center_x = this.canvas.width * 0.5;
         this.slogan_center_y = this.canvas.height*0.25+this.canvas.width * 0.87;
         this.button_center_x = this.canvas.width * 0.5;
-        this.button_center_y = this.canvas.height * 0.5 + this.canvas.width * 0.58;
+        this.button_center_y = this.canvas.height * 0.5 + this.canvas.width * 0.6;
 
         
         this.scale_introtitle = this.canvas.width / this.images["introtitle"].width * 0.75;
