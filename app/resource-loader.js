@@ -6,10 +6,7 @@ const images = {
     "stars": "./images/stars.png",
     "glow": "./images/glow.png",
     "hex-bold": "./images/hex-bold.png",
-    "hex-1": "./images/hex-1.png",
-    "hex-2": "./images/hex-2.png",
-    "hex-3": "./images/hex-3.png",
-    
+    "hex-thin": "./images/hex-thin.png",
 
     "header": "./images/options_header.svg",
     "footer-btn-done": "./images/options_footer_btn_done.svg",

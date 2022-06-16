@@ -84,14 +84,19 @@ class CanvasController{
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    ctx_drawImage(image, x, y, scale, rotation){
-        this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+    ctx_drawImage(image, x, y, scale, rotation, ignoreTransform){
+        if(!ignoreTransform){
+            // skip, when transform was set before
+            this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+        }
         this.ctx.rotate(rotation);
         this.ctx.drawImage(image, -image.width / 2, -image.height / 2);
     } 
 
-    ctx_drawImageCenter(image, x, y, cx, cy, scale, rotation){
-        this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+    ctx_drawImageCenter(image, x, y, cx, cy, scale, rotation, ignoreTransform){
+        if(!ignoreTransform){
+            this.ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+        }
         this.ctx.rotate(rotation);
         this.ctx.drawImage(image, -cx, -cy);
     } 

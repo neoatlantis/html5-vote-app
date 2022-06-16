@@ -54,42 +54,28 @@ class IntroCanvasController extends CanvasController {
         this._draw_bg();
 
         this.ctx_drawImage(
-            this.images["hex-1"],
+            this.images["hex-thin"],
             this.rot_center_x,
             this.rot_center_y,
-            0.5,
+            1,
             -rotation
         ) && this.ctx_reset_transform();
-
-        this.ctx_drawImage(
-            this.images["hex-2"],
-            this.rot_center_x,
-            this.rot_center_y,
-            0.5,
-            -rotation * 1.1 
-        ) && this.ctx_reset_transform();
-
-        this.ctx_drawImage(
-            this.images["hex-3"],
-            this.rot_center_x,
-            this.rot_center_y,
-            0.5,
-            -rotation * 1.7 
-        ) && this.ctx_reset_transform();
-
+    
         this.ctx_drawImage(
             this.images["hex-bold"],
             this.rot_center_x,
             this.rot_center_y,
-            0.5,
+            1,
             rotation
         ) && this.ctx_reset_transform();
+
+
 
         this.ctx_drawImage(
             this.images["glow"],
             this.rot_center_x,
             this.rot_center_y,
-            0.5,
+            1,
             0
         ) && this.ctx_reset_transform();
 
@@ -100,6 +86,8 @@ class IntroCanvasController extends CanvasController {
             0.5,
             0
         ) && this.ctx_reset_transform();
+
+
 
         this.rotation += 0.005;
 
@@ -133,9 +121,7 @@ async function interaction({
    
     const images = {
         "hex-bold": await get_image("hex-bold"),
-        "hex-1": await get_image("hex-1"),
-        "hex-2": await get_image("hex-2"),
-        "hex-3": await get_image("hex-3"),
+        "hex-thin": await get_image("hex-thin"),
         "stars": await get_image("stars"),
         "glow": await get_image("glow"),
         "introtitle": await get_image("introtitle"),
