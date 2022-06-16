@@ -3,6 +3,7 @@ import constants    from "app/constants.js";
 import utils        from "app/utils.js";
 
 import CanvasController from "app/canvascontrol.js";
+import FireworkController from "./firework.js";
 
 
 const { get_image } = require("app/resource-loader.js");
@@ -13,6 +14,8 @@ class IntroCanvasController extends CanvasController {
 
     constructor({canvas, images, bgcontroller, callback}){
         super(canvas);
+
+        this.fwcontroller = new FireworkController(canvas, this.ctx);
 
         this.callback = callback;
         this.images = images;
@@ -36,6 +39,11 @@ class IntroCanvasController extends CanvasController {
         this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.925;
         this.scale_slogan = this.canvas.width / this.images["slogan"].width * 0.6;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.3;
+
+
+        setInterval(()=>{
+            this.fwcontroller.add_firework(this.rot_center_x, this.rot_center_y);
+        }, 1000);
     }
 
     _draw_bg(){
@@ -144,13 +152,14 @@ class IntroCanvasController extends CanvasController {
 
         this.rotation += 0.005;
 
+        this.fwcontroller.animation_frame();
         
     }
 
     bind_events(){
 
         this.canvas.ontouchstart = (e)=>{
-            this.callback();
+            //this.callback();
             e.preventDefault();
         }
 
