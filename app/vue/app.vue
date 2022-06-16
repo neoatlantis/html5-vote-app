@@ -9,7 +9,7 @@
 
     <div class="fullscreen" v-show="init_done && !(intro_done && choices_done && name_done)" @touchend="play_music">
 
-        <div v-show="intro_done && !choices_done">
+        <div v-show="intro_done && !choices_done" class="fade-in-div">
             <choices-header
                 v-bind:selected="selected_choices.length"
                 v-bind:total="total_choices"

@@ -72,6 +72,8 @@ class IntroCanvasController extends CanvasController {
     
 
     animation_frame(){
+        if(!this.flag_animation_playing) return;
+
         const elapsed_time = new Date().getTime() - this.starttime;
         const rotation = elapsed_time / 1000 * 0.8;
 
