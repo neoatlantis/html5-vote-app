@@ -18,8 +18,24 @@ class IntroCanvasController extends CanvasController {
         this.images = images;
         this.bgcontroller = bgcontroller;
 
-        this.rot_center_x = this.canvas.width / 2;
-        this.rot_center_y = this.canvas.height / 2;
+        this.rot_center_x = this.canvas.width * 0.5;
+        this.rot_center_y = this.canvas.width * 0.7;
+        this.glow_center_x = this.canvas.width * 0.5;
+        this.glow_center_y = this.canvas.width * 0.755;
+        this.logo_center_x = this.canvas.width * 0.46;
+        this.logo_center_y = this.canvas.width * 0.755;
+        this.slogan_center_x = this.canvas.width * 0.5;
+        this.slogan_center_y = this.canvas.height*0.25+this.canvas.width * 0.87;
+        this.button_center_x = this.canvas.width * 0.5;
+        this.button_center_y = this.canvas.height * 0.5 + this.canvas.width * 0.58;
+
+        
+        this.scale_introtitle = this.canvas.width / this.images["introtitle"].width * 0.75;
+        this.scale_glow = this.canvas.width / this.images["glow"].width;
+        this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.925;
+        this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.925;
+        this.scale_slogan = this.canvas.width / this.images["slogan"].width * 0.6;
+        this.scale_button = this.canvas.width / this.images["button"].width * 0.3;
     }
 
     _draw_bg(){
@@ -65,39 +81,63 @@ class IntroCanvasController extends CanvasController {
         this._draw_bg();
 
         this.ctx_drawImage(
+            this.images["glow"],
+            this.glow_center_x,
+            this.glow_center_y,
+            this.scale_glow,
+            0
+        );
+        this.ctx_reset_transform();
+
+
+        this.ctx_drawImage(
             this.images["hex-thin"],
             this.rot_center_x,
             this.rot_center_y,
-            1,
+            this.scale_hex_thin,
             -rotation
-        ) && this.ctx_reset_transform();
+        );
+        this.ctx_reset_transform();
     
         this.ctx_drawImage(
             this.images["hex-bold"],
             this.rot_center_x,
             this.rot_center_y,
-            1,
+            this.scale_hex_bold,
             rotation
-        ) && this.ctx_reset_transform();
+        );
+        this.ctx_reset_transform();
 
 
 
-        this.ctx_drawImage(
-            this.images["glow"],
-            this.rot_center_x,
-            this.rot_center_y,
-            1,
-            0
-        ) && this.ctx_reset_transform();
 
         this.ctx_drawImage(
             this.images["introtitle"],
-            this.rot_center_x,
-            this.rot_center_y,
-            0.5,
+            this.logo_center_x,
+            this.logo_center_y,
+            this.scale_introtitle,
             0
-        ) && this.ctx_reset_transform();
+        );
+        this.ctx_reset_transform();
 
+        this.ctx_drawImage(
+            this.images["slogan"],
+            this.slogan_center_x,
+            this.slogan_center_y,
+            this.scale_slogan,
+            0
+        );
+        this.ctx_reset_transform();
+
+
+        this.ctx_drawImage(
+            this.images["button"],
+            this.button_center_x,
+            this.button_center_y,
+            this.scale_button,
+            0
+        );
+        this.ctx_reset_transform();
 
 
         this.rotation += 0.005;
@@ -135,6 +175,8 @@ async function interaction({
         "stars": await get_image("stars"),
         "glow": await get_image("glow"),
         "introtitle": await get_image("introtitle"),
+        "slogan": await get_image("slogan"),
+        "button": await get_image("introbutton"),
     };
     const canvascontrol = new IntroCanvasController({
         canvas,

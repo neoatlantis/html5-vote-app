@@ -3,6 +3,8 @@ const images = {
     "bgcolor": "./images/bgcolor.png",
 
     "introtitle": "./images/introtitle.png",
+    "introbutton": "./images/introbutton.png",
+    "slogan": "./images/slogan.png",
     "stars": "./images/stars.png",
     "glow": "./images/glow.png",
     "hex-bold": "./images/hex-bold.png",
