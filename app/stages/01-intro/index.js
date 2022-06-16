@@ -150,7 +150,7 @@ async function interaction({
 
     await utils.until(()=>app.intro_done === true);
 
-    canvascontrol.destroy();
+    await canvascontrol.destroy();
 
 }
 

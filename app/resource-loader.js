@@ -19,7 +19,7 @@ const images = {
 const loaded_images = {};
 
 async function bg_load_by_name(name){
-    let response = await fetch(images[name]);
+    let response = await fetch(images[name] + "?_=" + Math.random());
     let blob = await response.blob(); //new Blob(chunks);
     
     let dataurl = await new Promise((resolve, reject)=>{

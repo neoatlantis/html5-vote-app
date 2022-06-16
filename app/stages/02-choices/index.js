@@ -204,7 +204,7 @@ async function interaction({
 
     await utils.until(()=>app.choices_done === true);
 
-    canvascontrol.destroy();
+    await canvascontrol.destroy();
 
 }
 

@@ -1,4 +1,5 @@
 import constants    from "app/constants.js";
+import utils        from "app/utils.js";
 
 
 
@@ -12,6 +13,7 @@ class CanvasController{
         this.ctx = this.canvas.getContext("2d");
 
         this.flag_animation_playing = false;
+        this.flag_exit_animation_done = false;
     }
 
     _setup_canvas(width, height) {
@@ -39,18 +41,32 @@ class CanvasController{
         setTimeout(()=>this._play_animation(), 0);
     }
 
+    _play_exit_animation(){
+        if(this.flag_exit_animation_done) return;
+        requestAnimationFrame(()=>{
+            if(!this.exit_animation_frame()){
+                this.flag_exit_animation_done = true;
+            }
+        });
+        setTimeout(()=>this._play_exit_animation(), 0);
+    }
+
     start_animation(){
         this.flag_animation_playing = true;
         this.starttime = new Date().getTime();
         this._play_animation();
     }
 
-    stop_animation(){
+    async stop_animation(){
         this.flag_animation_playing = false;
     }
     
     animation_frame(){
         throw Error("Must override this.");
+    }
+
+    exit_animation_frame(){
+        return false; // return true to continue animation
     }
 
     ctx_reset_transform(){
@@ -84,13 +100,17 @@ class CanvasController{
         
     }
 
-    destroy(){
-        // stop animation
-        this.stop_animation();
+    async destroy(){
         // unbind all events
         ["ontouchstart", "ontouchend", "ontouchmove"].forEach((e)=>{
             this.canvas[e] = null;
         });
+        // stop animation
+        await this.stop_animation();
+        // plays exiting animation
+        this.flag_exit_animation_done = false;
+        this._play_exit_animation();
+        await utils.until(()=>this.flag_exit_animation_done, 10);
     }
 
 }
