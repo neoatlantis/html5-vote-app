@@ -14,6 +14,7 @@ class CanvasController{
 
         this.flag_animation_playing = false;
         this.flag_exit_animation_done = false;
+        this.flag_destroyed = false;
     }
 
     _setup_canvas(width, height) {
@@ -117,6 +118,8 @@ class CanvasController{
         this.starttime = new Date().getTime();
         this._play_exit_animation();
         await utils.until(()=>this.flag_exit_animation_done, 10);
+
+        this.flag_destroyed = true;
     }
 
 }

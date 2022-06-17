@@ -1,11 +1,9 @@
+import utils        from "app/utils.js";
+
+
 const particles = [];
 var hue = 120;
 
-
-// get a random number within a range
-function random( min, max ) {
-    return Math.random() * ( max - min ) + min;
-}
 
 
 
@@ -20,18 +18,18 @@ function Particle( x, y ) {
             this.coordinates.push( [ this.x, this.y ] );
     }
     // set a random angle in all possible directions, in radians
-    this.angle = random( 0, Math.PI * 2 );
-    this.speed = random( 1, 10 );
+    this.angle = utils.random_range( 0, Math.PI * 2 );
+    this.speed = utils.random_range( 1, 10 );
     // friction will slow the particle down
-    this.friction = 0.95;
+    this.friction = 0.99;
     // gravity will be applied and pull the particle down
     this.gravity = 1;
     // set the hue to a random number +-20 of the overall hue variable
-    this.hue = random( hue - 20, hue + 20 );
-    this.brightness = random( 50, 80 );
+    this.hue = utils.random_range( hue - 20, hue + 20 );
+    this.brightness = utils.random_range( 50, 80 );
     this.alpha = 1;
     // set how fast the particle fades out
-    this.decay = random( 0.015, 0.03 );
+    this.decay = utils.random_range( 0.015, 0.03 );
 }
 
 // update particle

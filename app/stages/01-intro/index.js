@@ -41,9 +41,17 @@ class IntroCanvasController extends CanvasController {
         this.scale_button = this.canvas.width / this.images["button"].width * 0.3;
 
 
-        setInterval(()=>{
-            this.fwcontroller.add_firework(this.rot_center_x, this.rot_center_y);
-        }, 1000);
+        const self = this;
+        function add_firework(){
+            self.fwcontroller.add_firework(
+                utils.random_range(0, self.canvas.width),
+                utils.random_range(0, self.canvas.height)
+            );
+            if(!self.destroyed){
+                setTimeout(add_firework, utils.random_range(100, 1000));
+            }
+        }
+        add_firework();
     }
 
     _draw_bg(){
@@ -159,7 +167,7 @@ class IntroCanvasController extends CanvasController {
     bind_events(){
 
         this.canvas.ontouchstart = (e)=>{
-            //this.callback();
+            this.callback();
             e.preventDefault();
         }
 

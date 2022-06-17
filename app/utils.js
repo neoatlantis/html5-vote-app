@@ -45,4 +45,12 @@ const until = (fn, time = 1000) => {
   }
 };
 
-export default { setup_canvas, until };
+
+// get a random number within a range
+function random_range( min, max ) {
+    return Math.random() * ( max - min ) + min;
+}
+
+
+
+export default { setup_canvas, until, random_range };
