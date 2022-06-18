@@ -1,5 +1,5 @@
 import constants    from "app/constants.js";
-import utils from "app/utils.js";
+import utils from "app/utils";
 
 
 const appendix_height = 100;

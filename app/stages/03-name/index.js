@@ -1,6 +1,6 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
-import utils        from "app/utils.js";
+import utils        from "app/utils";
 
 import CanvasController from "app/canvascontrol.js";
 

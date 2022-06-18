@@ -1,12 +1,13 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
-import utils        from "app/utils.js";
+import utils        from "app/utils";
 
 import CanvasController from "app/canvascontrol.js";
 
 import CanvasOption from "./canvas-option.js";
 
 const { get_image } = require("app/resource-loader.js");
+const event_of = require("app/events"); 
 
 const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
 const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
@@ -125,6 +126,8 @@ class ChoiceMenuCanvasController extends CanvasController {
     }
 
     bind_events(){
+        const ec = event_of("canvas");
+
         function on_click(x, y){
             if(y < HEADER_HEIGHT) return; // clicking header region ignored
             // handle a touch-click or mouseclick event
@@ -141,15 +144,15 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         let touchscrolled = false;
         let touch_lasty = 0;
-        this.canvas.ontouchstart = (e)=>{
+        ec.on("touchstart", (e)=>{
             this.autoscroll = false;
             touchscrolled = false;
             this.delta_y0_scroll = 0;
             touch_lasty = e.changedTouches[0].clientY;
             e.preventDefault();
-        }
+        });
 
-        this.canvas.ontouchend = (e)=>{
+        ec.on("touchend", (e)=>{
             this.autoscroll = true;
 
             if(!touchscrolled){
@@ -164,9 +167,9 @@ class ChoiceMenuCanvasController extends CanvasController {
 
             this.delta_y0_scroll = 0;
             e.preventDefault();
-        }
+        });
 
-        this.canvas.ontouchmove = (e)=>{
+        ec.on("touchmove", (e)=>{
             if(this.autoscroll) return;
             touchscrolled = true;
 
@@ -174,7 +177,7 @@ class ChoiceMenuCanvasController extends CanvasController {
             this.delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
             touch_lasty = currenty;
             e.preventDefault();
-        }
+        });
         
     }
 }

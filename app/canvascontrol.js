@@ -1,5 +1,6 @@
 import constants    from "app/constants.js";
-import utils        from "app/utils.js";
+import utils        from "app/utils";
+const event_of = require("app/events"); 
 
 
 
@@ -108,9 +109,7 @@ class CanvasController{
 
     async destroy(){
         // unbind all events
-        ["ontouchstart", "ontouchend", "ontouchmove"].forEach((e)=>{
-            this.canvas[e] = null;
-        });
+        event_of("canvas").removeAllListeners();
         // stop animation
         await this.stop_animation();
         // plays exiting animation

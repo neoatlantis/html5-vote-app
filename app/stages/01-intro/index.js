@@ -1,12 +1,13 @@
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
-import utils        from "app/utils.js";
+import utils        from "app/utils";
 
 import CanvasController from "app/canvascontrol.js";
 import FireworkController from "./firework.js";
 
 
 const { get_image } = require("app/resource-loader.js");
+const event_of = require("app/events.js");
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -166,10 +167,12 @@ class IntroCanvasController extends CanvasController {
 
     bind_events(){
 
-        this.canvas.ontouchstart = (e)=>{
+        const ec = event_of("canvas");
+
+        ec.on("touchstart", (e)=>{
             this.callback();
             e.preventDefault();
-        }
+        });
 
     }
 }
@@ -180,6 +183,7 @@ class IntroCanvasController extends CanvasController {
 
 
 //////////////////////////////////////////////////////////////////////////////
+
 
 async function interaction({
     canvas,

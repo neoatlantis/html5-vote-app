@@ -1,4 +1,4 @@
-import utils        from "app/utils.js";
+import utils        from "app/utils";
 
 
 const particles = [];

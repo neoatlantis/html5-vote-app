@@ -6,7 +6,7 @@ import stage_choices from "app/stages/02-choices";
 import stage_name    from "app/stages/03-name";
 
 
-import utils from "app/utils.js";
+import utils from "app/utils";
 
 const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
