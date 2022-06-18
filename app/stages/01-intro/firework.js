@@ -23,13 +23,13 @@ function Particle( x, y ) {
     // friction will slow the particle down
     this.friction = 0.99;
     // gravity will be applied and pull the particle down
-    this.gravity = 1;
+    this.gravity = 0.5;
     // set the hue to a random number +-20 of the overall hue variable
     this.hue = utils.random_range( hue - 20, hue + 20 );
     this.brightness = utils.random_range( 50, 80 );
     this.alpha = 1;
     // set how fast the particle fades out
-    this.decay = utils.random_range( 0.015, 0.03 );
+    this.decay = utils.random_range( 0.015/3, 0.03/3 );
 }
 
 // update particle
@@ -89,6 +89,8 @@ class FireworkController {
         // change the composite operation back to our main mode
         // lighter creates bright highlight points as the fireworks and particles overlap each other
         this.ctx.globalCompositeOperation = 'lighter';
+
+        //this.ctx.filter = "blur(3px)";
         
         // loop over each particle, draw it, update it
         var i = particles.length;
@@ -98,6 +100,7 @@ class FireworkController {
         }
         
         this.ctx.globalCompositeOperation = "source-over";
+        //this.ctx.filter = "";
     }
 
 
