@@ -19,6 +19,7 @@
 
             <choices-basket
                 v-bind:selected_choices="selected_choices"
+                v-bind:header_height="header_height"
                 v-show="show_basket"
             ></choices-basket>
 
@@ -74,11 +75,14 @@ export default {
         selected_choices: [],
 
         show_basket: false,
+
+        header_height: false,
     } },
 
     methods: {
         on_choices_header_resized: function(new_height){
             choices_menu.set_header_height(new_height);
+            this.header_height = new_height;
         },
 
         play_music(){

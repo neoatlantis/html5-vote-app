@@ -1,6 +1,9 @@
 
 <template>
-    <div style="border-radius:1em; width: 10%; height:10%; background-color: #FFFFFF; z-index:30; position:fixed; top: 20%; right: 5%; height:50%; width: 60%; overflow-y: scroll; overflow-x: hidden;">
+    <div 
+        style="border-radius:16px; background-color: #f2eaf4; z-index:30; position:fixed; left: 51.94%; height:50%; width: 40.74%; overflow-y: scroll; overflow-x: hidden;"
+        v-bind:style="{'top':header_height+'px'}"
+    >
         <div>
             <ul>
                 <li v-for="choice in selected_choices">{{ choice.text }}</li>
@@ -17,7 +20,7 @@
 
 export default {
 
-    props: ["selected_choices"],
+    props: ["selected_choices", "header_height"],
 
     data: function(){ return {
     } },
