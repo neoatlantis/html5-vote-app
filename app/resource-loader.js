@@ -9,6 +9,7 @@ const images = {
     "glow": "./images/glow.png",
     "hex-bold": "./images/hex-bold.png",
     "hex-thin": "./images/hex-thin.png",
+    "scroll": "./images/scroll.png",
 
     "header": "./images/options_header.svg",
     "footer-btn-done": "./images/options_footer_btn_done.svg",

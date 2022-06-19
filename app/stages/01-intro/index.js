@@ -191,6 +191,7 @@ async function interaction({
     bgcontroller,
     app
 }){
+    bgcontroller.scroll_to_stage(0);
    
     const images = {
         "hex-bold": await get_image("hex-bold"),

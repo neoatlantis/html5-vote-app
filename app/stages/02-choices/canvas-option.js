@@ -26,7 +26,8 @@ class CanvasOption{
         col,
         size,
         ctx,
-        canvas_height
+        canvas_height,
+        canvas_width,
     }){
         this.choice_id = choice_id;
         this.text = text;
@@ -37,14 +38,16 @@ class CanvasOption{
         this.row = row;
         this.col = col;
 
-        this.size = size;
+        //this.size = size;
+        this.size = canvas_width * constants.MENU_CHOICE_WIDTH;
+
         this.ctx = ctx;
 
         this.canvas_height = canvas_height;
 
         // Oscillating effect
 
-        this.osc_A = this.size * constants.MENU_CHOICE_OSC_A;
+        this.osc_A = canvas_width * constants.MENU_CHOICE_OSC_A_TO_W;
         this.osc_t = 0;
         this.osc_T = constants.MENU_CHOICE_OSC_T;
         this.osc_t0 = new Date().getTime();
@@ -56,7 +59,10 @@ class CanvasOption{
 
         // Standard position in target canvas, not changing
         this.y0 = this.row * this.size;
-        this.x0 = this.size/2 + this.size * this.col;
+        this.x0 = canvas_width * (
+            constants.MENU_CHOICES_MARGIN_X +
+            constants.MENU_CHOICES_COL_CENTER[this.col]
+        );
 
         // Standard position in source canvas
         this.sx0 = 0;

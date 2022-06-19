@@ -36,9 +36,11 @@ function set_header_height(h){
 
 class ChoiceMenuCanvasController extends CanvasController {
 
-    constructor({canvas, image_src, bgcontroller, callback}){
+    constructor({canvas, images, bgcontroller, callback}){
         super(canvas);
 
+        this.canvas = canvas;
+        this.images = images;
         this.bgcontroller = bgcontroller;
         this.callback = callback;
         this.scrollspeed = canvas.height / 4000;
@@ -50,12 +52,13 @@ class ChoiceMenuCanvasController extends CanvasController {
                 choice_id: choice.id,
                 text: choice.text,
                 image_id: choice.pos,
-                image_src: image_src,
+                image_src: images["options"],
                 row: choice_i,
                 col: choices_positions[choice_i],
                 size: this.row_size,
                 ctx: this.ctx,
                 canvas_height: this.canvas.height,
+                canvas_width: this.canvas.width,
             });
         });
 
@@ -78,6 +81,19 @@ class ChoiceMenuCanvasController extends CanvasController {
             0,  // dy = 0
             this.canvas.width,
             this.canvas.height
+        );
+
+
+        const scroll_width =
+            this.canvas.width * constants.MENU_CHOICES_SCROLL_WIDTH;
+        const scroll_f = scroll_width / this.images["scroll"].width;
+        const scroll_height = this.images["scroll"].height * scroll_f;
+        this.ctx.drawImage(
+            this.images["scroll"],
+            this.canvas.width * 0.963 - scroll_width,
+            this.canvas.height / 2 - scroll_height / 2,
+            scroll_width,
+            scroll_height
         );
     }
 
@@ -196,10 +212,14 @@ async function interaction({
     app
 }){
    
-    const image_src = await get_image("options");
+    const images = {
+        "options": await get_image("options"),
+        "scroll": await get_image("scroll"),
+    };
+
     const canvascontrol = new ChoiceMenuCanvasController({
         canvas,
-        image_src,
+        images,
         bgcontroller,
         callback
     });
