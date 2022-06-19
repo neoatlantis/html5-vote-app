@@ -195,6 +195,17 @@ class ChoiceMenuCanvasController extends CanvasController {
             e.preventDefault();
         });
         
+
+
+
+        event_of("stage1").on("deselect-choice", (choice_id) => {
+            // update
+            this.options_instances    
+                .filter((oi)=>oi.choosen && oi.choice_id == choice_id)
+                .forEach((oi)=>oi.choosen = false)
+            ;
+
+        });
     }
 }
 

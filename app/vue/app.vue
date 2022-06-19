@@ -20,6 +20,7 @@
             <choices-basket
                 v-bind:selected_choices="selected_choices"
                 v-bind:header_height="header_height"
+                @clickdelete="on_basket_click_delete"
                 v-show="show_basket"
             ></choices-basket>
 
@@ -88,6 +89,12 @@ export default {
         play_music(){
             this.$refs["bgm"].play();
         },
+
+        on_basket_click_delete(id){
+            const existing = JSON.parse(JSON.stringify(this.selected_choices));
+            const newjson = existing.filter((e)=>e.id != id);
+            this.selected_choices = newjson;
+        }
     },
 
     components: {
