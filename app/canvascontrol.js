@@ -9,13 +9,14 @@ class CanvasController{
     constructor(canvas){
         this.canvas = canvas;
         this._setup_canvas();
-        this.bind_events();
 
         this.ctx = this.canvas.getContext("2d");
 
         this.flag_animation_playing = false;
         this.flag_exit_animation_done = false;
         this.flag_destroyed = false;
+
+        setTimeout(()=>this.bind_events(), 0);
     }
 
     _setup_canvas(width, height) {

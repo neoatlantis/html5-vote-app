@@ -5,6 +5,8 @@ import utils        from "app/utils";
 import CanvasController from "app/canvascontrol.js";
 import FireworkController from "./firework.js";
 
+import CanvasButton from "app/canvas-widgets/button.js";
+
 
 const { get_image } = require("app/resource-loader.js");
 const event_of = require("app/events.js");
@@ -41,6 +43,13 @@ class IntroCanvasController extends CanvasController {
         this.scale_slogan = this.canvas.width / this.images["slogan"].width * 0.6;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.3;
 
+        this.button = new CanvasButton({
+            image: this.images["button"],
+            x0: this.button_center_x - this.scale_button * this.images["button"].width / 2,
+            y0: this.button_center_y - this.scale_button * this.images["button"].height / 2,
+            x1: this.button_center_x + this.scale_button * this.images["button"].width / 2,
+            y1: this.button_center_y + this.scale_button * this.images["button"].height / 2,
+        });
 
         const self = this;
         function add_firework(){
@@ -149,13 +158,14 @@ class IntroCanvasController extends CanvasController {
         this.ctx_reset_transform();
 
 
-        this.ctx_drawImage(
+        this.button.draw(this.ctx);
+/*        this.ctx_drawImage(
             this.images["button"],
             this.button_center_x,
             this.button_center_y,
             this.scale_button,
             0
-        );
+        );*/
         this.ctx_reset_transform();
 
 
@@ -170,8 +180,15 @@ class IntroCanvasController extends CanvasController {
         const ec = event_of("canvas");
 
         ec.on("touchstart", (e)=>{
-            this.callback();
+//            this.callback();
             e.preventDefault();
+        });
+
+        this.button.on("clicked", (e)=>{
+            console.log("clicked");
+            this.callback()
+            e.preventDefault();
+            e.stopPropagation();
         });
 
     }
