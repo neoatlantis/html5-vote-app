@@ -36,13 +36,14 @@ function set_header_height(h){
 
 class ChoiceMenuCanvasController extends CanvasController {
 
-    constructor({canvas, images, bgcontroller, callback}){
+    constructor({canvas, images, bgcontroller, callback, callback_done}){
         super(canvas);
 
         this.canvas = canvas;
         this.images = images;
         this.bgcontroller = bgcontroller;
         this.callback = callback;
+        this.callback_done = callback_done;
         this.scrollspeed = canvas.height / 4000;
 
         this.row_height = canvas.width * constants.MENU_CHOICE_ROW_HEIGHT;
@@ -220,6 +221,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 async function interaction({
     canvas,
     callback,
+    callback_done,
     bgcontroller,
     app
 }){
@@ -233,7 +235,8 @@ async function interaction({
         canvas,
         images,
         bgcontroller,
-        callback
+        callback,
+        callback_done,
     });
     canvascontrol.start_animation();
 

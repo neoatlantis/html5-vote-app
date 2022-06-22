@@ -44,6 +44,10 @@ function on_selection_changed(selected_ids){
     app.selected_choices = selected_choices;
 }
 
+function on_selection_done(){
+    app.choices_done = true;
+}
+
 function on_intro_done(){
     // In intro page, when user decided to continue
     app.intro_done = true;
@@ -79,6 +83,7 @@ async function init(){
         canvas,
         bgcontroller,
         callback: on_selection_changed,
+        callback_done: on_selection_done,
         app,
     });
 
