@@ -45,8 +45,6 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.callback = callback;
         this.scrollspeed = canvas.height / 4000;
 
-        this.row_size = Math.round(canvas.width / 4);
-
         this.options_instances = choices.map((choice, choice_i)=>{
             return new CanvasOption({
                 choice_id: choice.id,
@@ -55,7 +53,6 @@ class ChoiceMenuCanvasController extends CanvasController {
                 image_src: images["options"],
                 row: choice_i,
                 col: choices_positions[choice_i],
-                size: this.row_size,
                 ctx: this.ctx,
                 canvas_height: this.canvas.height,
                 canvas_width: this.canvas.width,

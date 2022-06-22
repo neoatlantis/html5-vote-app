@@ -24,7 +24,8 @@ class CanvasOption{
         image_src,
         row,
         col,
-        size,
+//        size,
+//        line_height,
         ctx,
         canvas_height,
         canvas_width,
@@ -40,6 +41,7 @@ class CanvasOption{
 
         //this.size = size;
         this.size = canvas_width * constants.MENU_CHOICE_WIDTH;
+        this.line_height = canvas_width * constants.MENU_CHOICE_ROW_HEIGHT;
 
         this.ctx = ctx;
 
@@ -58,7 +60,7 @@ class CanvasOption{
         }
 
         // Standard position in target canvas, not changing
-        this.y0 = this.row * this.size;
+        this.y0 = this.row * this.line_height;
         this.x0 = canvas_width * (
             constants.MENU_CHOICES_MARGIN_X +
             constants.MENU_CHOICES_COL_CENTER[this.col]
