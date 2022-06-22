@@ -12,7 +12,7 @@ const images = {
     "scroll": "./images/scroll.png",
 
     "header": "./images/options_header.svg",
-    "footer-btn-done": "./images/options_footer_btn_done.svg",
+    "donebutton": "./images/donebutton.png",
 };
 
 //const loaded_dataurls = {};

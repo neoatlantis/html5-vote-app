@@ -24,11 +24,11 @@
                 v-show="show_basket"
             ></choices-basket>
 
-            <choices-footer
+            <!--<choices-footer
                 v-bind:selected="selected_choices.length"
                 v-bind:total="total_choices"
                 v-on:click="choices_done=true"
-            ></choices-footer>  
+            ></choices-footer>  -->
         </div>
 
         <canvas id="options" style="width:100%;height:100%"></canvas>
