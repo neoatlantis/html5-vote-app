@@ -45,6 +45,8 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.callback = callback;
         this.scrollspeed = canvas.height / 4000;
 
+        this.row_height = canvas.width * constants.MENU_CHOICE_ROW_HEIGHT;
+
         this.options_instances = choices.map((choice, choice_i)=>{
             return new CanvasOption({
                 choice_id: choice.id,
@@ -53,6 +55,8 @@ class ChoiceMenuCanvasController extends CanvasController {
                 image_src: images["options"],
                 row: choice_i,
                 col: choices_positions[choice_i],
+                size: canvas.width * constants.MENU_CHOICE_WIDTH,
+                row_height: this.row_height,
                 ctx: this.ctx,
                 canvas_height: this.canvas.height,
                 canvas_width: this.canvas.width,
@@ -60,7 +64,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
 
-        this.delta_y0_min = canvas.height - this.row_size * this.options_instances.length;
+        this.delta_y0_min = canvas.height - this.row_height * this.options_instances.length;
         this.delta_y0_max = canvas.height / 2;
         this.delta_y0 = this.delta_y0_max; //0;
         this.delta_y0_scroll = false;
