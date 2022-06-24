@@ -4,6 +4,7 @@ const images = {
 
     "introtitle": "./images/introtitle.png",
     "introbutton": "./images/introbutton.png",
+    "introbutton-down": "./images/introbutton_pressed.png",
     "slogan": "./images/slogan.png",
     "stars": "./images/stars.png",
     "glow": "./images/glow.png",

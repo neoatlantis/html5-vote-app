@@ -45,6 +45,7 @@ class IntroCanvasController extends CanvasController {
 
         this.button = new CanvasButton({
             image: this.images["button"],
+            image_pressed_down: this.images["button-down"],
             x0: this.button_center_x - this.scale_button * this.images["button"].width / 2,
             y0: this.button_center_y - this.scale_button * this.images["button"].height / 2,
             x1: this.button_center_x + this.scale_button * this.images["button"].width / 2,
@@ -184,8 +185,7 @@ class IntroCanvasController extends CanvasController {
             e.preventDefault();
         });
 
-        this.button.on("clicked", (e)=>{
-            console.log("clicked");
+        this.button.on("pressed", (e)=>{
             this.callback()
             e.preventDefault();
             e.stopPropagation();
@@ -218,6 +218,7 @@ async function interaction({
         "introtitle": await get_image("introtitle"),
         "slogan": await get_image("slogan"),
         "button": await get_image("introbutton"),
+        "button-down": await get_image("introbutton-down"),
     };
     const canvascontrol = new IntroCanvasController({
         canvas,
