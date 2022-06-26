@@ -70,7 +70,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.scale_button = this.canvas.width / this.images["button"].width * 0.25;
         this.button = new CanvasButton({
             image: this.images["button"],
-//            image_pressed_down: this.images["button-down"],
+            image_pressed_down: this.images["button-down"],
             x0: this.button_ref_x - this.scale_button * this.images["button"].width,
             y0: this.button_ref_y - this.scale_button * this.images["button"].height / 2,
             x1: this.button_ref_x,
@@ -251,6 +251,7 @@ async function interaction({
         "options": await get_image("options"),
         "scroll": await get_image("scroll"),
         "button": await get_image("donebutton"),
+        "button-down": await get_image("donebutton-down"),
     };
 
     const canvascontrol = new ChoiceMenuCanvasController({

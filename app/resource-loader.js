@@ -14,6 +14,7 @@ const images = {
 
     "header": "./images/options_header.svg",
     "donebutton": "./images/donebutton.png",
+    "donebutton-down": "./images/donebutton_pressed.png",
 };
 
 //const loaded_dataurls = {};
