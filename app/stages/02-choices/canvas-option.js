@@ -51,10 +51,10 @@ class CanvasOption{
         this.osc_A = canvas_width * constants.MENU_CHOICE_OSC_A_TO_W;
         this.osc_t = 0;
         this.osc_T = constants.MENU_CHOICE_OSC_T;
-        this.osc_t0 = new Date().getTime();
+        this.osc_t0 = -1;
         this.osc_p0 = Math.random() * 2 * Math.PI;
         this.osc_reset = ()=>{
-            this.osc_t0 = new Date().getTime();
+            this.osc_t0 = -1;
             this.osc_p0 = 0;
         }
 
@@ -84,7 +84,7 @@ class CanvasOption{
         this.animating_to_origin = false;
     }
 
-    drawImage({ delta_y0, nowtime }){
+    drawImage({ delta_y0, t, dt }){
         const target_x0 = this.x0;
         const target_y0 = this.y0 + delta_y0;
 
@@ -92,6 +92,8 @@ class CanvasOption{
         if(target_y0 > this.canvas_height) return;
 
         this.y = target_y0;
+
+        if(this.osc_t0 < 0) this.osc_t0 = t; // record initial time
         
         if(this.animating_to_origin){
             const move_dx = target_x0 - this.x;
@@ -104,7 +106,7 @@ class CanvasOption{
                 this.x += move_dx/10;
             }
         } else if(!this.choosen){
-            const osc_dx = this.osc_A * Math.sin(this.osc_p0 + (nowtime - this.osc_t0)/this.osc_T);
+            const osc_dx = this.osc_A * Math.sin(this.osc_p0 + (t - this.osc_t0)/this.osc_T);
             this.x = target_x0 + osc_dx;
         }
         
@@ -126,8 +128,8 @@ class CanvasOption{
         );
     }
 
-    next({ delta_y0, nowtime }){
-        this.drawImage({ delta_y0, nowtime });
+    next({ delta_y0, t, dt }){
+        this.drawImage({ delta_y0, t, dt });
     }
 
     handle_click(x, y){

@@ -44,7 +44,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.bgcontroller = bgcontroller;
         this.callback = callback;
         this.callback_done = callback_done;
-        this.scrollspeed = canvas.height / 4000;
+        this.scrollspeed = canvas.height / 4000 / 5;
 
         this.row_height = canvas.width * constants.MENU_CHOICE_ROW_HEIGHT;
 
@@ -114,10 +114,9 @@ class ChoiceMenuCanvasController extends CanvasController {
         );
     }
 
-    animation_frame(){
-        const nowtime = new Date().getTime();
+    animation_frame(t, dt){
         if(this.autoscroll){
-            this.delta_y0 -= this.scrollspeed;
+            this.delta_y0 -= this.scrollspeed * dt;
         }
         this.delta_y0 += this.delta_y0_scroll;
         this.delta_y0_scroll = 0;
@@ -135,7 +134,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         this._draw_bg();
         // draw each icon
         this.options_instances.forEach((oi)=>{
-            oi.next({ delta_y0: this.delta_y0, nowtime: nowtime });
+            oi.next({ delta_y0: this.delta_y0, t, dt });
         });
         // clear header region
         this.ctx_reset_filter();
