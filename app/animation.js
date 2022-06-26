@@ -8,11 +8,19 @@ class AnimationImplementation {
     constructor(drawfunc){
         const self = this;
         this.stop = false;
+        this.last_t = false;
         this.draw = function(e){
-            if(!drawfunc.call(this, e)){
+            let dt = (self.last_t === false ? 0 : e - self.last_t);
+            self.last_t = e;
+            if(!drawfunc.call(this, e, dt)){
                 self.stop = true;
             }
         }
+    }
+
+    reset(){
+        this.stop = false;
+        this.last_t = false;
     }
 
 }

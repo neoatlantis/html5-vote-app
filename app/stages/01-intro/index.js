@@ -98,10 +98,10 @@ class IntroCanvasController extends CanvasController {
     }
     
 
-    animation_frame(){
+    animation_frame(t, dt){
         if(!this.flag_animation_playing) return;
 
-        const elapsed_time = new Date().getTime() - this.starttime;
+        const elapsed_time = t; //new Date().getTime() - this.starttime;
         const rotation = elapsed_time / 1000 * 0.8;
 
         // clear whole canvas
@@ -170,7 +170,7 @@ class IntroCanvasController extends CanvasController {
         this.ctx_reset_transform();
 
 
-        this.rotation += 0.005;
+//        this.rotation += 0.005;
 
         this.fwcontroller.animation_frame();
         
