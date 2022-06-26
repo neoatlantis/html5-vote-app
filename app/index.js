@@ -22,20 +22,6 @@ const app = createApp(App).mount("#app");
 
 
 
-window.requestAnimFrame = ( function() {
-    return (
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        function( callback ) {
-                window.setTimeout( callback, 1000 / 60 );
-        }
-    )
-})();
-
-
-
-
 
 function on_selection_changed(selected_ids){
     // On choosing page, when selected_choices changed
