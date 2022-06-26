@@ -48,8 +48,7 @@ class NameCanvasController extends CanvasController {
     }
     
 
-    animation_frame(){
-        const elapsed_time = new Date().getTime() - this.starttime;
+    animation_frame(elapsed_time, dt){
         const rotation = elapsed_time / 1000 * 0.8;
 
         // clear whole canvas
@@ -85,6 +84,7 @@ class NameCanvasController extends CanvasController {
 
         this.rotation += 0.005;
 
+        return true;
         
     }
 

@@ -3,7 +3,7 @@ import constants    from "app/constants.js";
 import utils        from "app/utils";
 
 import CanvasController from "app/canvascontrol.js";
-
+import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasOption from "./canvas-option.js";
 
 const { get_image } = require("app/resource-loader.js");
@@ -64,6 +64,18 @@ class ChoiceMenuCanvasController extends CanvasController {
             });
         });
 
+        // button ref: horizontal: right, vertical: middle
+        this.button_ref_x = this.canvas.width * 0.963;
+        this.button_ref_y = this.canvas.height * 0.875;
+        this.scale_button = this.canvas.width / this.images["button"].width * 0.25;
+        this.button = new CanvasButton({
+            image: this.images["button"],
+//            image_pressed_down: this.images["button-down"],
+            x0: this.button_ref_x - this.scale_button * this.images["button"].width,
+            y0: this.button_ref_y - this.scale_button * this.images["button"].height / 2,
+            x1: this.button_ref_x,
+            y1: this.button_ref_y + this.scale_button * this.images["button"].height / 2,
+        });
 
         this.delta_y0_min = canvas.height - this.row_height * this.options_instances.length;
         this.delta_y0_max = canvas.height / 2;
@@ -136,8 +148,11 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.options_instances.forEach((oi)=>{
             oi.next({ delta_y0: this.delta_y0, t, dt });
         });
-        // clear header region
         this.ctx_reset_filter();
+
+        //draw button
+        this.button.draw(this.ctx);
+        // clear header region
         this._draw_fg();
 //        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
         return true;
@@ -198,16 +213,22 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
         
 
-
-
         event_of("stage1").on("deselect-choice", (choice_id) => {
             // update
             this.options_instances    
                 .filter((oi)=>oi.choosen && oi.choice_id == choice_id)
                 .forEach((oi)=>oi.choosen = false)
             ;
-
         });
+
+
+        this.button.on("pressed", (e)=>{
+            this.callback_done()
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+
     }
 }
 
@@ -229,6 +250,7 @@ async function interaction({
     const images = {
         "options": await get_image("options"),
         "scroll": await get_image("scroll"),
+        "button": await get_image("donebutton"),
     };
 
     const canvascontrol = new ChoiceMenuCanvasController({
