@@ -19,21 +19,21 @@ function Particle( x, y ) {
     }
     // set a random angle in all possible directions, in radians
     this.angle = utils.random_range( 0, Math.PI * 2 );
-    this.speed = utils.random_range( 1, 10 );
+    this.speed = utils.random_range( 1, 10 ) / 15;
     // friction will slow the particle down
-    this.friction = 0.99;
+    this.friction = 0.97;
     // gravity will be applied and pull the particle down
-    this.gravity = 0.5;
+    this.gravity = 0.5 / 15;
     // set the hue to a random number +-20 of the overall hue variable
     this.hue = utils.random_range( hue - 20, hue + 20 );
     this.brightness = utils.random_range( 50, 80 );
     this.alpha = 1;
     // set how fast the particle fades out
-    this.decay = utils.random_range( 0.015/3, 0.03/3 );
+    this.decay = utils.random_range( 0.015/3, 0.03/3 ) / 15;
 }
 
 // update particle
-Particle.prototype.update = function( index ) {
+Particle.prototype.update = function( index, t, dt ) {
     // remove last item in coordinates array
     this.coordinates.pop();
     // add current coordinates to the start of the array
@@ -41,10 +41,10 @@ Particle.prototype.update = function( index ) {
     // slow down the particle
     this.speed *= this.friction;
     // apply velocity
-    this.x += Math.cos( this.angle ) * this.speed;
-    this.y += Math.sin( this.angle ) * this.speed + this.gravity;
+    this.x += Math.cos( this.angle ) * this.speed * dt;
+    this.y += Math.sin( this.angle ) * this.speed * dt + this.gravity * dt;
     // fade out the particle
-    this.alpha -= this.decay;
+    this.alpha -= this.decay * dt;
     
     // remove the particle once the alpha is low enough, based on the passed in index
     if( this.alpha <= this.decay ) {
@@ -75,7 +75,7 @@ class FireworkController {
         this.ctx = ctx;
     }
 
-    animation_frame() {
+    animation_frame(t, dt) {
         // increase the hue to get different colored fireworks over time
         hue += 0.5;
         
@@ -96,7 +96,7 @@ class FireworkController {
         var i = particles.length;
         while(i--){
             particles[i].draw(this.ctx);
-            particles[i].update(i);
+            particles[i].update(i, t, dt);
         }
         
         this.ctx.globalCompositeOperation = "source-over";
