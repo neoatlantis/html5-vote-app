@@ -174,6 +174,8 @@ class IntroCanvasController extends CanvasController {
 
         this.fwcontroller.animation_frame();
         
+
+        return true;
     }
 
     bind_events(){

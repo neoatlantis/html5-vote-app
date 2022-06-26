@@ -1,5 +1,7 @@
 import constants    from "app/constants.js";
 import utils        from "app/utils";
+import { AnimationImplementation, AnimationPlayer } from "app/animation.js";
+
 const event_of = require("app/events"); 
 
 
@@ -38,11 +40,11 @@ class CanvasController{
         //ctx.scale(scaleFactor, scaleFactor);
     }
 
-    _play_animation(){
+    /*_play_animation(){
         if(!this.flag_animation_playing) return;
         requestAnimationFrame(()=>this.animation_frame());
         setTimeout(()=>this._play_animation(), 0);
-    }
+    }*/
 
     _play_exit_animation(){
         if(this.flag_exit_animation_done) return;
@@ -57,11 +59,18 @@ class CanvasController{
     start_animation(){
         this.flag_animation_playing = true;
         this.starttime = new Date().getTime();
-        this._play_animation();
+        //this._play_animation();
+
+        this._animation = new AnimationImplementation(this.animation_frame);
+        this._animation_player = new AnimationPlayer(this, this._animation);
+        this._animation_player.start();
     }
 
     async stop_animation(){
         this.flag_animation_playing = false;
+        if(this._animation_player){
+            this._animation_player.stop();
+        }
     }
     
     animation_frame(){

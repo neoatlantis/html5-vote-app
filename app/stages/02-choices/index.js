@@ -141,6 +141,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.ctx_reset_filter();
         this._draw_fg();
 //        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);
+        return true;
     }
 
     bind_events(){
