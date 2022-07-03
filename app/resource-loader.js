@@ -12,6 +12,10 @@ const images = {
     "hex-thin": "./images/hex-thin.png",
     "scroll": "./images/scroll.png",
 
+    "countries-bg": "./images/countries-bg.png",
+    "countries-flags": "./images/countries-flags.png",
+    "countries-glow": "./images/countries-glow.png",
+
     "header": "./images/options_header.svg",
     "donebutton": "./images/donebutton.png",
     "donebutton-down": "./images/donebutton_pressed.png",

@@ -3,7 +3,8 @@ import choices from "app/content.js";
 import get_background_controller from "app/canvasbg.js"; 
 import stage_intro   from "app/stages/01-intro";
 import stage_choices from "app/stages/02-choices";
-import stage_name    from "app/stages/03-name";
+import stage_countries from "app/stages/03-countries";
+import stage_name    from "app/stages/04-name";
 
 
 import utils from "app/utils";
@@ -30,13 +31,17 @@ function on_selection_changed(selected_ids){
     app.selected_choices = selected_choices;
 }
 
+function on_intro_done(){
+    // In intro page, when user decided to continue
+    app.intro_done = true;
+}
+
 function on_selection_done(){
     app.choices_done = true;
 }
 
-function on_intro_done(){
-    // In intro page, when user decided to continue
-    app.intro_done = true;
+function on_countries_done(){
+    app.countries_done = true;
 }
 
 function on_name_set(){
@@ -57,6 +62,7 @@ async function init(){
     const bgcontroller = await get_background_controller(canvas);
     
     console.log("Stage #1");
+
     await stage_intro.interaction({
         canvas,
         bgcontroller,
@@ -74,6 +80,15 @@ async function init(){
     });
 
     console.log("Stage #3");
+    await stage_countries.interaction({
+        canvas,
+        bgcontroller,
+//        callback: on_countries_changed,
+        callback_done: on_countries_done,
+        app,
+    });
+
+    console.log("Stage #4");
     await stage_name.interaction({
         canvas,
         bgcontroller,

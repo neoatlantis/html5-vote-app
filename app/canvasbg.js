@@ -18,7 +18,7 @@ class CanvasBackgroundController{
         this.current_n = 0;
         
         this.animating_offset = 0;
-        this.animating_duration = 5000;
+        this.animating_duration = constants.BACKGROUND_SWITCH_DURATION,
         this.animating_step = 0;
         this.animating_target_y = this.current_n * this.unit_height;
 

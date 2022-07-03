@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done && name_done)" @touchend="play_music">
+    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done && countries_done && name_done)" @touchend="play_music">
 
         <div v-show="intro_done && !choices_done" class="fade-in-div">
             <choices-header
@@ -34,7 +34,7 @@
         <canvas id="options" style="width:100%;height:100%"></canvas>
     </div>
 
-    <div class="fullscreen" v-show="init_done && choices_done && !name_done">
+    <div class="fullscreen" v-show="init_done && choices_done && countries_done && !name_done">
         <input name="请输入名字" type="text" v-model="username"/>
         <button v-on:click="name_done=true">查看结果</button>
     </div>
@@ -70,6 +70,7 @@ export default {
         init_done: false,
         intro_done: false,
         choices_done: false,
+        countries_done: false,
         name_done: false,
 
         total_choices: choices.length,
