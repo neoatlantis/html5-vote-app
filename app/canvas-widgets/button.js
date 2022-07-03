@@ -36,6 +36,11 @@ class CanvasButton extends events.EventEmitter {
         this.hold_down = false;
     }
 
+    is_within_area(x, y){
+        return this.x0 <= x && x <= this.x1 && this.y0 <= y && y <= this.y1;
+    }
+
+
     bind_events(){
 
         function get_xy(e){
@@ -48,10 +53,7 @@ class CanvasButton extends events.EventEmitter {
         event_of("canvas").on("touchstart", (e)=>{
             let { x, y } = get_xy(e);
 
-            if(
-                this.x0 <= x && x <= this.x1 && 
-                this.y0 <= y && y <= this.y1
-            ){
+            if( this.is_within_area(x, y) ){
                 this.hold_down = true;
                 this.emit("pressed_down", e);
             }
@@ -62,11 +64,7 @@ class CanvasButton extends events.EventEmitter {
             let was_hold_down = this.hold_down;
             this.hold_down = false;
 
-            if(
-                this.x0 <= x && x <= this.x1 && 
-                this.y0 <= y && y <= this.y1 &&
-                was_hold_down
-            ){
+            if(this.is_within_area(x, y) && was_hold_down){
                 this.emit("pressed", e);
             }
         });
@@ -83,13 +81,15 @@ class CanvasButton extends events.EventEmitter {
             );
             return;
         }
-        ctx.drawImage(
-            this.image,
-            this.x0,
-            this.y0,
-            this.x1 - this.x0,
-            this.y1 - this.y0
-        );
+        if(this.image){
+            ctx.drawImage(
+                this.image,
+                this.x0,
+                this.y0,
+                this.x1 - this.x0,
+                this.y1 - this.y0
+            );
+        }
     }
 }
 

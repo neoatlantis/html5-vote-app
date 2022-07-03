@@ -1,27 +1,13 @@
-import choices      from "app/content.js";
-import constants    from "app/constants.js";
-import utils        from "app/utils";
+import { countries } from "app/content.js";
+import constants     from "app/constants.js";
+import utils         from "app/utils";
 
 import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
+import CountryButton from "./CountryButton.js";
 
 const { get_image } = require("app/resource-loader.js");
 const event_of = require("app/events"); 
-
-const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);
-const position_deltas = choices.map((e)=>Math.floor(Math.random()*2)).map((e)=>e?1:-1);
-let current_pos = initial_position;
-let choices_positions = [];
-for(let i=0; i<choices.length; i++){
-    current_pos += position_deltas[i];
-    if(current_pos < 0){
-        current_pos += constants.MENU_CHOICES_PER_ROW;
-    }
-    if(current_pos >= constants.MENU_CHOICES_PER_ROW){
-        current_pos -= constants.MENU_CHOICES_PER_ROW;
-    }
-    choices_positions.push(current_pos);
-}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +44,35 @@ class CountriesMenuCanvasController extends CanvasController {
 
         this.map_draw_x = this.canvas.width / 2 - this.map_width / 2;
 
+
+        // initial country buttons
+        this.country_buttons = [];
+        for(let country_name in countries){
+            let country_button = new CountryButton({
+                controller: this,
+                text: country_name,
+                x: countries[country_name][0] * this.image_map_scale,
+                y: countries[country_name][1] * this.image_map_scale,
+                size: constants.COUNTRY_HEXAGON_SIZE * this.image_map_scale,
+            });
+            this.country_buttons.push(country_button);
+        }
+
+    }
+
+    _drag_map(delta){
+
+        const low_bound = this.canvas.width - this.map_width;
+        const upper_bound = 0;
+        
+        this.map_draw_x += delta;
+        if(this.map_draw_x < low_bound){
+            this.map_draw_x = low_bound;
+        }
+        if(this.map_draw_x > upper_bound){
+            this.map_draw_x = upper_bound;
+        }
+
     }
 
     _draw_bg(){
@@ -71,22 +86,33 @@ class CountriesMenuCanvasController extends CanvasController {
             0,  // dy = 0
             this.canvas.width,
             this.canvas.height
-        );
+        ); // global background
 
-
+        this.ctx.drawImage(
+            this.images["bg"],
+            0, 0, this.images["bg"].width, this.images["bg"].height,
+            this.map_draw_x,
+            0, // sy
+            this.map_width,
+            this.canvas.height
+        ); // stage background (countries)
     }
 
     _draw_fg(){
-        this.ctx.drawImage(
-            this.images["bg"],
-            
-            0, 0, this.images["bg"].width, this.images["bg"].height,
 
+        this.country_buttons.forEach((cb)=>{
+            cb.draw(this.ctx);
+        });
+
+        this.ctx.drawImage(
+            this.images["flags"],
+            0, 0, this.images["flags"].width, this.images["flags"].height,
             this.map_draw_x,
             0, // sy
             this.map_width,
             this.canvas.height
         );
+
     }
 
     animation_frame(t, dt){
@@ -114,13 +140,13 @@ class CountriesMenuCanvasController extends CanvasController {
 
         function on_click(x, y){
             // handle a touch-click or mouseclick event
-            this.options_instances.forEach((oi)=>oi.handle_click(x, y));
-            let selected_ids = this.options_instances    
-                .filter((oi)=>oi.choosen)
-                .map((oi)=>oi.choice_id)
+            this.country_buttons.forEach((cb)=>cb.handle_click(x, y));
+            let selected_countries = this.country_buttons
+                .filter((cb)=>cb.choosen)
+                .map((cb)=>cb.text)
             ;
             try{
-                this.callback(selected_ids);
+                this.callback(selected_countries);
             } catch(e){
             }
         }
@@ -129,7 +155,7 @@ class CountriesMenuCanvasController extends CanvasController {
         let touch_lastx = 0;
         ec.on("touchstart", (e)=>{
             touchscrolled = false;
-            touch_lastx = e.changedTouches[0].clientY;
+            touch_lastx = e.changedTouches[0].clientX;
             e.preventDefault();
         });
 
@@ -150,20 +176,14 @@ class CountriesMenuCanvasController extends CanvasController {
 
         ec.on("touchmove", (e)=>{
             touchscrolled = true;
-
-            const currenty = e.changedTouches[0].clientY;
-            touch_lastx = currenty;
+            const currentx = e.changedTouches[0].clientX;
+            
+            this._drag_map((currentx - touch_lastx) * constants.SCALE_FACTOR);
+            
+            touch_lastx = currentx;
             e.preventDefault();
         });
         
-
-        event_of("stage1").on("deselect-choice", (choice_id) => {
-            // update
-            this.options_instances    
-                .filter((oi)=>oi.choosen && oi.choice_id == choice_id)
-                .forEach((oi)=>oi.choosen = false)
-            ;
-        });
 
 
         this.button.on("pressed", (e)=>{

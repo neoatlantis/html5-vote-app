@@ -1,4 +1,4 @@
-import choices from "app/content.js";
+import { choices } from "app/content.js";
 
 import get_background_controller from "app/canvasbg.js"; 
 import stage_intro   from "app/stages/01-intro";
@@ -19,9 +19,6 @@ import App from "sfc/app.vue";
 
 
 const app = createApp(App).mount("#app");
-
-
-
 
 
 function on_selection_changed(selected_ids){

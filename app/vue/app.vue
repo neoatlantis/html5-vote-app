@@ -52,7 +52,7 @@
 <script>
 
 import choices_menu from "app/stages/02-choices"; 
-import choices      from "app/content.js";
+import { choices }  from "app/content.js";
 
 import ChoicesBasket from "sfc/choices-basket.vue";
 import ChoicesHeader from "sfc/choices-header.vue";

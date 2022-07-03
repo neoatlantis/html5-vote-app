@@ -14,6 +14,8 @@ export default {
     MENU_CHOICE_OSC_T: 2000,
     MENU_CHOICES_SCROLL_WIDTH: 0.0325,
 
+    COUNTRY_HEXAGON_SIZE: 136 / 2,
+
     BACKGROUND_BAR_N: 4, // background color bar includes 4 stages
 
     RESULT_HEADER_HEIGHT_WIDTH_RATIO: 0.50,
