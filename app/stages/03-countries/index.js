@@ -49,6 +49,7 @@ class CountriesMenuCanvasController extends CanvasController {
         this.country_buttons = [];
         for(let country_name in countries){
             let country_button = new CountryButton({
+                image_glow: this.images["glow"],
                 controller: this,
                 text: country_name,
                 x: countries[country_name][0] * this.image_map_scale,

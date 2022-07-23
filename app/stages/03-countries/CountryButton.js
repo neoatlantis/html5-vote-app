@@ -17,6 +17,7 @@ class CountryButton{
      */
 
     constructor({
+        image_glow,
         text,
         x, y, // center of hexagon on a scaled map image
         size, // length of a side for a hexagon
@@ -27,6 +28,7 @@ class CountryButton{
         this.text = text;
         this.size = size;
         this.controller = controller; // CountriesMenuCanvasController
+        this.image_glow = image_glow;
 
         const w1 = size * 0.8660254;
         this.polygon = [
@@ -43,9 +45,12 @@ class CountryButton{
     }
 
     draw(ctx){
+        if(!this.choosen) return;
+
         ctx.beginPath();
         ctx.arc(this.x0 + this.controller.map_draw_x, this.y0, this.size * 1.1, 0, 2 * Math.PI);
         ctx.stroke();
+
     }
 
     is_within_area(x, y){
@@ -56,7 +61,7 @@ class CountryButton{
         // use the controller's actual value of this offset. 
         x -= this.controller.map_draw_x;
 
-        console.log(x, y);
+//        console.log(x, y);
 
         // Special calculation for a hexagon
         // ray-casting algorithm based on
