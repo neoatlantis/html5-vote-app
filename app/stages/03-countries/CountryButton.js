@@ -78,7 +78,6 @@ class CountryButton{
     handle_click(x, y){
         if(!this.is_within_area(x, y)) return;
         this.choosen = !this.choosen;
-        console.log(this.text);
     }
 
 

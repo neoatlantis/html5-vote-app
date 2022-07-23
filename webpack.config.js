@@ -12,6 +12,7 @@ module.exports = (env)=>{
         {
             entry: './app/index.js',
             mode: is_dev?'development':'production',
+            watch: is_dev,
             output: {
                 filename: 'app.js',
                 path: output_path,
