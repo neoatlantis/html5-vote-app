@@ -39,6 +39,8 @@ class CountryButton{
             [x, y - size],
             [x + w1, y-size/2],
         ];
+
+        this.image_glow_size = (this.size * 2) * 1.3;
         
         // If this option is choosen
         this.choosen = false;
@@ -47,9 +49,13 @@ class CountryButton{
     draw(ctx){
         if(!this.choosen) return;
 
-        ctx.beginPath();
-        ctx.arc(this.x0 + this.controller.map_draw_x, this.y0, this.size * 1.1, 0, 2 * Math.PI);
-        ctx.stroke();
+        ctx.drawImage(
+            this.image_glow,
+            this.x0 + this.controller.map_draw_x - this.image_glow_size / 2,
+            this.y0 - this.image_glow_size / 2,
+            this.image_glow_size,
+            this.image_glow_size
+        );
 
     }
 
