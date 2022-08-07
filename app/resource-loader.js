@@ -1,5 +1,5 @@
 const images = {
-    "options": "./images/options.png",
+    "options": "./images/options_10x10.png",
     "bgcolor": "./images/bgcolor.png",
 
     "introtitle": "./images/introtitle.png",

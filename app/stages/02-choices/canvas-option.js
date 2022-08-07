@@ -66,8 +66,8 @@ class CanvasOption{
         );
 
         // Standard position in source canvas
-        this.sx0 = 0;
-        this.sy0 = this.image_id * this.image_tile_size;
+        this.sx0 = Math.floor(this.image_id / 10) * this.image_tile_size;
+        this.sy0 = (this.image_id % 10) * this.image_tile_size;
 
 
         // Actual position in target canvas, updated by next()
