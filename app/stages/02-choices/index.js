@@ -44,7 +44,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.bgcontroller = bgcontroller;
         this.callback = callback;
         this.callback_done = callback_done;
-        this.scrollspeed = canvas.height / 4000 / 5;
+        this.scrollspeed = canvas.height / constants.MENU_CHOICES_SCROLL_SPEED_DIVISION;
 
         this.row_height = canvas.width * constants.MENU_CHOICE_ROW_HEIGHT;
 

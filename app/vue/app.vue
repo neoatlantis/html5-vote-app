@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && choices_done && name_done" style="overflow-y: scroll">
+    <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done" style="overflow-y: scroll">
         <canvas id="result" style="width:100%"></canvas>
         <img id="result-img">
     </div>
