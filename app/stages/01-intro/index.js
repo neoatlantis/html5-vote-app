@@ -172,7 +172,7 @@ class IntroCanvasController extends CanvasController {
 
 //        this.rotation += 0.005;
 
-        this.fwcontroller.animation_frame(t, dt);
+        //this.fwcontroller.animation_frame(t, dt);
         
 
         return true;
