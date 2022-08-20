@@ -48,6 +48,7 @@
 
 
     <Bgm ref="bgm"></Bgm>
+    <TouchAudio ref="touchaudio"></TouchAudio>
 
 
 </div></template>
@@ -61,6 +62,7 @@ import ChoicesHeader from "sfc/choices-header.vue";
 import ChoicesFooter from "sfc/choices-footer.vue";
 
 import Bgm from "sfc/bgm.vue";
+import TouchAudio from "sfc/touch-audio.vue";
 
 
 export default {
@@ -93,6 +95,10 @@ export default {
             this.$refs["bgm"].play();
         },
 
+        play_touch_audio(){
+            this.$refs["touchaudio"].play();
+        },
+
         on_basket_click_delete(id){
             const existing = JSON.parse(JSON.stringify(this.selected_choices));
             const newjson = existing.filter((e)=>e.id != id);
@@ -105,6 +111,7 @@ export default {
         ChoicesHeader,
         ChoicesFooter,
         Bgm,
+        TouchAudio,
     }
 }
 

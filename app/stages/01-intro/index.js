@@ -1,3 +1,4 @@
+import debugging    from "app/debug.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
 
@@ -210,6 +211,8 @@ async function interaction({
     bgcontroller,
     app
 }){
+    if(debugging('stage') && !debugging('stage', 1)) return;
+
     bgcontroller.scroll_to_stage(0);
    
     const images = {

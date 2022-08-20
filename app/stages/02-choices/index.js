@@ -127,9 +127,11 @@ class ChoiceMenuCanvasController extends CanvasController {
     }
 
     animation_frame(t, dt){
+        // automatical scroll
         if(this.autoscroll){
             this.delta_y0 -= this.scrollspeed * dt;
         }
+        // add displacements due to scroll events:
         this.delta_y0 += this.delta_y0_scroll;
         this.delta_y0_scroll = 0;
 
