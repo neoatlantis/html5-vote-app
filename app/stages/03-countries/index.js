@@ -1,3 +1,4 @@
+import debugging    from "app/debug.js";
 import { countries } from "app/content.js";
 import constants     from "app/constants.js";
 import utils         from "app/utils";
@@ -229,6 +230,14 @@ async function interaction({
     });
     canvascontrol.start_animation();
 
+    /// #if DEV
+    if(debugging()){
+        if(debugging('stage') && debugging('stage') > 3){
+            callback_done();
+        }
+    }
+    /// #endif
+    
     await utils.until(()=>app.countries_done === true);
 
     bgcontroller.scroll_to_stage(3);

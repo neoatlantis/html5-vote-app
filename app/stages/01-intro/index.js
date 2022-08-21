@@ -211,8 +211,6 @@ async function interaction({
     bgcontroller,
     app
 }){
-    if(debugging('stage') && !debugging('stage', 1)) return;
-
     bgcontroller.scroll_to_stage(0);
    
     const images = {
@@ -232,6 +230,14 @@ async function interaction({
         callback
     });
     canvascontrol.start_animation();
+
+    /// #if DEV
+    if(debugging()){
+        if(debugging('stage') && debugging('stage') > 1){
+            callback();
+        }
+    }
+    /// #endif
 
     await utils.until(()=>app.intro_done === true);
 

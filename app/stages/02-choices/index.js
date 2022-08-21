@@ -1,3 +1,4 @@
+import debugging    from "app/debug.js";
 import { choices }  from "app/content.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
@@ -82,6 +83,7 @@ class ChoiceMenuCanvasController extends CanvasController {
             y_min: -canvas.height / 2,
             y_max: this.row_height * this.options_instances.length - canvas.height / 2,
             end_speed: this.scrollspeed,
+            screen_height: this.canvas.height,
         });
 
 //        this.physics.change_v(this.scrollspeed*5); // initial speed above: 5
@@ -141,7 +143,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         }
         // add displacements due to scroll events:
         this.physics.add_y(-this.delta_y0_scroll);
-        this.delta_y0 = -this.physics.y;
+        this.delta_y0 = -this.physics.read_real_y();
         this.delta_y0_scroll = 0;
 
         // clear whole canvas
@@ -283,6 +285,14 @@ async function interaction({
     });
     console.log("#2");
     canvascontrol.start_animation();
+
+    /// #if DEV
+    if(debugging()){
+        if(debugging('stage') && debugging('stage') > 2){
+            callback_done();
+        }
+    }
+    /// #endif
 
     console.log("#3");
     await utils.until(()=>app.choices_done === true);
