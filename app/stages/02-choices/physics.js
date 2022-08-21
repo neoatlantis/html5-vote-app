@@ -84,7 +84,7 @@ class Stage2Physics {
         if(this.v <= this.end_speed){
             f = Math.abs(Math.pow(this.v, 2) * this.friction_coeff);
         } else {
-            f = Math.pow(2, (this.v / this.end_speed - 1)) * this.v * this.v * this.friction_coeff;
+            f = Math.pow(2, (Math.abs(this.v / this.end_speed) - 1)) * this.v * this.v * this.friction_coeff;
         }
         return - Math.sign(this.v) * f;
     }

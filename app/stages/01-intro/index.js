@@ -37,7 +37,9 @@ class IntroCanvasController extends CanvasController {
 
         
         this.scale_introtitle = this.canvas.width / this.images["introtitle"].width * 0.75;
+//      this.scale_glow = Math.min(0.925 * this.canvas.width, 0.40 * this.canvas.height) / this.images["glow"].width;
         this.scale_glow = this.canvas.width / this.images["glow"].width;
+//        console.log(this.scale_glow);
         this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.925;
         this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.925;
         this.scale_slogan = this.canvas.width / this.images["slogan"].width * 0.6;

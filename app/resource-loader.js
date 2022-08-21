@@ -19,6 +19,14 @@ const images = {
     "header": "./images/options_header.svg",
     "donebutton": "./images/donebutton.png",
     "donebutton-down": "./images/donebutton_pressed.png",
+
+    "share_badge": "./images/05-share/badge.png",
+    "share_base": "./images/05-share/base.png",
+    "share_base_footer": "./images/05-share/base_footer_transp.png",
+    "share_base_header": "./images/05-share/base_header_transp.png",
+    "share_pattern_screen": "./images/05-share/pattern_screen.png",
+    "share_top_footer": "./images/05-share/top_footer.png",
+    "share_top_header": "./images/05-share/top_header.png",
 };
 
 //const loaded_dataurls = {};

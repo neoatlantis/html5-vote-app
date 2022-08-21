@@ -5,11 +5,11 @@ import stage_intro   from "app/stages/01-intro";
 import stage_choices from "app/stages/02-choices";
 import stage_countries from "app/stages/03-countries";
 import stage_name    from "app/stages/04-name";
+import stage_share   from "app/stages/05-share";
 
 
 import utils from "app/utils";
 
-const update_result = require("./save-image.js");
 const { assure_loaded } = require("./resource-loader.js");
 
 
@@ -93,14 +93,18 @@ async function init(){
         app,
     });
 
-//    await may_show_result();
+    console.log("Stage #5");
 
-    await require("./save-image.js")(
+/*    await require("./save-image.js")(
         JSON.parse(JSON.stringify(app.selected_choices)),
         {
             username: app.username,
         }
-    );
+    );*/
+    stage_share.interaction({
+        canvas: document.getElementById("result"),
+        app,
+    });
 
 }
 
