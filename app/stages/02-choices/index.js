@@ -5,6 +5,7 @@ import utils        from "app/utils";
 import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasOption from "./canvas-option.js";
+import Stage2Physics from "./physics.js";
 
 const { get_image } = require("app/resource-loader.js");
 const event_of = require("app/events"); 
@@ -77,9 +78,16 @@ class ChoiceMenuCanvasController extends CanvasController {
             y1: this.button_ref_y + this.scale_button * this.images["button"].height / 2,
         });
 
-        this.delta_y0_min = canvas.height - this.row_height * this.options_instances.length;
-        this.delta_y0_max = canvas.height / 2;
-        this.delta_y0 = this.delta_y0_max; //0;
+        this.physics = new Stage2Physics({
+            y_min: -canvas.height / 2,
+            y_max: this.row_height * this.options_instances.length - canvas.height / 2,
+            end_speed: this.scrollspeed,
+        });
+
+//        this.physics.change_v(this.scrollspeed*5); // initial speed above: 5
+        this.physics.add_y(-canvas.height / 2);
+
+        this.delta_y0 = 0;
         this.delta_y0_scroll = false;
         this.autoscroll = true;
     }
@@ -129,18 +137,12 @@ class ChoiceMenuCanvasController extends CanvasController {
     animation_frame(t, dt){
         // automatical scroll
         if(this.autoscroll){
-            this.delta_y0 -= this.scrollspeed * dt;
+            this.physics.calculate(dt);
         }
         // add displacements due to scroll events:
-        this.delta_y0 += this.delta_y0_scroll;
+        this.physics.add_y(-this.delta_y0_scroll);
+        this.delta_y0 = -this.physics.y;
         this.delta_y0_scroll = 0;
-
-        if(this.delta_y0 < this.delta_y0_min){
-            this.delta_y0 = this.delta_y0_min;
-        }
-        if(this.delta_y0 > this.delta_y0_max){
-            this.delta_y0 = this.delta_y0_max;
-        }
 
         // clear whole canvas
         this.ctx_clearall();
@@ -179,7 +181,9 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         let touchscrolled = false;
         let touch_lasty = 0;
+        let touch_last_time = null;
         ec.on("touchstart", (e)=>{
+            touch_last_time = new Date().getTime();
             this.autoscroll = false;
             touchscrolled = false;
             this.delta_y0_scroll = 0;
@@ -209,6 +213,19 @@ class ChoiceMenuCanvasController extends CanvasController {
             touchscrolled = true;
 
             const currenty = e.changedTouches[0].clientY;
+
+            if(touch_last_time != null){
+                const dt = new Date().getTime() - touch_last_time;
+                if(dt > 0){
+                    const v = (currenty - touch_lasty) * 
+                        constants.SCALE_FACTOR / dt;
+                    if(!isNaN(v)){
+                        this.physics.change_v(-v);
+                    }
+                }
+            }
+            touch_last_time = new Date().getTime();
+
             this.delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
             touch_lasty = currenty;
             e.preventDefault();
@@ -256,6 +273,7 @@ async function interaction({
         "button-down": await get_image("donebutton-down"),
     };
 
+    console.log("#1");
     const canvascontrol = new ChoiceMenuCanvasController({
         canvas,
         images,
@@ -263,8 +281,10 @@ async function interaction({
         callback,
         callback_done,
     });
+    console.log("#2");
     canvascontrol.start_animation();
 
+    console.log("#3");
     await utils.until(()=>app.choices_done === true);
 
     bgcontroller.scroll_to_stage(2);

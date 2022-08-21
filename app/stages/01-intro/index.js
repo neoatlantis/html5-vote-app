@@ -94,7 +94,7 @@ class IntroCanvasController extends CanvasController {
         // draw bg
         this._draw_bg();
 
-        console.warn("intro done, switching 3000ms");
+//        console.warn("intro done, switching 3000ms");
         return elapsed_time < constants.BACKGROUND_SWITCH_DURATION;
     }
     
