@@ -33,9 +33,11 @@ class TopLayer {
         this.option_source_tile_size = constants.RESOURCE_ICON_TILE_SIZE;
         this.option_target_tile_size = this.canvas.width * 0.2213;
 
-        this.option_row_height = this.option_target_tile_size * 0.7;
-        this.option_row0_offset = this.dh_header + this.option_row_height / 2;
-        this.option_col_x_offset = this.option_target_tile_size / 2;
+        this.option_row_height = this.canvas.width * 0.2343;
+        this.option_row0_offset = 0.7324 * this.canvas.width - 0.5 * this.option_target_tile_size; //       this.dh_header + this.option_row_height / 2;
+        this.option_col_width = this.canvas.width * 0.2013;
+        this.option_col0_offset = 0.1477 * this.canvas.width - 0.5 * this.option_target_tile_size;
+        this.option_col_x_offset = this.option_col_width / 2;
         this.option_rows = Math.ceil(this.options.length / 4);
 
 
@@ -53,7 +55,7 @@ class TopLayer {
 
         // dx, dy on target pic
         let dy = this.option_row0_offset + row * this.option_row_height;
-        let dx = (0.03705 + col) * this.option_target_tile_size;
+        let dx = this.option_col0_offset + col * this.option_col_width;
 
         if(row % 2 != 0){
             dx += this.option_col_x_offset;
