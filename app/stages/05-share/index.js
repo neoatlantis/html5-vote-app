@@ -6,8 +6,7 @@ import TopLayer from "./layers/top";
 import BaseLayer from "./layers/base";
 import PatternLayer from "./layers/pattern";
 
-
-const { get_image } = require("app/resource-loader.js");
+import { get_image, get_font } from "app/resource-loader.js";
 
 const saveAs = require("app/FileSaver.min.js");
 
@@ -19,10 +18,13 @@ const saveAs = require("app/FileSaver.min.js");
 
 async function interaction({
     canvas,
-    app
+    app,
+    result_choices,
+    result_countries
 }){
     const images = {
         "options": await get_image("options"),
+        "flags": await get_image("share_flags"),
 
         "badge": await get_image("share_badge"),
         "base":  await get_image("share_base"),
@@ -33,10 +35,12 @@ async function interaction({
         "top_header": await get_image("share_top_header"),
     };
 
+    await get_font("font_main", "./data/main_font.ttf");
+
     setup_canvas({canvas, height: 1});
     
     const layer_top = new TopLayer({
-        canvas, images,
+        canvas, images, countries: result_countries
     });
 
     const total_height = layer_top.get_height();

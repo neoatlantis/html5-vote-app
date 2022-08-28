@@ -8,7 +8,8 @@ import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasOption from "./canvas-option.js";
 import Stage2Physics from "./physics.js";
 
-const { get_image } = require("app/resource-loader.js");
+import { get_image } from "app/resource-loader.js";
+
 const event_of = require("app/events"); 
 
 const initial_position = Math.floor(Math.random()*constants.MENU_CHOICES_PER_ROW);

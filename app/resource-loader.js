@@ -1,3 +1,5 @@
+import utils from "app/utils";
+
 const images = {
     "options": "./images/options_10x10.png",
     "bgcolor": "./images/bgcolor.png",
@@ -20,6 +22,7 @@ const images = {
     "donebutton": "./images/donebutton.png",
     "donebutton-down": "./images/donebutton_pressed.png",
 
+    "share_flags": "./images/05-share/flags.png",
     "share_badge": "./images/05-share/badge.png",
     "share_base": "./images/05-share/base.png",
     "share_base_footer": "./images/05-share/base_footer_transp.png",
@@ -89,12 +92,33 @@ async function get_image(image_name){
         img.onerror = reject;
         img.src = loaded_dataurls[image_name];
     });*/
-    console.log(loaded_images);
+//    console.log(loaded_images);
     return loaded_images[image_name];
 }
 
-module.exports = {
+
+// TODO fonts and images are loaded at same time
+
+const fonts = {};
+async function get_font(font_name, url){
+    if(undefined !== fonts[font_name]){
+        await utils.until(()=>fonts[font_name] !== true);
+        return fonts[font_name];
+    }
+    fonts[font_name] = true;
+    let font = new FontFace(font_name, 'url(' + url + ')');
+    await font.load();
+    document.fonts.add(font);
+    fonts[font_name] = font;
+    return fonts[font_name];
+}
+
+get_font("font_main", "./data/main_font.ttf");
+
+
+export {
     images,
     get_image,
+    get_font,
     assure_loaded,
 }

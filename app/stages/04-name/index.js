@@ -5,7 +5,7 @@ import utils        from "app/utils";
 import CanvasController from "app/canvascontrol.js";
 
 
-const { get_image } = require("app/resource-loader.js");
+import { get_image } from "app/resource-loader.js";
 
 //////////////////////////////////////////////////////////////////////////////
 

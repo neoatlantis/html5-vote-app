@@ -1,6 +1,7 @@
 import debugging    from "app/debug.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
+import { get_image } from "app/resource-loader.js";
 
 import CanvasController from "app/canvascontrol.js";
 import FireworkController from "./firework.js";
@@ -8,7 +9,6 @@ import FireworkController from "./firework.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 
 
-const { get_image } = require("app/resource-loader.js");
 const event_of = require("app/events.js");
 
 //////////////////////////////////////////////////////////////////////////////

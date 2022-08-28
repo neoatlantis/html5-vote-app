@@ -7,7 +7,8 @@ import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 import CountryButton from "./CountryButton.js";
 
-const { get_image } = require("app/resource-loader.js");
+import { get_image } from "app/resource-loader.js";
+
 const event_of = require("app/events"); 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -189,7 +190,8 @@ class CountriesMenuCanvasController extends CanvasController {
 
 
         this.button.on("pressed", (e)=>{
-            this.callback_done()
+            this.callback_done(
+                this.country_buttons.filter((b)=>b.choosen).map((b)=>b.text));
             e.preventDefault();
             e.stopPropagation();
         });

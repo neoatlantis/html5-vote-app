@@ -21,6 +21,11 @@ import App from "sfc/app.vue";
 const app = createApp(App).mount("#app");
 
 
+let result_choices = [],
+    result_countries = [];
+
+
+
 function on_selection_changed(selected_ids){
     // On choosing page, when selected_choices changed
     let selected_choices = choices
@@ -33,12 +38,14 @@ function on_intro_done(){
     app.intro_done = true;
 }
 
-function on_selection_done(){
+function on_selection_done(e){
     app.choices_done = true;
+    result_choices = e;
 }
 
-function on_countries_done(){
+function on_countries_done(e){
     app.countries_done = true;
+    result_countries = e;
 }
 
 function on_name_set(){
@@ -104,6 +111,8 @@ async function init(){
     stage_share.interaction({
         canvas: document.getElementById("result"),
         app,
+        result_choices,
+        result_countries
     });
 
 }

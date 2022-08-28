@@ -32,7 +32,14 @@ class BaseLayer {
     render(){
         const ctx = this.canvas.getContext("2d");
 
-
+        ctx.drawImage(
+            this.image_base,
+            0, // dx
+            0, // dy 
+            this.canvas.width,
+            this.canvas.height
+        );
+        /*
         let offset_base = 0; //this.offset_base;
         while(offset_base < this.total_height){
             ctx.drawImage(
@@ -43,7 +50,7 @@ class BaseLayer {
                 this.dh_base
             );
             offset_base += this.dh_base;
-        }
+        }*/
 
         ctx.drawImage(
             this.image_header,
