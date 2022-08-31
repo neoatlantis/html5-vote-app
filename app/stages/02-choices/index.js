@@ -39,8 +39,10 @@ function set_header_height(h){
 
 class ChoiceMenuCanvasController extends CanvasController {
 
-    constructor({canvas, images, bgcontroller, callback, callback_done}){
+    constructor({app, canvas, images, bgcontroller, callback, callback_done}){
         super(canvas);
+
+        this.app = app;
 
         this.canvas = canvas;
         this.images = images;
@@ -53,6 +55,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         this.options_instances = choices.map((choice, choice_i)=>{
             return new CanvasOption({
+                app,
                 choice_id: choice.id,
                 text: choice.text,
                 image_id: choice.pos,
@@ -245,11 +248,11 @@ class ChoiceMenuCanvasController extends CanvasController {
 
 
         this.button.on("pressed", (e)=>{
+            this.app.play_touch_audio();
             this.callback_done()
             e.preventDefault();
             e.stopPropagation();
         });
-
 
     }
 }
@@ -278,6 +281,7 @@ async function interaction({
 
     console.log("#1");
     const canvascontrol = new ChoiceMenuCanvasController({
+        app,
         canvas,
         images,
         bgcontroller,

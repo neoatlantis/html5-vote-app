@@ -18,6 +18,7 @@ class CanvasOption{
      */
 
     constructor({
+        app,
         choice_id,
         text,
         image_id,
@@ -30,6 +31,8 @@ class CanvasOption{
         canvas_height,
         canvas_width,
     }){
+        this.app = app;
+
         this.choice_id = choice_id;
         this.text = text;
         this.image_id = image_id;
@@ -138,6 +141,8 @@ class CanvasOption{
             (this.y <= y && y <= this.y + this.size)
         ){  
             console.log(this.text);
+            this.app.play_touch_audio();
+
             this.choosen = !this.choosen;
             if(this.choosen){
                 this.animating_to_origin = true;
