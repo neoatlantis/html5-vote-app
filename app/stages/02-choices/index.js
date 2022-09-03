@@ -6,7 +6,7 @@ import utils        from "app/utils";
 import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasOption from "./canvas-option.js";
-import Stage2Physics from "./physics.js";
+import Stage2AutoRoller from "./physics.js";
 
 import { get_image } from "app/resource-loader.js";
 
@@ -83,11 +83,10 @@ class ChoiceMenuCanvasController extends CanvasController {
             y1: this.button_ref_y + this.scale_button * this.images["button"].height / 2,
         });
 
-        this.physics = new Stage2Physics({
-            y_min: -canvas.height / 2,
-            y_max: this.row_height * this.options_instances.length - canvas.height / 2,
-            end_speed: this.scrollspeed,
-            screen_height: this.canvas.height,
+        this.physics = new Stage2AutoRoller({
+            y_lower: -canvas.height / 2,
+            y_upper: this.row_height * this.options_instances.length - canvas.height / 2,
+            speed: this.scrollspeed,
         });
 
 //        this.physics.change_v(this.scrollspeed*5); // initial speed above: 5
@@ -96,6 +95,12 @@ class ChoiceMenuCanvasController extends CanvasController {
         this.delta_y0 = 0;
         this.delta_y0_scroll = false;
         this.autoscroll = true;
+    }
+
+    async init(){
+        for(let o of this.options_instances){
+            await o.init();
+        }
     }
 
     _draw_bg(){
@@ -147,7 +152,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         }
         // add displacements due to scroll events:
         this.physics.add_y(-this.delta_y0_scroll);
-        this.delta_y0 = -this.physics.read_real_y();
+        this.delta_y0 = -this.physics.y;
         this.delta_y0_scroll = 0;
 
         // clear whole canvas
@@ -288,6 +293,7 @@ async function interaction({
         callback,
         callback_done,
     });
+    await canvascontrol.init();
     console.log("#2");
     canvascontrol.start_animation();
 

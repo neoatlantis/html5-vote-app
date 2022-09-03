@@ -1,103 +1,77 @@
-class Stage2Physics {
+class Stage2AutoRoller {
 
     /*
-     * Physical model of the options menu.
+     * This is the calculation function for stage 2, responsible for
+     * calculating vertical canvas rolling effect. It does a few things:
      *
-     * A mass slides on Y-axis. Higher is the Y+ direction.
-     * - The mass experiences a float force
-     * - The mass experiences no gravity
-     * - The friction force is always in the opposite direction of velocity,
-     *   and is given by F_friction = friction_coeff * v^2
-     * - 
+     * 1. When disengaged, it does nothing and lets the user scroll the canvas
+     *    manually.
+     * 2. When engaged (user finger leaves the canvas), either begins auto
+     *    scrolling, when canvas position is currently within margin, or it
+     *    moves the canvas back to border if the user has moved it outside
+     *    valid range.
+     * 3. In the latter case, canvas is returned to border following an
+     *    exponential relationship with time.
      */
 
-    constructor({ y_min, y_max, end_speed, screen_height }){
 
-        this.screen_height = screen_height;
-        this.y_max = y_max / this.screen_height;
-        this.y_min = y_min / this.screen_height;
-        this.end_speed = end_speed / this.screen_height;
+    constructor({ y_upper, y_lower, speed }){
+        this.y_upper = y_upper;
+        this.y_lower = y_lower;
+        this.speed = speed;
+        this.flying = false; // if flying back to valid range
 
-        console.log("end speed:", this.end_speed)
-        console.log(this.y_min ,this.y_max);
-
-        this.y = this.y_min;
-
-        this.m = 0.001;
-        this.v = 0;
-
-        this.friction_coeff = 0.01;
-        this.border_K = 0.001;
-        
-
-        this.max_force = Math.abs(this.F_float()) * 100;
+        this.y = this.y_lower;
     }
 
-    limit_force(f){
-        if(Math.abs(f) > this.max_force) return Math.sign(f) * this.max_force;
-        return f;
-    }
+    analyze(){
+        let at_lower_border = Math.abs(this.y / this.y_lower - 1) < 0.002;
+        let at_upper_border = Math.abs(this.y / this.y_upper - 1) < 0.002;
+        let out_of_border =
+            (!at_lower_border && !at_upper_border) && 
+            (this.y > this.y_to || this.y < this.from);
+        let beyond_upper_border = out_of_border && this.y > this.y_to;
+        let below_lower_border = out_of_border && this.y < this.y_from;
 
-    change_v(nv){
-        if(Math.abs(nv) > 10 * this.end_speed * this.screen_height) return;
-        this.v = nv / this.screen_height;
-    }
-
-    add_y(dy){
-        this.y += (dy / this.screen_height);
-    }
-
-    read_real_y(){
-        return this.y * this.screen_height;
+        return {
+            out_of_border, 
+            at_lower_border,
+            at_upper_border,
+            beyond_upper_border,
+            below_lower_border,
+        }
     }
 
     calculate(dt){
-        const Fs = [
-            this.F_float(),
-            this.F_friction(),
-            this.F_border(), // border spring force
-        ];
-        //console.log(Fs);
-        let F_sum = 0;
-        for(let i=0; i<Fs.length; i++) F_sum += this.limit_force(Fs[i]);
-
-        let a = F_sum / this.m;
-        let dv = a * dt;
-
-        this.y += this.v * dt;
-
-        this.v += dv;
-
-        /*console.log(Fs);
-        console.log(
-            "speed", this.v / this.end_speed * 100, "%",
-            "y", this.y,
-        );*/
-    }
-
-    F_float(){
-        return this.friction_coeff * Math.pow(this.end_speed, 2);
-    }
-
-    F_friction(){
-        let f = 0;
-        if(this.v <= this.end_speed){
-            f = Math.abs(Math.pow(this.v, 2) * this.friction_coeff);
+        const {
+            out_of_border, 
+            at_lower_border,
+            at_upper_border,
+            beyond_upper_border,
+            below_lower_border,
+        } = this.analyze();
+        if(this.flying){
+            if(at_upper_border){
+                this.flying = false;
+                return;
+            }
+            
         } else {
-            f = Math.pow(2, (Math.abs(this.v / this.end_speed) - 1)) * this.v * this.v * this.friction_coeff;
+            if(beyond_upper_border){
+                this.y = this.y_upper;
+                return;
+            }
+            if(below_lower_border){
+                this.y = this.y_lower;
+                return;
+            }
+            this.y += dt * this.speed;
         }
-        return - Math.sign(this.v) * f;
     }
 
-    F_border(){
-        if(this.y > this.y_max){
-            return - (this.y - this.y_max) * this.border_K;
-        }
-        if(this.y < this.y_min){
-            return (this.y_min - this.y) * this.border_K;
-        }
-        return 0;
+    add_y(v){
+        this.y += v;
     }
 }
 
-export default Stage2Physics;
+export default Stage2AutoRoller;

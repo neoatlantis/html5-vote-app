@@ -1,6 +1,7 @@
 import constants    from "app/constants.js";
+import utils        from "app/utils";
 
-
+const math = utils.math;
 
 
 class CanvasOption{
@@ -85,6 +86,22 @@ class CanvasOption{
         // to the standard position given by (this.x0, this.y0). Need a flag
         // to mark this.
         this.animating_to_origin = false;
+
+
+        this.osc_sin = new math.Sin(this.osc_T);
+    }
+
+    async init(){
+        /*console.log("****");
+        console.log(this.image_src, this.sx0, this.sy0, this.image_tile_size);
+        this.cache_src_image = await createImageBitmap(
+            this.image_src,
+            this.sx0,
+            this.sy0, 
+            this.image_tile_size,
+            this.image_tile_size
+        );
+        console.log("<<<<");*/
     }
 
     drawImage({ delta_y0, t, dt }){
@@ -109,7 +126,8 @@ class CanvasOption{
                 this.x += move_dx/10;
             }
         } else if(!this.choosen){
-            const osc_dx = this.osc_A * Math.sin(this.osc_p0 + (t - this.osc_t0)/this.osc_T);
+//            const osc_dx = this.osc_A * Math.sin(this.osc_p0 + (t - this.osc_t0)/this.osc_T);
+            const osc_dx = this.osc_A * this.osc_sin.of(this.osc_p0 * this.osc_T + (t - this.osc_t0));
             this.x = target_x0 + osc_dx;
         }
         
