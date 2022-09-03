@@ -1,6 +1,7 @@
 import constants    from "app/constants.js";
 import setup_canvas from "./canvasinit.js";
 import math         from "./fastmath.js";
+import is_safari    from "./is_safari.js";
 
 // https://blog.openreplay.com/forever-functional-waiting-with-promises
 const until = (fn, time = 1000) => {
@@ -35,4 +36,4 @@ function random_range( min, max ) {
 
 
 
-export default { setup_canvas, until, random_range, math };
+export default { setup_canvas, until, random_range, math, is_safari };
