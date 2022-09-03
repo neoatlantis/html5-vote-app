@@ -1,3 +1,10 @@
+/// #if DEV
+import eruda from "eruda";
+eruda.init();
+/// #endif
+
+
+
 import { choices } from "app/content.js";
 
 import get_background_controller from "app/canvasbg.js"; 
