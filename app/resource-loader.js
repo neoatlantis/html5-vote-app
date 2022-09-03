@@ -45,7 +45,8 @@ async function bg_load_by_name(name){
         freader.onload = ()=>resolve(freader.result);
     });
 
-    loaded_images[name] = await bg_dataurl2image(dataurl);
+    let newimage = await bg_dataurl2image(dataurl);
+    loaded_images[name] = await createImageBitmap(newimage);
 }
 
 async function bg_load_all(){
