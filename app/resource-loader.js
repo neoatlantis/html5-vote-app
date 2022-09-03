@@ -46,11 +46,19 @@ async function bg_load_by_name(name){
     });
 
     let newimage = await bg_dataurl2image(dataurl);
-    loaded_images[name] = await createImageBitmap(newimage);
+    try{
+        loaded_images[name] = await createImageBitmap(newimage);
+    } catch(e){
+        loaded_images[name] = newimage;
+    }
 }
 
 async function bg_load_all(){
-    for(let image_name in images) await bg_load_by_name(image_name);
+    let tasks = [];
+    for(let image_name in images){
+        tasks.push(bg_load_by_name(image_name));
+    }
+    await Promise.all(tasks);
 }
 bg_load_all();
 

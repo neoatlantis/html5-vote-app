@@ -131,11 +131,11 @@ class CanvasOption{
             this.x = target_x0 + osc_dx;
         }
         
-        if(!this.choosen){
+/*        if(!this.choosen){
             this.ctx.filter = 'grayscale(100%)';
         } else {
             this.ctx.filter = 'none';
-        }
+        }*/
         this.ctx.drawImage(
             this.image_src,
             this.sx0,
