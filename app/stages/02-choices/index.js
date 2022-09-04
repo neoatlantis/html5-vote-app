@@ -87,6 +87,9 @@ class ChoiceMenuCanvasController extends CanvasController {
             y_lower: -canvas.height / 2,
             y_upper: this.row_height * this.options_instances.length - canvas.height / 2,
             speed: this.scrollspeed,
+            y: -canvas.height * 0.75,
+            speed2: this.scrollspeed * 10, 
+            speed2_a: this.scrollspeed / 800,
         });
 
 //        this.physics.change_v(this.scrollspeed*5); // initial speed above: 5
@@ -202,10 +205,12 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         ec.on("touchend", (e)=>{
             this.physics.engage(100);
+            console.log("touchend", e.changedTouches);
 
             if(!touchscrolled){
                 // touch-"clicked" something
                 let touch = e.changedTouches[0];
+                console.log("touch scrolled", touch);
                 on_click.call(
                     this,
                     touch.clientX * constants.SCALE_FACTOR,
