@@ -51,6 +51,7 @@ async function bg_load_by_name(name){
             console.warn("Detected Safari browser. createImageBitmap() unsupported.");
             throw Error();
         }
+        console.log("Use createImageBitmap() to accelerate.");
         loaded_images[name] = await createImageBitmap(newimage);
     } catch(e){
         loaded_images[name] = newimage;

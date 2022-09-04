@@ -94,7 +94,6 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         this.delta_y0 = 0;
         this.delta_y0_scroll = false;
-        this.autoscroll = true;
     }
 
     async init(){
@@ -147,13 +146,11 @@ class ChoiceMenuCanvasController extends CanvasController {
 
     animation_frame(t, dt){
         // automatical scroll
-        if(this.autoscroll){
-            this.physics.calculate(dt);
-        }
+        this.physics.calculate(dt);
         // add displacements due to scroll events:
-        this.physics.add_y(-this.delta_y0_scroll);
+        //this.physics.add_y(-this.delta_y0_scroll);
         this.delta_y0 = -this.physics.y;
-        this.delta_y0_scroll = 0;
+        //this.delta_y0_scroll = 0;
 
         // clear whole canvas
         this.ctx_clearall();
@@ -194,8 +191,9 @@ class ChoiceMenuCanvasController extends CanvasController {
         let touch_lasty = 0;
         let touch_last_time = null;
         ec.on("touchstart", (e)=>{
+            this.physics.disengage();
+
             touch_last_time = new Date().getTime();
-            this.autoscroll = false;
             touchscrolled = false;
             this.delta_y0_scroll = 0;
             touch_lasty = e.changedTouches[0].clientY;
@@ -203,7 +201,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
-            this.autoscroll = true;
+            this.physics.engage();
 
             if(!touchscrolled){
                 // touch-"clicked" something
@@ -220,25 +218,17 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchmove", (e)=>{
-            if(this.autoscroll) return;
+            if(!this.physics.disengaged) return;
+
             touchscrolled = true;
+            const current_y = e.changedTouches[0].clientY;
 
-            const currenty = e.changedTouches[0].clientY;
-
-            if(touch_last_time != null){
-                const dt = new Date().getTime() - touch_last_time;
-                if(dt > 0){
-                    const v = (currenty - touch_lasty) * 
-                        constants.SCALE_FACTOR / dt;
-                    if(!isNaN(v)){
-                        this.physics.change_v(-v);
-                    }
-                }
+            let delta = (current_y - touch_lasty) * constants.SCALE_FACTOR;
+            if(!isNaN(delta)){
+                this.physics.add_y(-delta);
             }
-            touch_last_time = new Date().getTime();
 
-            this.delta_y0_scroll += (currenty - touch_lasty) * constants.SCALE_FACTOR;
-            touch_lasty = currenty;
+            touch_lasty = current_y;
             e.preventDefault();
         });
         
