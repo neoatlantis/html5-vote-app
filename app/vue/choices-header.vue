@@ -18,7 +18,7 @@
             <circle cx="1115" cy="215" r="42" fill="transparent" stroke="transparent" v-on:touchend="on_basket_toggle"/>
         </svg>
 
-        <input id="add-item-input" v-model="additional" type="text" placeholder="手动添加更多成就"/>
+        <!--<input id="add-item-input" v-model="additional" type="text" placeholder="手动添加更多成就"/>-->
     </div>
 </template>
 <script>
@@ -45,10 +45,10 @@ export default {
     } },
 
     methods: {
-        on_submit_click: function(){
+        /*on_submit_click: function(){
             console.log("manual add", this.additional);
             this.$emit("submit", this.additional);
-        },
+        },*/
 
         on_basket_toggle: function(){
             this.$emit("toggle-basket");

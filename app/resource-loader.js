@@ -18,9 +18,9 @@ const images = {
     "countries-flags": "./images/countries-flags.png",
     "countries-glow": "./images/countries-glow.png",
 
-    "header": "./images/options_header.svg",
+    "header": "./images/options_header.png",
     "donebutton": "./images/donebutton.png",
-    "donebutton-down": "./images/donebutton_pressed.png",
+    "donebutton-down": "./images/donebutton-pressed.png",
 
     "share_flags": "./images/05-share/flags.png",
     "share_badge": "./images/05-share/badge.png",

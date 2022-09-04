@@ -71,7 +71,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         // button ref: horizontal: right, vertical: middle
-        this.button_ref_x = this.canvas.width * 0.963;
+        this.button_ref_x = this.canvas.width * 0.9685;
         this.button_ref_y = this.canvas.height * 0.875;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.25;
         this.button = new CanvasButton({
@@ -125,8 +125,8 @@ class ChoiceMenuCanvasController extends CanvasController {
         const scroll_height = this.images["scroll"].height * scroll_f;
         this.ctx.drawImage(
             this.images["scroll"],
-            this.canvas.width * 0.963 - scroll_width,
-            this.canvas.height / 2 - scroll_height / 2,
+            this.canvas.width * constants.MENU_CHOICES_SCROLL_X_W - scroll_width,
+            this.canvas.height* constants.MENU_CHOICES_SCROLL_Y_H - scroll_height / 2,
             scroll_width,
             scroll_height
         );
