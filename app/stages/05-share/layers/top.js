@@ -3,7 +3,7 @@ import { countries as COUNTRIES, countries_ordered as COUNTRIES_ORDERED } from "
 
 
 const FLAGS_PER_ROW = 5;
-const OPTIONS_PER_ROW = 4;
+const CHOICES_PER_ROW = 4;
 
 
 class TopLayer {
@@ -11,14 +11,14 @@ class TopLayer {
     constructor({
         canvas,
         images,
-        options,
+        choices,
         countries,
     }){
 
 
         this.canvas = canvas;
 
-        this.options = Array.from(Array(20).keys());
+        this.choices = choices || [];
 
         if(countries){
             this.countries = countries.map((e)=>e.replace(/[^a-z]/gi, ""));
@@ -26,8 +26,11 @@ class TopLayer {
             this.countries = [];
         }
 
+        this.show_choices = this.choices.length > 0;
+        this.show_countries = this.countries.length > 0;
+
         this.image_flags   = images["flags"];
-        this.image_options = images["options"];
+        this.image_choices = images["options"];
         this.image_header = images["top_header"];
         this.image_footer = images["top_footer"];
 
@@ -55,15 +58,20 @@ class TopLayer {
         this.y_heights = [
             ["header", this.dh_header],
             ["gap0", canvas.width*0.5864 - this.dh_header],
-            ["achievements", canvas.width * 0.0457],
-            ["gap1/1", this.gap1_height]
         ];
-        this.y_heights.push(["options", this.get_options_height()]);
-        this.y_heights.push(["gap2/2", this.gap2_height]);
-        this.y_heights.push(["countries", canvas.width * 0.0457]);
-        this.y_heights.push(["gap3/1", this.gap1_height]);
-        this.y_heights.push(["flags", this.get_flags_height()]);
-        this.y_heights.push(["gap4/2", this.gap2_height]);
+
+        if(this.show_choices){
+            this.y_heights.push(["achievements", canvas.width * 0.0457]);
+            this.y_heights.push(["gap1/1", this.gap1_height]);
+            this.y_heights.push(["choices", this.get_choices_height()]);
+            this.y_heights.push(["gap2/2", this.gap2_height]);
+        }
+        if(this.show_countries){
+            this.y_heights.push(["countries", canvas.width * 0.0457]);
+            this.y_heights.push(["gap3/1", this.gap1_height]);
+            this.y_heights.push(["flags", this.get_flags_height()]);
+            this.y_heights.push(["gap4/2", this.gap2_height]);
+        }
         this.y_heights.push(["footer", this.dh_footer]);
 
         this.total_height = this.y_heights.reduce(
@@ -87,44 +95,44 @@ class TopLayer {
         return this.total_height;
     }
 
-    get_options_height(){
+    get_choices_height(){
         // option zone size calc begin
-        this.option_source_tile_size = constants.RESOURCE_ICON_TILE_SIZE;
-        this.option_target_tile_size = this.canvas.width * 0.2213;
+        this.choice_source_tile_size = constants.RESOURCE_ICON_TILE_SIZE;
+        this.choice_target_tile_size = this.canvas.width * 0.2213;
 
-        this.option_row_height = this.canvas.width * 0.2343;
-        this.option_row0_offset = this.get_element_offset("options"); //0.7324 * this.canvas.width - 0.5 * this.option_target_tile_size; //       this.dh_header + this.option_row_height / 2;
-        this.option_col_width = this.canvas.width * 0.2013;
-        this.option_col0_offset = 0.1477 * this.canvas.width - 0.5 * this.option_target_tile_size;
-        this.option_col_x_offset = this.option_col_width / 2;
-        this.option_rows = Math.ceil(this.options.length / OPTIONS_PER_ROW);
+        this.choice_row_height = this.canvas.width * 0.2343;
+        this.choice_row0_offset = this.get_element_offset("choices"); //0.7324 * this.canvas.width - 0.5 * this.choice_target_tile_size; //       this.dh_header + this.choice_row_height / 2;
+        this.choice_col_width = this.canvas.width * 0.2013;
+        this.choice_col0_offset = 0.1477 * this.canvas.width - 0.5 * this.choice_target_tile_size;
+        this.choice_col_x_offset = this.choice_col_width / 2;
+        this.choice_rows = Math.ceil(this.choices.length / CHOICES_PER_ROW);
 
-        return this.option_rows * this.option_row_height;
+        return this.choice_rows * this.choice_row_height;
     }
 
-    paste_option({ ctx, image_id, row, col }){
+    paste_choice({ ctx, image_id, row, col }){
         // Standard position in source canvas
-        let sx = Math.floor(image_id / 10) * this.option_source_tile_size;
-        let sy = (image_id % 10) * this.option_source_tile_size;
+        let sx = Math.floor(image_id / 10) * this.choice_source_tile_size;
+        let sy = (image_id % 10) * this.choice_source_tile_size;
 
         // dx, dy on target pic
-        let dy = this.option_row0_offset + row * this.option_row_height;
-        let dx = this.option_col0_offset + col * this.option_col_width;
+        let dy = this.choice_row0_offset + row * this.choice_row_height;
+        let dx = this.choice_col0_offset + col * this.choice_col_width;
 
         if(row % 2 != 0){
-            dx += this.option_col_x_offset;
+            dx += this.choice_col_x_offset;
         }
 
         ctx.drawImage(
-            this.image_options,
+            this.image_choices,
             sx,
             sy,
-            this.option_source_tile_size,
-            this.option_source_tile_size,
+            this.choice_source_tile_size,
+            this.choice_source_tile_size,
             dx,
             dy,
-            this.option_target_tile_size,
-            this.option_target_tile_size
+            this.choice_target_tile_size,
+            this.choice_target_tile_size
         );
     }
 
@@ -197,34 +205,38 @@ class TopLayer {
             this.get_element_height("header"),
         );
 
-        ctx.fillText(
-            `我取得了${this.options.length}个成就`,
-            this.canvas.width * 0.0565,
-            this.get_element_offset("achievements")
-        );
+        if(this.show_choices){
+            ctx.fillText(
+                `我取得了${this.choices.length}个成就`,
+                this.canvas.width * 0.0565,
+                this.get_element_offset("achievements")
+            );
 
-        for(let i=0; i<this.options.length; i++){
-            this.paste_option({
-                ctx,
-                image_id: this.options[i],
-                row: Math.floor(i / OPTIONS_PER_ROW),
-                col: i % OPTIONS_PER_ROW
-            });
+            for(let i=0; i<this.choices.length; i++){
+                this.paste_choice({
+                    ctx,
+                    image_id: this.choices[i],
+                    row: Math.floor(i / CHOICES_PER_ROW),
+                    col: i % CHOICES_PER_ROW
+                });
+            }
         }
 
-        ctx.fillText(
-            `我去过${this.countries.length}个国家`,
-            this.canvas.width * 0.0565,
-            this.get_element_offset("countries")
-        );
+        if(this.show_countries){
+            ctx.fillText(
+                `我去过${this.countries.length}个国家`,
+                this.canvas.width * 0.0565,
+                this.get_element_offset("countries")
+            );
 
-        for(let i=0; i<this.countries.length; i++){
-            this.paste_flag({
-                ctx,
-                country_name: this.countries[i],
-                row: Math.floor(i / FLAGS_PER_ROW),
-                col: i % FLAGS_PER_ROW
-            });
+            for(let i=0; i<this.countries.length; i++){
+                this.paste_flag({
+                    ctx,
+                    country_name: this.countries[i],
+                    row: Math.floor(i / FLAGS_PER_ROW),
+                    col: i % FLAGS_PER_ROW
+                });
+            }
         }
 
         ctx.drawImage(

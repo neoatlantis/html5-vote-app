@@ -38,6 +38,7 @@ function on_selection_changed(selected_ids){
     let selected_choices = choices
         .filter((e)=>selected_ids.indexOf(e.id) >= 0);
     app.selected_choices = selected_choices;
+    result_choices = selected_choices.map((e)=>e.id);
 }
 
 function on_intro_done(){

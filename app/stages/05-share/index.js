@@ -40,7 +40,9 @@ async function interaction({
     setup_canvas({canvas, height: 1});
     
     const layer_top = new TopLayer({
-        canvas, images, countries: result_countries
+        canvas, images,
+        countries: result_countries,
+        choices: result_choices,
     });
 
     const total_height = layer_top.get_height();
