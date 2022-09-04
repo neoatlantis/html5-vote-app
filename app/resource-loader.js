@@ -128,6 +128,7 @@ async function get_font(font_name, url){
 }
 
 get_font("font_main", "./data/main_font.ttf");
+get_font("font_name", "./data/name_font.ttf");
 
 
 export {

@@ -13,11 +13,13 @@ class TopLayer {
         images,
         choices,
         countries,
+        username,
     }){
 
 
         this.canvas = canvas;
 
+        this.username = username;
         this.choices = choices || [];
 
         if(countries){
@@ -193,10 +195,10 @@ class TopLayer {
         const ctx = this.canvas.getContext("2d");
 
         const desc_font_size = this.canvas.width * 0.0457;
-        ctx.font = `${desc_font_size}px font_main`;
-        ctx.fillStyle = "#191654";
-        
+        const score_font_size = this.canvas.width * 0.1552;
+        const name_font_size = this.canvas.width * 0.0671;
 
+        
         ctx.drawImage(
             this.image_header,
             0, // dx
@@ -204,6 +206,11 @@ class TopLayer {
             this.canvas.width,
             this.get_element_height("header"),
         );
+
+        ctx.font = `${desc_font_size}px font_main`;
+        ctx.fillStyle = "#191654";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
 
         if(this.show_choices){
             ctx.fillText(
@@ -238,6 +245,27 @@ class TopLayer {
                 });
             }
         }
+
+
+        ctx.font = `${score_font_size}px font_main`;
+        ctx.fillStyle = "#cb779e";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.fillText(
+            "100",
+            this.canvas.width * 0.7296,
+            this.canvas.width * 0.2834
+        );
+
+        ctx.font = `${name_font_size}px font_name`;
+        ctx.fillStyle = "#191654";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(
+            this.username,
+            this.canvas.width * 0.7290,
+            this.canvas.width * 0.2245
+        );
 
         ctx.drawImage(
             this.image_footer,

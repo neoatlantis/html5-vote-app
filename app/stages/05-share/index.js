@@ -36,6 +36,7 @@ async function interaction({
     };
 
     await get_font("font_main", "./data/main_font.ttf");
+    await get_font("font_name", "./data/name_font.ttf");
 
     setup_canvas({canvas, height: 1});
     
@@ -43,6 +44,7 @@ async function interaction({
         canvas, images,
         countries: result_countries,
         choices: result_choices,
+        username: app.username,
     });
 
     const total_height = layer_top.get_height();

@@ -56,10 +56,6 @@ function on_countries_done(e){
     result_countries = e;
 }
 
-function on_name_set(){
-    app.name_done = true;    
-}
-
 
 async function init(){
     document.getElementById("app").style.display = "block";
@@ -104,7 +100,6 @@ async function init(){
     await stage_name.interaction({
         canvas,
         bgcontroller,
-        callback: on_name_set,
         app,
     });
 
