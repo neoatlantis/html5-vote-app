@@ -209,7 +209,7 @@ class TopLayer {
 
         ctx.font = `${desc_font_size}px font_main`;
         ctx.fillStyle = "#191654";
-        ctx.textAlign = "center";
+        ctx.textAlign = "left";
         ctx.textBaseline = "bottom";
 
         if(this.show_choices){
@@ -246,13 +246,14 @@ class TopLayer {
             }
         }
 
+        let level = this.choices.length + this.countries.length + 1;
 
         ctx.font = `${score_font_size}px font_main`;
         ctx.fillStyle = "#cb779e";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.fillText(
-            "100",
+            level,
             this.canvas.width * 0.7296,
             this.canvas.width * 0.2834
         );
