@@ -201,7 +201,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
-            this.physics.engage();
+            this.physics.engage(100);
 
             if(!touchscrolled){
                 // touch-"clicked" something
