@@ -28,10 +28,10 @@ import { images } from "app/resource-loader.js";
 function fix_header(comp){
     const el_h = document.getElementById("choices-header");
     const el_bg = document.getElementById("choices-header-bg");
-    const el_i = document.getElementById("add-item-input");
+    //const el_i = document.getElementById("add-item-input");
     const h = el_bg.getBoundingClientRect().height;
     el_h.style["height"] = `${h}px`;
-    el_i.style["font-size"] = `${h*0.15}px`;
+    //el_i.style["font-size"] = `${h*0.15}px`;
     comp.height = h;
 }
 
