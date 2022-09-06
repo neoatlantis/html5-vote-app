@@ -194,6 +194,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         let touch_lasty = 0;
         let touch_last_time = null;
         ec.on("touchstart", (e)=>{
+            console.log("touchstart", e);
             this.physics.disengage();
 
             touch_last_time = new Date().getTime();
@@ -204,13 +205,13 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
-            this.physics.engage(100);
             console.log("touchend", e.changedTouches);
+            this.physics.engage(100);
 
             if(!touchscrolled){
                 // touch-"clicked" something
                 let touch = e.changedTouches[0];
-                console.log("touch scrolled", touch);
+                console.log("touch press triggered", touch);
                 on_click.call(
                     this,
                     touch.clientX * constants.SCALE_FACTOR,
@@ -223,6 +224,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchmove", (e)=>{
+            console.log("touchmove", e);
             if(!this.physics.disengaged) return;
 
             touchscrolled = true;
