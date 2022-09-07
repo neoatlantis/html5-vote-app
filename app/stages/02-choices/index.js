@@ -206,7 +206,6 @@ class ChoiceMenuCanvasController extends CanvasController {
                 );
             }
 
-            this.delta_y0_scroll = 0;
             e.preventDefault();
         });
 
@@ -214,16 +213,6 @@ class ChoiceMenuCanvasController extends CanvasController {
             console.log("touchend", e.changedTouches);
             this.physics.engage(100);
 
-            /*if(!touchscrolled){
-                // touch-"clicked" something
-                let touch = e.changedTouches[0];
-                console.log("touch press triggered", touch);
-                on_click.call(
-                    this,
-                    touch.clientX * constants.SCALE_FACTOR,
-                    touch.clientY * constants.SCALE_FACTOR
-                );
-            }*/
             if(!touch_tracker) return;
             for(let i =0; i<e.changedTouches.length; i++){
                 let t = e.changedTouches[i];

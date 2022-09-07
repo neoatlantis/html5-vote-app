@@ -154,7 +154,7 @@ class CountriesMenuCanvasController extends CanvasController {
             }
         }
 
-        let touchscrolled = false;
+        /*let touchscrolled = false;
         let touch_lastx = 0;
         ec.on("touchstart", (e)=>{
             touchscrolled = false;
@@ -184,6 +184,66 @@ class CountriesMenuCanvasController extends CanvasController {
             this._drag_map((currentx - touch_lastx) * constants.SCALE_FACTOR);
             
             touch_lastx = currentx;
+            e.preventDefault();
+        });*/
+
+
+        let touch_tracker = null;
+
+        ec.on("touchstart", (e)=>{
+            console.log("touchstart", e);
+            
+            touch_tracker = new utils.CanvasGestureTracker();
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                touch_tracker.register_down(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+            }
+
+            e.preventDefault();
+        });
+
+        ec.on("touchend", (e)=>{
+            console.log("touchend", e.changedTouches);
+            if(!touch_tracker) return;
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                touch_tracker.register_up(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+            };
+
+            let { duration, distance, delta_t } = touch_tracker.result();
+            let touch = e.changedTouches[0];
+
+            if(Math.abs(distance / this.canvas.width) < 0.05){
+                console.log("touch press triggered");
+                on_click.call(
+                    this,
+                    touch.clientX * constants.SCALE_FACTOR,
+                    touch.clientY * constants.SCALE_FACTOR
+                );
+            }
+
+            touch_tracker = null;
+            e.preventDefault();
+        });
+
+        ec.on("touchmove", (e)=>{
+            console.log("touchmove", e);
+            if(!touch_tracker) return;
+
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                let { delta_x, delta_y, delta_t } = touch_tracker.register_move(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+                this._drag_map(-delta_x);
+            };
             e.preventDefault();
         });
         
