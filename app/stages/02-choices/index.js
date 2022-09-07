@@ -190,17 +190,23 @@ class ChoiceMenuCanvasController extends CanvasController {
             }
         }
 
-        let touchscrolled = false;
-        let touch_lasty = 0;
-        let touch_last_time = null;
+        
+        let touch_tracker = null;
+
         ec.on("touchstart", (e)=>{
             console.log("touchstart", e);
             this.physics.disengage();
 
-            touch_last_time = new Date().getTime();
-            touchscrolled = false;
+            touch_tracker = new utils.CanvasGestureTracker();
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                touch_tracker.register_down(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+            }
+
             this.delta_y0_scroll = 0;
-            touch_lasty = e.changedTouches[0].clientY;
             e.preventDefault();
         });
 
@@ -208,7 +214,7 @@ class ChoiceMenuCanvasController extends CanvasController {
             console.log("touchend", e.changedTouches);
             this.physics.engage(100);
 
-            if(!touchscrolled){
+            /*if(!touchscrolled){
                 // touch-"clicked" something
                 let touch = e.changedTouches[0];
                 console.log("touch press triggered", touch);
@@ -217,25 +223,45 @@ class ChoiceMenuCanvasController extends CanvasController {
                     touch.clientX * constants.SCALE_FACTOR,
                     touch.clientY * constants.SCALE_FACTOR
                 );
+            }*/
+            if(!touch_tracker) return;
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                touch_tracker.register_up(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+            };
+
+            let { duration, distance, delta_t } = touch_tracker.result();
+            let touch = e.changedTouches[0];
+
+            if(Math.abs(distance / this.canvas.width) < 0.05){
+                console.log("touch press triggered");
+                on_click.call(
+                    this,
+                    touch.clientX * constants.SCALE_FACTOR,
+                    touch.clientY * constants.SCALE_FACTOR
+                );
             }
 
-            this.delta_y0_scroll = 0;
+            touch_tracker = null;
             e.preventDefault();
         });
 
         ec.on("touchmove", (e)=>{
             console.log("touchmove", e);
             if(!this.physics.disengaged) return;
+            if(!touch_tracker) return;
 
-            touchscrolled = true;
-            const current_y = e.changedTouches[0].clientY;
-
-            let delta = (current_y - touch_lasty) * constants.SCALE_FACTOR;
-            if(!isNaN(delta)){
-                this.physics.add_y(-delta);
-            }
-
-            touch_lasty = current_y;
+            for(let i =0; i<e.changedTouches.length; i++){
+                let t = e.changedTouches[i];
+                let { delta_x, delta_y, delta_t } = touch_tracker.register_move(
+                    t.clientX * constants.SCALE_FACTOR,
+                    t.clientY * constants.SCALE_FACTOR
+                );
+                this.physics.add_y(delta_y)
+            };
             e.preventDefault();
         });
         

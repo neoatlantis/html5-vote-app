@@ -2,6 +2,7 @@ import constants    from "app/constants.js";
 import setup_canvas from "./canvasinit.js";
 import math         from "./fastmath.js";
 import compatibility    from "./compatibility.js";
+import CanvasGestureTracker from "./gesture";
 
 // https://blog.openreplay.com/forever-functional-waiting-with-promises
 const until = (fn, time = 1000) => {
@@ -36,4 +37,7 @@ function random_range( min, max ) {
 
 
 
-export default { setup_canvas, until, random_range, math, compatibility };
+export default {
+    setup_canvas, until, random_range, math, compatibility,
+    CanvasGestureTracker,
+};
