@@ -15,18 +15,16 @@ class Stage2AutoRoller {
      */
 
 
-    constructor({ y_upper, y_lower, y, speed, speed2_a, speed2=0.1 }){
+    constructor({ y_upper, y_lower, y, speed }){
         this.y_upper = y_upper;
         this.y_lower = y_lower;
         this.speed = speed;
         this.flying = false; // if flying back to valid range
         this.disengaged = false; // if true, no auto scroll
         this.new_engage = false;
-        this.speed2_a = speed2_a;
 
         if(y === undefined) y = y_lower;
         this.y = y;
-        this.speed2 = speed2;
     }
 
     disengage(){
@@ -59,18 +57,6 @@ class Stage2AutoRoller {
     calculate(dt){
         if(this.disengaged) return;
 
-        if(this.speed2 != null){
-            let sig0 = Math.sign(this.speed2);
-            this.y += dt * this.speed2;
-            this.speed2 -= sig0 * Math.abs(this.speed2_a) * dt;
-            if(sig0 != Math.sign(this.speed2)){
-                this.speed2 = null;
-            }
-            return;
-        } else {
-            this.speed2 = null;
-        }
-
         const {
             out_of_border, 
             at_lower_border,
@@ -91,7 +77,12 @@ class Stage2AutoRoller {
             if(below_lower_border){
                 distance = this.y_lower - this.y
             }
-            this.y += distance * (1-Math.pow(2, -dt/500));
+            let nextdelta = distance * (1-Math.pow(2, -dt/200));
+            if(Math.abs(nextdelta / dt) < 0.25 * this.speed){
+                this.flying = false;
+                return;
+            }
+            this.y += nextdelta;
         } else {
             if(
                 (beyond_upper_border || below_lower_border) &&

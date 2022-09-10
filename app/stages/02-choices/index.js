@@ -87,9 +87,8 @@ class ChoiceMenuCanvasController extends CanvasController {
             y_lower: -canvas.height / 2,
             y_upper: this.row_height * this.options_instances.length - canvas.height / 2,
             speed: this.scrollspeed,
-            y: -canvas.height * 0.75,
+            y: -canvas.height /2,
             speed2: this.scrollspeed * 10, 
-            speed2_a: this.scrollspeed / 800,
         });
 
 //        this.physics.change_v(this.scrollspeed*5); // initial speed above: 5
@@ -194,7 +193,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         let touch_tracker = null;
 
         ec.on("touchstart", (e)=>{
-            console.log("touchstart", e);
+//            console.log("touchstart", e);
             this.physics.disengage();
 
             touch_tracker = new utils.CanvasGestureTracker();
@@ -210,7 +209,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
-            console.log("touchend", e.changedTouches);
+//            console.log("touchend", e.changedTouches);
             this.physics.engage(100);
 
             if(!touch_tracker) return;
@@ -226,7 +225,7 @@ class ChoiceMenuCanvasController extends CanvasController {
             let touch = e.changedTouches[0];
 
             if(Math.abs(distance / this.canvas.width) < 0.05){
-                console.log("touch press triggered");
+//                console.log("touch press triggered");
                 on_click.call(
                     this,
                     touch.clientX * constants.SCALE_FACTOR,
@@ -239,7 +238,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchmove", (e)=>{
-            console.log("touchmove", e);
+//            console.log("touchmove", e);
             if(!this.physics.disengaged) return;
             if(!touch_tracker) return;
 
