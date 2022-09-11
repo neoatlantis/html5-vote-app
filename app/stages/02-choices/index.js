@@ -99,9 +99,9 @@ class ChoiceMenuCanvasController extends CanvasController {
     }
 
     async init(){
-        for(let o of this.options_instances){
+        /*for(let o of this.options_instances){
             await o.init();
-        }
+        }*/
     }
 
     _draw_bg(){
@@ -304,7 +304,7 @@ async function interaction({
         callback,
         callback_done,
     });
-    await canvascontrol.init();
+    //await canvascontrol.init();
     console.log("#2");
     canvascontrol.start_animation();
 
@@ -318,6 +318,7 @@ async function interaction({
 
     console.log("#3");
     await utils.until(()=>app.choices_done === true);
+    console.log("#4");
 
     bgcontroller.scroll_to_stage(2);
     await canvascontrol.destroy();

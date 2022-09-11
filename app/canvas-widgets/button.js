@@ -66,6 +66,7 @@ class CanvasButton extends events.EventEmitter {
 
             if(this.is_within_area(x, y) && was_hold_down){
                 this.emit("pressed", e);
+                e.stopPropagation();
             }
         });
     }

@@ -36,6 +36,8 @@ class CanvasBackgroundController{
         this.animating_step = (n-this.current_n) * this.unit_height / this.animating_duration;
         this.animating_target_y = n * this.unit_height;
         this.current_n = n;
+
+        console.log("bg scroll args:", this.animating_offset, this.animating_step, this.animating_target_y, this.current_n);
     }
 
     get_y(){
@@ -47,6 +49,7 @@ class CanvasBackgroundController{
         this.animating_elapsed = now - this.animating_offset;
         if(this.animating_elapsed < this.animating_duration){
             // animating
+            //console.log("bg animating");
             return this.src_y_offset + this.animating_elapsed * this.animating_step;
         }
         // done with animating

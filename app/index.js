@@ -1,6 +1,9 @@
 /// #if DEV
 import eruda from "eruda";
 eruda.init();
+
+console._log = console.log;
+console.log = (a,b,c,d,e,f,g)=>console._log(`${Math.round(performance.now())}`, a,b,c,d,e,f,g);
 /// #endif
 
 

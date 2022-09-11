@@ -5,6 +5,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+@font-face { font-family: "ingress_font"; src: url(./data/ingress_font.ttf); }
+
 body{
     padding: 0px;
     margin: 0px;
@@ -13,6 +15,7 @@ body{
     scrollbar-width: none;  /* Firefox */
     scroll-behavior: smooth;
 }
+
 input:focus { outline: none }
 #options{
     background: linear-gradient(180deg, #9794f0, #fac7d4);
@@ -46,8 +49,8 @@ input:focus { outline: none }
     font: 30px sans;
 }
 #choices-header-svg .big {  
-    font: bold 115px sans-serif;
-    fill: #e37373;
+    font: bold 115px "ingress_font";
+    fill: #e57373;
 }
 #footer-btn-done{
     display:flex;
