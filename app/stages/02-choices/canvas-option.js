@@ -1,10 +1,11 @@
 import constants    from "app/constants.js";
 import utils        from "app/utils";
+const events = require("events");
 
 const math = utils.math;
 
 
-class CanvasOption{
+class CanvasOption extends events.EventEmitter{
     /*
      *      |<--size-->|
      *      +----------+----------+----------+ --|
@@ -32,6 +33,8 @@ class CanvasOption{
         canvas_height,
         canvas_width,
     }){
+        super();
+
         this.app = app;
 
         this.choice_id = choice_id;
@@ -164,6 +167,7 @@ class CanvasOption{
             this.choosen = !this.choosen;
             if(this.choosen){
                 this.animating_to_origin = true;
+                this.emit("choosen");
             } else {
                 this.osc_reset();
             }

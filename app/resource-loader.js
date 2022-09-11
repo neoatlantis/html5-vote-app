@@ -9,6 +9,7 @@ const images = {
     "introbutton-down": "./images/introbutton_pressed.png",
     "slogan": "./images/slogan.png",
     "stars": "./images/stars.png",
+    "hint": "./images/hint.png",
     "glow": "./images/glow.png",
     "hex-bold": "./images/hex-bold.png",
     "hex-thin": "./images/hex-thin.png",

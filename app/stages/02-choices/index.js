@@ -7,6 +7,7 @@ import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasOption from "./canvas-option.js";
 import Stage2AutoRoller from "./physics.js";
+import Hint         from "./hint.js";
 
 import { get_image } from "app/resource-loader.js";
 
@@ -41,6 +42,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 
     constructor({app, canvas, images, bgcontroller, callback, callback_done}){
         super(canvas);
+        const self = this;
 
         this.app = app;
 
@@ -53,8 +55,13 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         this.row_height = canvas.width * constants.MENU_CHOICE_ROW_HEIGHT;
 
+        this.hint = new Hint({
+            image: images["hint"],
+            canvas,
+        });
+
         this.options_instances = choices.map((choice, choice_i)=>{
-            return new CanvasOption({
+            let ret = new CanvasOption({
                 app,
                 choice_id: choice.id,
                 text: choice.text,
@@ -68,6 +75,11 @@ class ChoiceMenuCanvasController extends CanvasController {
                 canvas_height: this.canvas.height,
                 canvas_width: this.canvas.width,
             });
+
+            ret.once("choosen", ()=>{
+                this.hint.start();
+            });
+            return ret;
         });
 
         // button ref: horizontal: right, vertical: middle
@@ -163,6 +175,9 @@ class ChoiceMenuCanvasController extends CanvasController {
             oi.next({ delta_y0: this.delta_y0, t, dt });
         });
         this.ctx_reset_filter();
+
+        // draw hint
+        this.hint.draw(t, dt);
 
         //draw button
         this.button.draw(this.ctx);
@@ -288,6 +303,7 @@ async function interaction({
     app
 }){
     const images = {
+        "hint": await get_image("hint"),
         "options": await get_image("options"),
         "scroll": await get_image("scroll"),
         "button": await get_image("donebutton"),

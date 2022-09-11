@@ -203,7 +203,7 @@ class CountriesMenuCanvasController extends CanvasController {
         let touch_tracker = null;
 
         ec.on("touchstart", (e)=>{
-            console.log("touchstart", e);
+//            console.log("touchstart", e);
             
             touch_tracker = new utils.CanvasGestureTracker();
             for(let i =0; i<e.changedTouches.length; i++){
@@ -218,7 +218,7 @@ class CountriesMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
-            console.log("touchend", e.changedTouches);
+//            console.log("touchend", e.changedTouches);
             if(!touch_tracker) return;
             for(let i =0; i<e.changedTouches.length; i++){
                 let t = e.changedTouches[i];
@@ -245,7 +245,7 @@ class CountriesMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchmove", (e)=>{
-            console.log("touchmove", e);
+//            console.log("touchmove", e);
             if(!touch_tracker) return;
 
             for(let i =0; i<e.changedTouches.length; i++){
