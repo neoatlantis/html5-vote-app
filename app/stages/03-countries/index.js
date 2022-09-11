@@ -67,8 +67,8 @@ class CountriesMenuCanvasController extends CanvasController {
         // Calculate alpha used for country map background, and foreground
         if(undefined === this.alpha_t_count) this.alpha_t_count = 0;
 
-        const COUNTRY_MAP_TRANSITION_T = 2000;
-        const FOREGROUND_TRANSITION_T =  800;
+        const COUNTRY_MAP_TRANSITION_T = constants.BACKGROUND_SWITCH_DURATION;
+        const FOREGROUND_TRANSITION_T =  500;
 
         let t1 = COUNTRY_MAP_TRANSITION_T,
             t2 = COUNTRY_MAP_TRANSITION_T + FOREGROUND_TRANSITION_T;
@@ -76,11 +76,16 @@ class CountriesMenuCanvasController extends CanvasController {
 
         this.alpha_t_count += dt;
 
-        //console.log("t1, t2", t1, t2, t);
+        /*
         if(t <= t1){
             return { map_alpha: t / t1, widget_alpha: 0 };
         } else if (t <= t2){
             return { map_alpha: 1, widget_alpha: (t - t1) / (t2 - t1) };
+        } else {
+            return { map_alpha: 1, widget_alpha: 1};
+        }*/
+        if(t <= t1){
+            return { map_alpha: t / t1, widget_alpha: t / t1 };
         } else {
             return { map_alpha: 1, widget_alpha: 1};
         }
@@ -184,40 +189,6 @@ class CountriesMenuCanvasController extends CanvasController {
             } catch(e){
             }
         }
-
-        /*let touchscrolled = false;
-        let touch_lastx = 0;
-        ec.on("touchstart", (e)=>{
-            touchscrolled = false;
-            touch_lastx = e.changedTouches[0].clientX;
-            e.preventDefault();
-        });
-
-        ec.on("touchend", (e)=>{
-
-            if(!touchscrolled){
-                // touch-"clicked" something
-                let touch = e.changedTouches[0];
-                on_click.call(
-                    this,
-                    touch.clientX * constants.SCALE_FACTOR,
-                    touch.clientY * constants.SCALE_FACTOR
-                );
-            }
-
-            e.preventDefault();
-        });
-
-        ec.on("touchmove", (e)=>{
-            touchscrolled = true;
-            const currentx = e.changedTouches[0].clientX;
-            
-            this._drag_map((currentx - touch_lastx) * constants.SCALE_FACTOR);
-            
-            touch_lastx = currentx;
-            e.preventDefault();
-        });*/
-
 
         let touch_tracker = null;
 
