@@ -55,7 +55,7 @@ class IntroCanvasController extends CanvasController {
         });
 
         const self = this;
-        function add_firework(){
+/*        function add_firework(){
             self.fwcontroller.add_firework(
                 utils.random_range(0, self.canvas.width),
                 utils.random_range(0, self.canvas.height)
@@ -64,10 +64,10 @@ class IntroCanvasController extends CanvasController {
                 setTimeout(add_firework, utils.random_range(100, 1000));
             }
         }
-        add_firework();
+        add_firework();*/
     }
 
-    _draw_bg(){
+    _draw_bg({ stars_alpha= 1.0 }){
         const stars = this.images["stars"];
         this.ctx.drawImage(
             this.bgcontroller.bgimg,
@@ -80,6 +80,7 @@ class IntroCanvasController extends CanvasController {
             this.canvas.width,
             this.canvas.height
         );
+        this.ctx.globalAlpha = stars_alpha;
         this.ctx.drawImage(
             stars,
             0, // dx
@@ -87,22 +88,20 @@ class IntroCanvasController extends CanvasController {
             this.canvas.width,
             this.canvas.width/stars.width * stars.height
         );
+        this.ctx.globalAlpha = 1;
     }
 
-    exit_animation_frame(dt){
-        if(undefined === this.exit_frame_t) this.exit_frame_t = 0;
-        const Tmax = 500;
+    exit_animation_frame(t){
+        if(undefined === this.exit_frame_t0) this.exit_frame_t0 = t;
+        const elapsed_time = t - this.exit_frame_t0;
+        const Tmax = constants.BACKGROUND_SWITCH_DURATION;
 
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
-        this.ctx.globalAlpha = this.exit_frame_t / Tmax;
-        this._draw_bg();
-        this.ctx_globalAlpha = 1.0;
+        this._draw_bg({ stars_alpha: 1- elapsed_time / Tmax });
 
-        this.exit_frame_t += dt;
-//        console.warn("intro done, switching 3000ms");
-        return this.exit_frame_t < Tmax; //constants.BACKGROUND_SWITCH_DURATION;
+        return elapsed_time < constants.BACKGROUND_SWITCH_DURATION;
     }
     
 
@@ -115,7 +114,7 @@ class IntroCanvasController extends CanvasController {
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
-        this._draw_bg();
+        this._draw_bg({});
 
         this.ctx_drawImage(
             this.images["glow"],
@@ -248,7 +247,7 @@ async function interaction({
 
     await utils.until(()=>app.intro_done === true);
 
-    //bgcontroller.scroll_to_stage(1);
+    bgcontroller.scroll_to_stage(1);
     await canvascontrol.destroy();
 
 }

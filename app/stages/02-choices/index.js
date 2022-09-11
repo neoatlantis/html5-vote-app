@@ -307,7 +307,7 @@ async function interaction({
     console.log("#2");
     canvascontrol.start_animation();
 
-    bgcontroller.scroll_to_stage(1);
+    //bgcontroller.scroll_to_stage(1);
 
     /// #if DEV
     if(debugging()){
