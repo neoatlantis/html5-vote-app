@@ -48,8 +48,8 @@ class CanvasController{
 
     _play_exit_animation(){
         if(this.flag_exit_animation_done) return;
-        requestAnimationFrame(()=>{
-            if(!this.exit_animation_frame()){
+        requestAnimationFrame((dt)=>{
+            if(!this.exit_animation_frame(dt)){
                 this.flag_exit_animation_done = true;
             }
         });
@@ -93,6 +93,7 @@ class CanvasController{
         // clear whole canvas
         this.ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
         this.ctx.filter = 'none';
+        this.ctx.globalAlpha = 1.0;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

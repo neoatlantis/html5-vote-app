@@ -287,7 +287,6 @@ async function interaction({
     bgcontroller,
     app
 }){
-   
     const images = {
         "options": await get_image("options"),
         "scroll": await get_image("scroll"),
@@ -307,6 +306,8 @@ async function interaction({
     //await canvascontrol.init();
     console.log("#2");
     canvascontrol.start_animation();
+
+    bgcontroller.scroll_to_stage(1);
 
     /// #if DEV
     if(debugging()){

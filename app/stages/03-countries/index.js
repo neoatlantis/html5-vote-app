@@ -63,6 +63,29 @@ class CountriesMenuCanvasController extends CanvasController {
 
     }
 
+    _calc_alpha(dt){
+        // Calculate alpha used for country map background, and foreground
+        if(undefined === this.alpha_t_count) this.alpha_t_count = 0;
+
+        const COUNTRY_MAP_TRANSITION_T = 2000;
+        const FOREGROUND_TRANSITION_T =  800;
+
+        let t1 = COUNTRY_MAP_TRANSITION_T,
+            t2 = COUNTRY_MAP_TRANSITION_T + FOREGROUND_TRANSITION_T;
+        let t = this.alpha_t_count;
+
+        this.alpha_t_count += dt;
+
+        //console.log("t1, t2", t1, t2, t);
+        if(t <= t1){
+            return { map_alpha: t / t1, widget_alpha: 0 };
+        } else if (t <= t2){
+            return { map_alpha: 1, widget_alpha: (t - t1) / (t2 - t1) };
+        } else {
+            return { map_alpha: 1, widget_alpha: 1};
+        }
+    }
+
     _drag_map(delta){
 
         const low_bound = this.canvas.width - this.map_width;
@@ -78,7 +101,7 @@ class CountriesMenuCanvasController extends CanvasController {
 
     }
 
-    _draw_bg(){
+    _draw_bg(dt){ // bgcontroller color bar
         this.ctx.drawImage(
             this.bgcontroller.bgimg,
             0,  // sx = 0
@@ -90,7 +113,14 @@ class CountriesMenuCanvasController extends CanvasController {
             this.canvas.width,
             this.canvas.height
         ); // global background
+    }
 
+    _draw_fg(dt){
+
+        let { map_alpha, widget_alpha } = this._calc_alpha(dt); 
+
+        // draw country map
+        this.ctx.globalAlpha = map_alpha;
         this.ctx.drawImage(
             this.images["bg"],
             0, 0, this.images["bg"].width, this.images["bg"].height,
@@ -98,11 +128,10 @@ class CountriesMenuCanvasController extends CanvasController {
             0, // sy
             this.map_width,
             this.canvas.height
-        ); // stage background (countries)
-    }
+        );
 
-    _draw_fg(){
-
+        // draw country buttons
+        this.ctx.globalAlpha = widget_alpha;
         this.country_buttons.forEach((cb)=>{
             cb.draw(this.ctx);
         });
@@ -116,25 +145,27 @@ class CountriesMenuCanvasController extends CanvasController {
             this.canvas.height
         );
 
+        //draw button
+        this.button.draw(this.ctx);
+
+
+
+        this.ctx.globalAlpha = 1;
     }
 
     animation_frame(t, dt){
         // clear whole canvas
         this.ctx_clearall();
+        this.ctx_reset_filter();
         // draw bg
-        this._draw_bg();
+        this._draw_bg(dt);
         // draw each icon
         /*this.options_instances.forEach((oi)=>{
             oi.next({ delta_y0: this.delta_y0, t, dt });
         });*/
-        this.ctx_reset_filter();
+        
+        this._draw_fg(dt);
 
-        this._draw_fg();
-
-        //draw button
-        this.button.draw(this.ctx);
-        // clear header region
-//        this.ctx.clearRect(0, 0, this.canvas.width, HEADER_HEIGHT);*/
         return true;
     }
 

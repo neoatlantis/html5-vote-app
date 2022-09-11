@@ -89,15 +89,20 @@ class IntroCanvasController extends CanvasController {
         );
     }
 
-    exit_animation_frame(){
-        const elapsed_time = new Date().getTime() - this.starttime;
+    exit_animation_frame(dt){
+        if(undefined === this.exit_frame_t) this.exit_frame_t = 0;
+        const Tmax = 500;
+
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
+        this.ctx.globalAlpha = this.exit_frame_t / Tmax;
         this._draw_bg();
+        this.ctx_globalAlpha = 1.0;
 
+        this.exit_frame_t += dt;
 //        console.warn("intro done, switching 3000ms");
-        return elapsed_time < 500; //constants.BACKGROUND_SWITCH_DURATION;
+        return this.exit_frame_t < Tmax; //constants.BACKGROUND_SWITCH_DURATION;
     }
     
 
@@ -243,7 +248,7 @@ async function interaction({
 
     await utils.until(()=>app.intro_done === true);
 
-    bgcontroller.scroll_to_stage(1);
+    //bgcontroller.scroll_to_stage(1);
     await canvascontrol.destroy();
 
 }
