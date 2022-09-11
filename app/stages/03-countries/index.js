@@ -6,6 +6,7 @@ import utils         from "app/utils";
 import CanvasController from "app/canvascontrol.js";
 import CanvasButton from "app/canvas-widgets/button.js";
 import CountryButton from "./CountryButton.js";
+import SelectionLog  from "./log.js";
 
 import { get_image } from "app/resource-loader.js";
 
@@ -18,12 +19,15 @@ class CountriesMenuCanvasController extends CanvasController {
 
     constructor({canvas, images, bgcontroller, callback, callback_done}){
         super(canvas);
+        const self = this;
 
         this.canvas = canvas;
         this.images = images;
         this.bgcontroller = bgcontroller;
         this.callback = callback;
         this.callback_done = callback_done;
+
+        this.logrender = new SelectionLog({ canvas });
 
         // button ref: horizontal: right, vertical: middle
         this.button_ref_x = this.canvas.width * 0.563;
@@ -58,6 +62,9 @@ class CountriesMenuCanvasController extends CanvasController {
                 y: countries[country_name][1] * this.image_map_scale,
                 size: constants.COUNTRY_HEXAGON_SIZE * this.image_map_scale,
             });
+            country_button.on("choosen", (()=>{ return function(){
+                self.logrender.log(`去过${country_name.slice(0,-2)}`);
+            } })());
             this.country_buttons.push(country_button);
         }
 
@@ -149,6 +156,9 @@ class CountriesMenuCanvasController extends CanvasController {
             this.map_width,
             this.canvas.height
         );
+
+        // draw log
+        this.logrender.draw();
 
         //draw button
         this.button.draw(this.ctx);

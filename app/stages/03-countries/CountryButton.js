@@ -1,8 +1,9 @@
 import constants    from "app/constants.js";
+const events = require("events");
 
 
 
-class CountryButton{
+class CountryButton extends events.EventEmitter{
     /*
      *      |<--size-->|
      *      +----------+----------+----------+ --|
@@ -23,6 +24,8 @@ class CountryButton{
         size, // length of a side for a hexagon
         controller, // needed to convert from "user touch coordinate on screen" to "absolute coordinate on scaled image"
     }){
+        super();
+
         this.x0 = x;
         this.y0 = y;
         this.text = text;
@@ -89,6 +92,10 @@ class CountryButton{
     handle_click(x, y){
         if(!this.is_within_area(x, y)) return;
         this.choosen = !this.choosen;
+
+        if(this.choosen){
+            this.emit("choosen", this.text);
+        }
     }
 
 
