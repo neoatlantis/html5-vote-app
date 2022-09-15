@@ -1,7 +1,7 @@
 import debugging    from "app/debug.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
-import { get_image } from "app/resource-loader.js";
+import { get_image } from "app/resource-loader";
 
 import CanvasController from "app/canvascontrol.js";
 import FireworkController from "./firework.js";

@@ -33,7 +33,7 @@
 </template>
 <script>
 
-import { images } from "app/resource-loader.js";
+import { images } from "app/resource-loader";
 const event_of = require("app/events"); 
 
 export default {

@@ -20,7 +20,7 @@ import stage_share   from "app/stages/05-share";
 
 import utils from "app/utils";
 
-const { assure_loaded } = require("./resource-loader.js");
+import { assure_loaded } from "./resource-loader";
 
 
 import { createApp } from "vue";

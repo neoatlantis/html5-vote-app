@@ -9,7 +9,7 @@ import CanvasOption from "./canvas-option.js";
 import Stage2AutoRoller from "./physics.js";
 import Hint         from "./hint.js";
 
-import { get_image } from "app/resource-loader.js";
+import { get_image } from "app/resource-loader";
 
 const event_of = require("app/events"); 
 

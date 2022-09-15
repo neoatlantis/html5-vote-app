@@ -1,5 +1,5 @@
 import utils from "app/utils";
-import images from "app/image_resource_list";
+import images from "./image_resource_list";
 
 console.log(images);
 
@@ -84,9 +84,17 @@ async function bg_dataurl2image(dataurl){
 
 async function assure_loaded(percentage_callback){
     return new Promise((resolve, reject)=>{
+        function sum_bytes(names){
+            let c = 0;
+            for(let n of names){
+                c += images[n].size;
+            } 
+            return c;
+        }
+
         function check_status(){
-            const should_load = Object.keys(images).length;
-            let actual_total = Object.keys(loaded_images).length;
+            const should_load = sum_bytes(Object.keys(images));
+            let actual_total = sum_bytes(Object.keys(loaded_images));
             try{
                 percentage_callback(parseInt(actual_total / should_load * 100));
             } catch(e){

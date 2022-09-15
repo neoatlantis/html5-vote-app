@@ -22,7 +22,7 @@
 </template>
 <script>
 
-import { images } from "app/resource-loader.js";
+import { images } from "app/resource-loader";
 
 function fix_header(comp){
     const el_h = document.getElementById("choices-header");

@@ -6,7 +6,7 @@ import TopLayer from "./layers/top";
 import BaseLayer from "./layers/base";
 import PatternLayer from "./layers/pattern";
 
-import { get_image, get_font } from "app/resource-loader.js";
+import { get_image, get_font } from "app/resource-loader";
 
 const saveAs = require("app/FileSaver.min.js");
 

@@ -8,7 +8,7 @@ import CanvasButton from "app/canvas-widgets/button.js";
 import CountryButton from "./CountryButton.js";
 import SelectionLog  from "./log.js";
 
-import { get_image } from "app/resource-loader.js";
+import { get_image } from "app/resource-loader";
 
 const event_of = require("app/events"); 
 

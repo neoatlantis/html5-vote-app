@@ -10,7 +10,7 @@
 
 </template>
 <script>
-const { images } = require("app/resource-loader.js");
+const { images } = require("app/resource-loader");
 
 function make_round(){
     const el_i = document.getElementById("add-item-input");

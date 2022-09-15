@@ -1,5 +1,5 @@
 import constants  from "app/constants.js";
-import { get_image } from "app/resource-loader.js";
+import { get_image } from "app/resource-loader";
 
 
 

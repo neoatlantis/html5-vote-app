@@ -26,5 +26,5 @@ for stagedir in base:
         }
 
 
-open("./app/image_resource_list.js", "w+").write(
+open("./app/resource-loader/image_resource_list.js", "w+").write(
     "export default %s;" % json.dumps(output))
