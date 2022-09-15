@@ -33,6 +33,7 @@
 </template>
 <script>
 
+import { images } from "app/resource-loader.js";
 const event_of = require("app/events"); 
 
 export default {
@@ -40,7 +41,7 @@ export default {
     props: ["selected_choices", "header_height"],
 
     data: function(){ return {
-        delete_src: "./images/delete.png",
+        delete_src: images["choices_delete"].path,
     } },
 
     methods: {

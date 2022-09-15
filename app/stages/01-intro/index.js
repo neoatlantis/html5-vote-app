@@ -220,14 +220,15 @@ async function interaction({
     bgcontroller.scroll_to_stage(0);
    
     const images = {
-        "hex-bold": await get_image("hex-bold"),
-        "hex-thin": await get_image("hex-thin"),
-        "stars": await get_image("stars"),
+        "hex-bold": await get_image("hex_bold"),
+        "hex-thin": await get_image("hex_thin"),
         "glow": await get_image("glow"),
-        "introtitle": await get_image("introtitle"),
-        "slogan": await get_image("slogan"),
-        "button": await get_image("introbutton"),
-        "button-down": await get_image("introbutton-down"),
+
+        "stars": await get_image("intro_stars"),
+        "introtitle": await get_image("intro_title"),
+        "slogan": await get_image("intro_slogan"),
+        "button": await get_image("intro_button"),
+        "button-down": await get_image("intro_button_pressed"),
     };
     const canvascontrol = new IntroCanvasController({
         canvas,

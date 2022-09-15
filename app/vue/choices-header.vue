@@ -38,7 +38,7 @@ export default {
     props: ["selected", "total"],
 
     data(){ return {
-        background: images["header"],
+        background: images["choices_header"].path,
         height: false,
         additional: "",
     } },

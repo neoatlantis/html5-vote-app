@@ -1,8 +1,10 @@
 import utils from "app/utils";
+import images from "app/image_resource_list";
 
-const images = {
+console.log(images);
+
+/*const images = {
     "options": "./images/options_10x10.png",
-    "bgcolor": "./images/bgcolor.png",
 
     "introtitle": "./images/introtitle.png",
     "introbutton": "./images/introbutton.png",
@@ -23,21 +25,22 @@ const images = {
     "donebutton": "./images/donebutton.png",
     "donebutton-down": "./images/donebutton-pressed.png",
 
-    "share_flags": "./images/05-share/flags.png",
-    "share_badge": "./images/05-share/badge.png",
-    "share_base": "./images/05-share/base.png",
-    "share_base_footer": "./images/05-share/base_footer_transp.png",
-    "share_base_header": "./images/05-share/base_header_transp.png",
-    "share_pattern_screen": "./images/05-share/pattern_screen.png",
-    "share_top_footer": "./images/05-share/top_footer.png",
-    "share_top_header": "./images/05-share/top_header.png",
-};
+    "share_flags": "./images/5/flags.png",
+//    "share_badge": "./images/5/badge.png",
+    "share_base": "./images/5/share_base.png",
+    "share_base_footer": "./images/5/base_footer_transp.png",
+    "share_base_header": "./images/5/base_header_transp.png",
+    "share_pattern_screen": "./images/5/pattern_screen.png",
+    "share_top_footer": "./images/5/top_footer.png",
+    "share_top_header": "./images/5/top_header.png",
+};*/
+
 
 //const loaded_dataurls = {};
 const loaded_images = {};
 
 async function bg_load_by_name(name){
-    let response = await fetch(images[name] + "?_=" + Math.random());
+    let response = await fetch(images[name].path + "?_=" + Math.random());
     let blob = await response.blob(); //new Blob(chunks);
     
     let dataurl = await new Promise((resolve, reject)=>{

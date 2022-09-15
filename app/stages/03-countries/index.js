@@ -288,11 +288,11 @@ async function interaction({
 }){
    
     const images = {
-        "bg": await get_image("countries-bg"),
-        "flags": await get_image("countries-flags"),
-        "glow": await get_image("countries-glow"),
+        "bg": await get_image("countries_bg"),
+        "flags": await get_image("countries_flags"),
+        "glow": await get_image("countries_glow"),
         "button": await get_image("donebutton"),
-        "button-down": await get_image("donebutton-down"),
+        "button-down": await get_image("donebutton_pressed"),
     };
 
     const canvascontrol = new CountriesMenuCanvasController({

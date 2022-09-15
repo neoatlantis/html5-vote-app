@@ -303,11 +303,11 @@ async function interaction({
     app
 }){
     const images = {
-        "hint": await get_image("hint"),
-        "options": await get_image("options"),
-        "scroll": await get_image("scroll"),
+        "hint": await get_image("choices_hint"),
+        "options": await get_image("choices_10x10"),
+        "scroll": await get_image("choices_scroll"),
         "button": await get_image("donebutton"),
-        "button-down": await get_image("donebutton-down"),
+        "button-down": await get_image("donebutton_pressed"),
     };
 
     console.log("#1");

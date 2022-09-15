@@ -23,10 +23,9 @@ async function interaction({
     result_countries
 }){
     const images = {
-        "options": await get_image("options"),
+        "options": await get_image("choices_10x10"),
         "flags": await get_image("share_flags"),
 
-        "badge": await get_image("share_badge"),
         "base":  await get_image("share_base"),
         "base_footer": await get_image("share_base_footer"),
         "base_header": await get_image("share_base_header"),

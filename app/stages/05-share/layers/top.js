@@ -246,7 +246,7 @@ class TopLayer {
             }
         }
 
-        let level = this.choices.length + this.countries.length + 1;
+        let level = this.choices.length + this.countries.length;
 
         ctx.font = `${score_font_size}px font_main`;
         ctx.fillStyle = "#cb779e";

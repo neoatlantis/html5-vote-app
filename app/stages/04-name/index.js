@@ -114,8 +114,8 @@ async function interaction({
 }){
    
     const images = {
-        "hex-bold": await get_image("hex-bold"),
-        "hex-thin": await get_image("hex-thin"),
+        "hex-bold": await get_image("hex_bold"),
+        "hex-thin": await get_image("hex_thin"),
         "glow": await get_image("glow"),
     };
     const canvascontrol = new NameCanvasController({
