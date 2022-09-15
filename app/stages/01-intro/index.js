@@ -26,22 +26,22 @@ class IntroCanvasController extends CanvasController {
 
         this.rot_center_x = this.canvas.width * 0.5;
         this.rot_center_y = this.canvas.width * 0.7;
-        this.glow_center_x = this.canvas.width * 0.5;
-        this.glow_center_y = this.canvas.width * 0.75;
-        this.logo_center_x = this.canvas.width * 0.46;
+        this.glow_center_x = this.canvas.width * 0.4580;
+        this.glow_center_y = this.canvas.width * 0.7450;
+        this.logo_center_x = this.canvas.width * 0.45;
         this.logo_center_y = this.canvas.width * 0.755;
         this.slogan_center_x = this.canvas.width * 0.5;
         this.slogan_center_y = this.canvas.height*0.25+this.canvas.width * 0.87;
         this.button_center_x = this.canvas.width * 0.5;
-        this.button_center_y = this.canvas.height * 0.5 + this.canvas.width * 0.6;
+        this.button_center_y = this.canvas.height * 0.4571 + 0.6314 *this.canvas.width;
 
         
         this.scale_introtitle = this.canvas.width / this.images["introtitle"].width * 0.75;
 //      this.scale_glow = Math.min(0.925 * this.canvas.width, 0.40 * this.canvas.height) / this.images["glow"].width;
-        this.scale_glow = this.canvas.width / this.images["glow"].width;
+        this.scale_glow = this.canvas.width / this.images["glow"].width * 1.5830;
 //        console.log(this.scale_glow);
-        this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.925;
-        this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.925;
+        this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.926;
+        this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.926;
         this.scale_slogan = this.canvas.width / this.images["slogan"].width * 0.6;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.3;
 
