@@ -22,19 +22,19 @@ class Hint {
         const ctx = this.ctx;
         if(undefined === this.t0) this.t0 = t;
         const elapsed_t = t - this.t0;
+        const duration = 5000;
 
-        ctx.globalAlpha = ((t)=>{
-            let v = (1 + Math.sin(10000/(t+1000))) / 2;
-            return v * Math.pow(2, -t/800);
-        })(elapsed_t);
+        if(elapsed_t < duration){
+            ctx.globalAlpha = 1 - elapsed_t / duration;
+            this.ctx.drawImage(
+                this.image,
+                this.left,
+                this.top,
+                this.width,
+                this.height
+            );
+        }
 
-        this.ctx.drawImage(
-            this.image,
-            this.left,
-            this.top,
-            this.width,
-            this.height
-        );
         ctx.globalAlpha = 1;
     }
 
