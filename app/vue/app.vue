@@ -42,8 +42,8 @@
     </div>
 
     <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done" style="overflow-y: scroll">
-        <canvas id="result" style="width:100%"></canvas>
-        <img id="result-img">
+        <canvas id="result"  style="width:100%" v-show="!result_image_dataurl"></canvas>
+        <img id="result-img" style="width:100%" v-show="result_image_dataurl" v-bind:src="result_image_dataurl">
     </div>
 
 
@@ -83,6 +83,8 @@ export default {
         show_basket: false,
 
         header_height: false,
+
+        result_image_dataurl: null,
     } },
 
     methods: {

@@ -70,6 +70,7 @@ async function interaction({
     ctx.globalCompositeOperation = "source-over";
     layer_top.render();
 
+    app.result_image_dataurl = canvas.toDataURL();
     bind_long_press_saver(canvas);
 }
 
