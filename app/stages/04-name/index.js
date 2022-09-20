@@ -1,3 +1,4 @@
+import debugging    from "app/debug.js";
 import choices      from "app/content.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
@@ -125,6 +126,14 @@ async function interaction({
         callback
     });
     canvascontrol.start_animation();
+
+    /// #if DEV
+    if(debugging()){
+        if(debugging('stage') && debugging('stage') > 4){
+            app.name_done = true;
+        }
+    }
+    /// #endif
 
     await utils.until(()=>app.name_done === true);
 

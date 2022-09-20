@@ -8,10 +8,8 @@ import PatternLayer from "./layers/pattern";
 
 import { get_image, get_font } from "app/resource-loader";
 
-const saveAs = require("app/FileSaver.min.js");
+import bind_long_press_saver from "./bind_long_press_saver";
 
-//const draw_image_header = require("./save-image.draw-header.js");
-//const draw_background = require("./save-image.draw-background.js");
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -72,7 +70,7 @@ async function interaction({
     ctx.globalCompositeOperation = "source-over";
     layer_top.render();
 
-
+    bind_long_press_saver(canvas);
 }
 
 
