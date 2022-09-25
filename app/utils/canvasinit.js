@@ -39,6 +39,8 @@ function setup_canvas(canvas, width, height) {
     //var ctx = canvas.getContext('2d');
     //ctx.scale(scaleFactor, scaleFactor);
 
+    const ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
 
     bind_canvas_event_emitters(canvas);
 }
