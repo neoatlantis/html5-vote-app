@@ -231,7 +231,7 @@ class TopLayer {
 
         if(this.show_countries){
             ctx.fillText(
-                `我去过${this.countries.length}个国家`,
+                `我去过${this.countries.length}个欧洲国家`,
                 this.canvas.width * 0.0565,
                 this.get_element_offset("countries")
             );
