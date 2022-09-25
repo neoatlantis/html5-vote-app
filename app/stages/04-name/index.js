@@ -23,6 +23,12 @@ class NameCanvasController extends CanvasController {
 
         this.rot_center_x = this.canvas.width / 2;
         this.rot_center_y = this.canvas.height / 2;
+        this.glow_center_x = this.canvas.width * 0.4580;
+        this.glow_center_y = this.canvas.width * 0.5450;
+
+        this.scale_glow = this.canvas.width / this.images["glow"].width * 1.5830;
+        this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.926;
+        this.scale_hex_thin = this.canvas.width / this.images["hex-thin"].width * 0.926;
 
         // button ref: horizontal: right, vertical: middle
         this.button_ref_x = this.canvas.width * 0.5236;
@@ -78,10 +84,20 @@ class NameCanvasController extends CanvasController {
         this._draw_bg();
 
         this.ctx_drawImage(
+            this.images["glow"],
+            this.glow_center_x,
+            this.glow_center_y,
+            this.scale_glow,
+            0
+        );
+        this.ctx_reset_transform();
+
+
+        this.ctx_drawImage(
             this.images["hex-thin"],
             this.rot_center_x,
             this.rot_center_y,
-            1,
+            this.scale_hex_thin,
             -rotation
         );
         this.ctx_reset_transform();
@@ -90,18 +106,9 @@ class NameCanvasController extends CanvasController {
             this.images["hex-bold"],
             this.rot_center_x,
             this.rot_center_y,
-            1,
+            this.scale_hex_bold,
             rotation
         );
-        this.ctx_reset_transform();
-
-        this.ctx_drawImage(
-            this.images["glow"],
-            this.rot_center_x,
-            this.rot_center_y,
-            1,
-            0
-        ); 
         this.ctx_reset_transform();
 
         this.button.draw(this.ctx);
@@ -115,7 +122,6 @@ class NameCanvasController extends CanvasController {
         const ec = event_of("canvas");
 
         ec.on("touchstart", (e)=>{
-            console.log("____________________________");
 //            this.callback();
             e.preventDefault();
         });
