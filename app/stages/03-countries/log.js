@@ -7,7 +7,7 @@ class SelectionLog {
         this.nmax = nmax;
 
         this.right = canvas.width * 0.9685;
-        this.top = canvas.height * 0.05;
+        this.top = canvas.height * 0.075;
         this.fontsize = this.canvas.width * 0.04;
         this.lineheight = this.fontsize * 1.25;
     }
