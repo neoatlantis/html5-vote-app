@@ -30,7 +30,7 @@ class CountriesMenuCanvasController extends CanvasController {
         this.logrender = new SelectionLog({ canvas });
 
         // button ref: horizontal: right, vertical: middle
-        this.button_ref_x = this.canvas.width * 0.563;
+        this.button_ref_x = this.canvas.width * 0.9685;
         this.button_ref_y = this.canvas.height * 0.875;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.25;
         this.button = new CanvasButton({

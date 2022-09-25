@@ -3,39 +3,6 @@ import images from "./image_resource_list";
 
 console.log(images);
 
-/*const images = {
-    "options": "./images/options_10x10.png",
-
-    "introtitle": "./images/introtitle.png",
-    "introbutton": "./images/introbutton.png",
-    "introbutton-down": "./images/introbutton_pressed.png",
-    "slogan": "./images/slogan.png",
-    "stars": "./images/stars.png",
-    "hint": "./images/hint.png",
-    "glow": "./images/glow.png",
-    "hex-bold": "./images/hex-bold.png",
-    "hex-thin": "./images/hex-thin.png",
-    "scroll": "./images/scroll.png",
-
-    "countries-bg": "./images/countries-bg.png",
-    "countries-flags": "./images/countries-flags.png",
-    "countries-glow": "./images/countries-glow.png",
-
-    "header": "./images/options_header.png",
-    "donebutton": "./images/donebutton.png",
-    "donebutton-down": "./images/donebutton-pressed.png",
-
-    "share_flags": "./images/5/flags.png",
-//    "share_badge": "./images/5/badge.png",
-    "share_base": "./images/5/share_base.png",
-    "share_base_footer": "./images/5/base_footer_transp.png",
-    "share_base_header": "./images/5/base_header_transp.png",
-    "share_pattern_screen": "./images/5/pattern_screen.png",
-    "share_top_footer": "./images/5/top_footer.png",
-    "share_top_header": "./images/5/top_header.png",
-};*/
-
-
 //const loaded_dataurls = {};
 const loaded_images = {};
 
@@ -141,6 +108,7 @@ async function get_font(font_name, url){
 
 get_font("font_main", "./data/main_font.ttf");
 get_font("font_name", "./data/name_font.ttf");
+get_font("font_badge", "./data/badge_font.ttf");
 
 
 export {

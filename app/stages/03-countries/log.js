@@ -6,7 +6,7 @@ class SelectionLog {
         this._log = []; // 0-newest, n-oldest
         this.nmax = nmax;
 
-        this.right = canvas.width * 0.9;
+        this.right = canvas.width * 0.9685;
         this.top = canvas.height * 0.05;
         this.fontsize = this.canvas.width * 0.04;
         this.lineheight = this.fontsize * 1.25;
@@ -20,7 +20,7 @@ class SelectionLog {
     draw(){
         const ctx = this.ctx;
 
-        ctx.font = `${this.fontsize}px font_main`;
+        ctx.font = `${this.fontsize}px font_badge`;
         ctx.fillStyle = "white";
         ctx.textAlign = "right";
         ctx.textBaseline = "top";
