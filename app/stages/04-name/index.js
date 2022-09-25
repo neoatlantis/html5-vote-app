@@ -3,8 +3,10 @@ import choices      from "app/content.js";
 import constants    from "app/constants.js";
 import utils        from "app/utils";
 
+import CanvasButton from "app/canvas-widgets/button.js";
 import CanvasController from "app/canvascontrol.js";
 
+const event_of = require("app/events.js");
 
 import { get_image } from "app/resource-loader";
 
@@ -21,6 +23,23 @@ class NameCanvasController extends CanvasController {
 
         this.rot_center_x = this.canvas.width / 2;
         this.rot_center_y = this.canvas.height / 2;
+
+        // button ref: horizontal: right, vertical: middle
+        this.button_ref_x = this.canvas.width * 0.5236;
+        this.button_ref_y = this.canvas.height * 0.85;
+        this.scale_button = this.canvas.width / this.images["button"].width * 0.30;
+
+        this.button_ref_x = this.rot_center_x;
+        this.button_ref_y = this.rot_center_y;
+
+        this.button = new CanvasButton({
+            image: this.images["button"],
+            image_pressed_down: this.images["button-down"],
+            x0: this.button_ref_x - this.scale_button * this.images["button"].width / 2,
+            y0: this.button_ref_y,
+            x1: this.button_ref_x + this.scale_button * this.images["button"].width / 2,
+            y1: this.button_ref_y + this.scale_button * this.images["button"].height,
+        });
     }
 
     _draw_bg(){
@@ -50,6 +69,7 @@ class NameCanvasController extends CanvasController {
     
 
     animation_frame(elapsed_time, dt){
+        if(!this.flag_animation_playing) return;
         const rotation = elapsed_time / 1000 * 0.8;
 
         // clear whole canvas
@@ -63,7 +83,8 @@ class NameCanvasController extends CanvasController {
             this.rot_center_y,
             1,
             -rotation
-        ) && this.ctx_reset_transform();
+        );
+        this.ctx_reset_transform();
     
         this.ctx_drawImage(
             this.images["hex-bold"],
@@ -71,9 +92,8 @@ class NameCanvasController extends CanvasController {
             this.rot_center_y,
             1,
             rotation
-        ) && this.ctx_reset_transform();
-
-
+        );
+        this.ctx_reset_transform();
 
         this.ctx_drawImage(
             this.images["glow"],
@@ -81,9 +101,10 @@ class NameCanvasController extends CanvasController {
             this.rot_center_y,
             1,
             0
-        ) && this.ctx_reset_transform();
+        ); 
+        this.ctx_reset_transform();
 
-        this.rotation += 0.005;
+        this.button.draw(this.ctx);
 
         return true;
         
@@ -91,11 +112,19 @@ class NameCanvasController extends CanvasController {
 
     bind_events(){
 
-        this.canvas.ontouchstart = (e)=>{
-            this.bgcontroller.scroll_to_stage(2);
+        const ec = event_of("canvas");
+
+        ec.on("touchstart", (e)=>{
+            console.log("____________________________");
+//            this.callback();
+            e.preventDefault();
+        });
+
+        this.button.on("pressed", (e)=>{
             this.callback();
             e.preventDefault();
-        }
+            e.stopPropagation();
+        });
 
     }
 }
@@ -118,6 +147,8 @@ async function interaction({
         "hex-bold": await get_image("hex_bold"),
         "hex-thin": await get_image("hex_thin"),
         "glow": await get_image("glow"),
+        "button": await get_image("generate_button"),
+        "button-down": await get_image("generate_button_pressed"),
     };
     const canvascontrol = new NameCanvasController({
         canvas,

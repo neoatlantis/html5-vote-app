@@ -34,12 +34,12 @@
         <canvas id="options" style="width:100%;height:100%"></canvas>
     </div>
 
-    <div class="fullscreen" v-show="init_done && choices_done && countries_done && !name_done" style="display:flex; flex-direction:row; align-items: center; justify-content:center">
-        <div>
-            <div style="text-align:center"><input class="name-input-box" placeholder="请输入名字" type="text" v-model="username"/></div>
-            <div style="text-align:center"><button v-on:click="name_done=true">查看结果</button></div>
-        </div>
-    </div>
+    <input
+        v-show="init_done && choices_done && countries_done && !name_done" style="display:flex; flex-direction:row; align-items: center; justify-content:center"
+        class="name-input-box"
+        placeholder="请输入名字"
+        type="text" spellcheck="false" v-model="username"
+    />
 
     <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done" style="overflow-y: scroll">
         <canvas id="result"  style="width:100%" v-show="!result_image_dataurl"></canvas>

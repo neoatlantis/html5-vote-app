@@ -52,6 +52,7 @@ class CanvasButton extends events.EventEmitter {
 
         event_of("canvas").on("touchstart", (e)=>{
             let { x, y } = get_xy(e);
+            console.log("get xy", x, y);
 
             if( this.is_within_area(x, y) ){
                 this.hold_down = true;

@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 @font-face { font-family: "ingress_font"; src: url(./data/ingress_font.ttf); }
+@font-face { font-family: "font_name"; src: url(./data/name_font.ttf); }
 
 body{
     padding: 0px;
@@ -118,14 +119,21 @@ input:focus { outline: none }
 .name-input-box{
     background: none;
     border-width: 0 0 1px 0;
-    border-color: #FFFF00;
+    border-color: #ddddf0;
     border-style: solid;
     text-align: center;
-    margin-bottom: 1em;
-    color: #FFFF00;
+    margin-bottom: 6vh;
+    color: #ddddf0;
+    font-family: "font_name";
+    font-size: 6.71vw;
+
+    width: 50vw; left: 25vw; top: 44vh;
+    z-index: 100;
+    position: fixed;
 }
 .name-input-box::placeholder{
-    color: #FFFF00;
+    color: #ddddf0;
+    opacity: 0.5;
 }
 
 </style>
