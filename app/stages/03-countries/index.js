@@ -290,7 +290,7 @@ async function interaction({
     const images = {
         "bg": await get_image("countries_bg"),
         "flags": await get_image("countries_flags"),
-        "glow": await get_image("countries_glow"),
+        "glow": await get_image("icon_glow"),
         "button": await get_image("donebutton"),
         "button-down": await get_image("donebutton_pressed"),
     };

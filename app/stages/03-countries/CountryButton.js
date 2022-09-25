@@ -43,7 +43,11 @@ class CountryButton extends events.EventEmitter{
             [x + w1, y-size/2],
         ];
 
-        this.image_glow_size = (this.size * 2) * 1.3;
+        this.image_glow_size_h = (this.size * 2) * 1.32;
+        this.image_glow_size_w = 
+            this.image_glow_size_h / this.image_glow.height
+            * this.image_glow.width
+        ;
         
         // If this option is choosen
         this.choosen = false;
@@ -54,10 +58,10 @@ class CountryButton extends events.EventEmitter{
 
         ctx.drawImage(
             this.image_glow,
-            this.x0 + this.controller.map_draw_x - this.image_glow_size / 2,
-            this.y0 - this.image_glow_size / 2,
-            this.image_glow_size,
-            this.image_glow_size
+            this.x0 + this.controller.map_draw_x - this.image_glow_size_w / 2,
+            this.y0 - this.image_glow_size_h / 2,
+            this.image_glow_size_w,
+            this.image_glow_size_h
         );
 
     }
