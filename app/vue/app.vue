@@ -35,7 +35,7 @@
     </div>
 
     <input
-        v-show="init_done && choices_done && countries_done && !name_done" style="display:flex; flex-direction:row; align-items: center; justify-content:center"
+        v-if="init_done && choices_done && countries_done && !name_done" style="display:flex; flex-direction:row; align-items: center; justify-content:center"
         class="name-input-box"
         :style="{ opacity: name_alpha }"
         placeholder="请输入名字"
