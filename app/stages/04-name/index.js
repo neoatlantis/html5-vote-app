@@ -14,9 +14,10 @@ import { get_image } from "app/resource-loader";
 
 class NameCanvasController extends CanvasController {
 
-    constructor({canvas, images, bgcontroller, callback}){
+    constructor({canvas, images, bgcontroller, callback, app}){
         super(canvas);
 
+        this.app = app;
         this.callback = callback;
         this.images = images;
         this.bgcontroller = bgcontroller;
@@ -46,6 +47,26 @@ class NameCanvasController extends CanvasController {
             x1: this.button_ref_x + this.scale_button * this.images["button"].width / 2,
             y1: this.button_ref_y + this.scale_button * this.images["button"].height,
         });
+
+        
+        this.app.name_alpha = 0;
+    }
+
+
+    _calc_alpha(dt){
+        // Calculate alpha used for country map background, and foreground
+        if(undefined === this.alpha_t_count) this.alpha_t_count = 0;
+
+        let t1 = constants.BACKGROUND_SWITCH_DURATION;
+        let t = this.alpha_t_count;
+
+        this.alpha_t_count += dt;
+
+        if(t <= t1){
+            return  t / t1;
+        } else {
+            return 1;
+        }
     }
 
     _draw_bg(){
@@ -78,10 +99,17 @@ class NameCanvasController extends CanvasController {
         if(!this.flag_animation_playing) return;
         const rotation = elapsed_time / 1000 * 0.8;
 
+        let alpha = this._calc_alpha(dt);
+        this.app.name_alpha = alpha;
+
         // clear whole canvas
         this.ctx_clearall();
         // draw bg
         this._draw_bg();
+
+        // draw fg
+
+        this.ctx.globalAlpha = alpha;
 
         this.ctx_drawImage(
             this.images["glow"],
@@ -113,6 +141,7 @@ class NameCanvasController extends CanvasController {
 
         this.button.draw(this.ctx);
 
+        this.ctx.globalAlpha = 1;
         return true;
         
     }
@@ -160,7 +189,8 @@ async function interaction({
         canvas,
         images,
         bgcontroller,
-        callback
+        callback,
+        app
     });
     canvascontrol.start_animation();
 

@@ -37,6 +37,7 @@
     <input
         v-show="init_done && choices_done && countries_done && !name_done" style="display:flex; flex-direction:row; align-items: center; justify-content:center"
         class="name-input-box"
+        :style="{ opacity: name_alpha }"
         placeholder="请输入名字"
         type="text" spellcheck="false" v-model="username"
     />
@@ -84,6 +85,7 @@ export default {
 
         header_height: false,
 
+        name_alpha: 0,
         result_image_dataurl: null,
     } },
 
