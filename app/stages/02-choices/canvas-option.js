@@ -162,7 +162,7 @@ class CanvasOption extends events.EventEmitter{
             (this.y <= y && y <= this.y + this.size)
         ){  
             console.log(this.text);
-            this.app.play_touch_audio();
+            this.app.play_touch_icon_audio();
 
             this.choosen = !this.choosen;
             if(this.choosen){

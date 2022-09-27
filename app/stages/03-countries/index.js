@@ -30,6 +30,16 @@ class CountriesMenuCanvasController extends CanvasController {
 
         this.logrender = new SelectionLog({ canvas });
 
+        // header & footer
+        this.image_header = images["header"];
+        this.image_footer = images["footer"];
+
+        this.scale_header = canvas.width / this.image_header.width;
+        this.scale_footer = canvas.width / this.image_footer.width;
+
+        this.dh_header = this.image_header.height * this.scale_header;
+        this.dh_footer = this.image_footer.height * this.scale_footer;
+
         // button ref: horizontal: right, vertical: middle
         this.button_ref_x = this.canvas.width * 0.500; //0.563;
         this.button_ref_y = this.canvas.height * 0.875;
@@ -37,9 +47,9 @@ class CountriesMenuCanvasController extends CanvasController {
         this.button = new CanvasButton({
             image: this.images["button"],
             image_pressed_down: this.images["button-down"],
-            x0: this.button_ref_x - this.scale_button * this.images["button"].width,
+            x0: this.button_ref_x - this.scale_button * this.images["button"].width / 2,
             y0: this.button_ref_y - this.scale_button * this.images["button"].height / 2,
-            x1: this.button_ref_x,
+            x1: this.button_ref_x + this.scale_button * this.images["button"].width / 2,
             y1: this.button_ref_y + this.scale_button * this.images["button"].height / 2,
         });
 
@@ -56,6 +66,7 @@ class CountriesMenuCanvasController extends CanvasController {
         this.country_buttons = [];
         for(let country_name in countries){
             let country_button = new CountryButton({
+                app,
                 image_glow: this.images["glow"],
                 controller: this,
                 text: country_name,
@@ -160,6 +171,24 @@ class CountriesMenuCanvasController extends CanvasController {
 
         // draw log
         this.logrender.draw();
+
+        // header & footer
+
+        this.ctx.drawImage(
+            this.image_header,
+            0, // dx
+            0, // dy, 0
+            this.canvas.width,
+            this.dh_header,
+        );
+
+        this.ctx.drawImage(
+            this.image_footer,
+            0, // dx
+            this.canvas.height - this.dh_footer, // dy
+            this.canvas.width,
+            this.dh_footer
+        );
 
         //draw button
         this.button.draw(this.ctx);
@@ -292,6 +321,8 @@ async function interaction({
     const images = {
         "bg": await get_image("countries_bg"),
         "flags": await get_image("countries_flags"),
+        "header": await get_image("countries_header"),
+        "footer": await get_image("countries_footer"),
         "glow": await get_image("icon_glow"),
         "button": await get_image("donebutton"),
         "button-down": await get_image("donebutton_pressed"),

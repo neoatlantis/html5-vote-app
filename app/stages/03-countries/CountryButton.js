@@ -18,6 +18,7 @@ class CountryButton extends events.EventEmitter{
      */
 
     constructor({
+        app,
         image_glow,
         text,
         x, y, // center of hexagon on a scaled map image
@@ -26,6 +27,7 @@ class CountryButton extends events.EventEmitter{
     }){
         super();
 
+        this.app = app;
         this.x0 = x;
         this.y0 = y;
         this.text = text;
@@ -95,6 +97,7 @@ class CountryButton extends events.EventEmitter{
 
     handle_click(x, y){
         if(!this.is_within_area(x, y)) return;
+        this.app.play_touch_icon_audio();
         this.choosen = !this.choosen;
 
         if(this.choosen){
