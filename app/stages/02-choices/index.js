@@ -200,6 +200,7 @@ class ChoiceMenuCanvasController extends CanvasController {
                 .map((oi)=>oi.choice_id)
             ;
             try{
+                console.log("Stage 2:", selected_ids);
                 this.callback(selected_ids);
             } catch(e){
             }
@@ -283,7 +284,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 
         this.button.on("pressed", (e)=>{
             this.app.play_touch_button_audio();
-            this.callback_done()
+            this.callback_done();
             e.preventDefault();
             e.stopPropagation();
         });

@@ -20,6 +20,8 @@ async function interaction({
     result_choices,
     result_countries
 }){
+    console.log("finally", arguments);
+
     const images = {
         "options": await get_image("choices_10x10"),
         "flags": await get_image("share_flags"),

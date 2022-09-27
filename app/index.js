@@ -31,8 +31,8 @@ import App from "sfc/app.vue";
 const app = createApp(App).mount("#app");
 
 
-let result_choices = [],
-    result_countries = [];
+const result_choices = [];
+const result_countries = [];
 
 
 
@@ -41,7 +41,11 @@ function on_selection_changed(selected_ids){
     let selected_choices = choices
         .filter((e)=>selected_ids.indexOf(e.id) >= 0);
     app.selected_choices = selected_choices;
-    result_choices = selected_choices.map((e)=>e.id);
+    result_choices.splice(0, result_choices.length);
+    for(let i=0; i<selected_choices.length; i++){
+        result_choices.push(selected_choices[i].id);
+    }
+    console.log("found choices", result_choices);
 }
 
 function on_intro_done(){
@@ -51,12 +55,13 @@ function on_intro_done(){
 
 function on_selection_done(e){
     app.choices_done = true;
-    result_choices = e;
+    //result_choices = e;
 }
 
 function on_countries_done(e){
     app.countries_done = true;
-    result_countries = e;
+    result_countries.splice(0, result_countries.length);
+    for(let i of e) result_countries.push(i);
 }
 
 function on_name_done(){
