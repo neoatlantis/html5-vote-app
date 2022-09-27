@@ -67,6 +67,7 @@ class ChoiceMenuCanvasController extends CanvasController {
                 text: choice.text,
                 image_id: choice.pos,
                 image_src: images["options"],
+                image_glow: images["glow"],
                 row: choice_i,
                 col: choices_positions[choice_i],
                 size: canvas.width * constants.MENU_CHOICE_WIDTH,
@@ -208,6 +209,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         let touch_tracker = null;
 
         ec.on("touchstart", (e)=>{
+            if(e && e._propagation_stopped) return;
 //            console.log("touchstart", e);
             this.physics.disengage();
 
@@ -224,6 +226,7 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
 
         ec.on("touchend", (e)=>{
+            if(e && e._propagation_stopped) return;
 //            console.log("touchend", e.changedTouches);
             this.physics.engage(100);
 
@@ -308,6 +311,7 @@ async function interaction({
         "scroll": await get_image("choices_scroll"),
         "button": await get_image("donebutton"),
         "button-down": await get_image("donebutton_pressed"),
+        "glow": await get_image("icon_glow"),
     };
 
     console.log("#1");

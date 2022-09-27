@@ -25,6 +25,7 @@ class CanvasOption extends events.EventEmitter{
         text,
         image_id,
         image_src,
+        image_glow,
         row,
         col,
         size,
@@ -41,6 +42,7 @@ class CanvasOption extends events.EventEmitter{
         this.text = text;
         this.image_id = image_id;
         this.image_src = image_src;
+        this.image_glow = image_glow;
         this.image_tile_size = constants.RESOURCE_ICON_TILE_SIZE;
 
         this.row = row;
@@ -52,6 +54,13 @@ class CanvasOption extends events.EventEmitter{
         this.ctx = ctx;
 
         this.canvas_height = canvas_height;
+
+        // Glow effect size
+        this.glow_size_w = this.size;
+        this.glow_size_h = 
+            this.glow_size_w / this.image_glow.width
+            * this.image_glow.height;
+        this.glow_offset_y = -this.size * 0.13;
 
         // Oscillating effect
 
@@ -139,6 +148,19 @@ class CanvasOption extends events.EventEmitter{
         } else {
             this.ctx.filter = 'none';
         }*/
+
+        // glow image
+        if(this.choosen){
+            this.ctx.drawImage(
+                this.image_glow,
+                this.x,
+                this.y+this.glow_offset_y,
+                this.glow_size_w,
+                this.glow_size_h
+            );
+        }
+
+        // icon image
         this.ctx.drawImage(
             this.image_src,
             this.sx0,

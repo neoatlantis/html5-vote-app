@@ -57,6 +57,8 @@ class CanvasButton extends events.EventEmitter {
             if( this.is_within_area(x, y) ){
                 this.hold_down = true;
                 this.emit("pressed_down", e);
+                e._propagation_stopped = true;
+                e.stopPropagation();
             }
         });
 
@@ -67,6 +69,7 @@ class CanvasButton extends events.EventEmitter {
 
             if(this.is_within_area(x, y) && was_hold_down){
                 this.emit("pressed", e);
+                e._propagation_stopped = true;
                 e.stopPropagation();
             }
         });
