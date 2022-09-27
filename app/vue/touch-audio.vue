@@ -17,7 +17,7 @@ function mocked_factory(url){
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             return resolve(url);
-        }, 500)
+        }, 200)
     });
 }
 
@@ -32,10 +32,10 @@ export default {
 
     methods: {
         play_button(){
-            if(!this.firsttime){
+            /*if(!this.firsttime){
                 document.getElementById("touchbuttonaudio").play();
                 return;
-            }
+            }*/
             mocked_factory(this.touch_button_mp3).then(src => {
                 const audio = document.getElementById("touchbuttonaudio");
                 audio.src = src;
@@ -44,10 +44,10 @@ export default {
             });
         },
         play_icon(){
-            if(!this.firsttime){
+            /*if(!this.firsttime){
                 document.getElementById("touchiconaudio").play();
                 return;
-            }
+            }*/
             mocked_factory(this.touch_icon_mp3).then(src => {
                 const audio = document.getElementById("touchiconaudio");
                 audio.src = src
