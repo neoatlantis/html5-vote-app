@@ -156,6 +156,7 @@ class NameCanvasController extends CanvasController {
         });
 
         this.button.on("pressed", (e)=>{
+            this.app.play_touch_button_audio();
             this.callback();
             e.preventDefault();
             e.stopPropagation();

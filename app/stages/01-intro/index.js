@@ -15,9 +15,10 @@ const event_of = require("app/events.js");
 
 class IntroCanvasController extends CanvasController {
 
-    constructor({canvas, images, bgcontroller, callback}){
+    constructor({canvas, images, bgcontroller, callback, app}){
         super(canvas);
 
+        this.app = app;
         this.fwcontroller = new FireworkController(canvas, this.ctx);
 
         this.callback = callback;
@@ -195,7 +196,8 @@ class IntroCanvasController extends CanvasController {
         });
 
         this.button.on("pressed", (e)=>{
-            this.callback()
+            this.app.play_touch_button_audio();
+            this.callback();
             e.preventDefault();
             e.stopPropagation();
         });
@@ -234,7 +236,8 @@ async function interaction({
         canvas,
         images,
         bgcontroller,
-        callback
+        callback,
+        app
     });
     canvascontrol.start_animation();
 

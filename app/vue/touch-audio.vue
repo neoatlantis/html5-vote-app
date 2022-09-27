@@ -1,20 +1,23 @@
 <template>
 
-<audio id="touchaudio">
-     <source :src="src" />     
-</audio>
+<audio id="touchbuttonaudio"> <source :src="touch_button" />     </audio>
+<audio id="touchiconaudio"> <source :src="touch_icon" />     </audio>
 
 </template>
 
 <script>
 export default {
     data(){ return {
-        src: "./data/touch-audio.ogg",
+        touch_button: "./data/touch-button.ogg",
+        touch_icon: "./data/touch-icon.ogg",
     } },
 
     methods: {
-        play(){
-            document.getElementById("touchaudio").play();
+        play_button(){
+            document.getElementById("touchbuttonaudio").play();
+        },
+        play_icon(){
+            document.getElementById("touchiconaudio").play();
         }
     }
 }

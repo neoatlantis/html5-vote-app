@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done && countries_done && name_done)" @touchend="play_music">
+    <div class="fullscreen" v-show="init_done && !(intro_done && choices_done && countries_done && name_done)">
 
         <div v-show="intro_done && !choices_done" class="fade-in-div">
             <choices-header
@@ -99,8 +99,12 @@ export default {
             this.$refs["bgm"].play();
         },
 
-        play_touch_audio(){
-            this.$refs["touchaudio"].play();
+        play_touch_button_audio(){
+            this.$refs["touchaudio"].play_button();
+        },
+
+        play_touch_icon_audio(){
+            this.$refs["touchaudio"].play_icon();
         },
 
         on_basket_click_delete(id){

@@ -279,7 +279,7 @@ class ChoiceMenuCanvasController extends CanvasController {
 
 
         this.button.on("pressed", (e)=>{
-            this.app.play_touch_audio();
+            this.app.play_touch_button_audio();
             this.callback_done()
             e.preventDefault();
             e.stopPropagation();

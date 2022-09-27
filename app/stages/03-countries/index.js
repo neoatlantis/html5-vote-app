@@ -17,10 +17,11 @@ const event_of = require("app/events");
 
 class CountriesMenuCanvasController extends CanvasController {
 
-    constructor({canvas, images, bgcontroller, callback, callback_done}){
+    constructor({canvas, images, bgcontroller, callback, callback_done, app}){
         super(canvas);
         const self = this;
 
+        this.app = app;
         this.canvas = canvas;
         this.images = images;
         this.bgcontroller = bgcontroller;
@@ -30,7 +31,7 @@ class CountriesMenuCanvasController extends CanvasController {
         this.logrender = new SelectionLog({ canvas });
 
         // button ref: horizontal: right, vertical: middle
-        this.button_ref_x = this.canvas.width * 0.563;
+        this.button_ref_x = this.canvas.width * 0.500; //0.563;
         this.button_ref_y = this.canvas.height * 0.875;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.25;
         this.button = new CanvasButton({
@@ -262,6 +263,7 @@ class CountriesMenuCanvasController extends CanvasController {
 
 
         this.button.on("pressed", (e)=>{
+            this.app.play_touch_button_audio();
             this.callback_done(
                 this.country_buttons.filter((b)=>b.choosen).map((b)=>b.text));
             e.preventDefault();
@@ -296,6 +298,7 @@ async function interaction({
     };
 
     const canvascontrol = new CountriesMenuCanvasController({
+        app,
         canvas,
         images,
         bgcontroller,
