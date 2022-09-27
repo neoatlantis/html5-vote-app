@@ -25,7 +25,7 @@ class NameCanvasController extends CanvasController {
         this.rot_center_x = this.canvas.width / 2;
         this.rot_center_y = this.canvas.height / 2;
         this.glow_center_x = this.canvas.width * 0.4580;
-        this.glow_center_y = this.canvas.width * 0.5450;
+        this.glow_center_y = this.canvas.width * 0.0450 + this.canvas.height * 0.5;
 
         this.scale_glow = this.canvas.width / this.images["glow"].width * 1.5830;
         this.scale_hex_bold = this.canvas.width / this.images["hex-bold"].width * 0.926;
@@ -36,8 +36,8 @@ class NameCanvasController extends CanvasController {
         this.button_ref_y = this.canvas.height * 0.85;
         this.scale_button = this.canvas.width / this.images["button"].width * 0.30;
 
-        this.button_ref_x = this.rot_center_x;
-        this.button_ref_y = this.rot_center_y;
+        this.button_ref_x = this.canvas.width * 0.5;
+        this.button_ref_y = this.canvas.height * 0.55 + 0.5236 * this.canvas.width;
 
         this.button = new CanvasButton({
             image: this.images["button"],

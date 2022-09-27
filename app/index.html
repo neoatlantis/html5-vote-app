@@ -122,14 +122,18 @@ input:focus { outline: none }
     border-color: #ddddf0;
     border-style: solid;
     text-align: center;
-    margin-bottom: 6vh;
     color: #ddddf0;
     font-family: "font_name";
     font-size: 6.71vw;
 
-    width: 50vw; left: 25vw; top: 44vh;
     z-index: 100;
     position: fixed;
+
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 50vw;
 }
 .name-input-box::placeholder{
     color: #ddddf0;
