@@ -3,7 +3,10 @@ class AudioController {
     constructor(audio, src, duration){
         this.src = src;
         this.duration = duration;
+        
         this.audio = audio;
+        this.audio.load();
+
         this.bind_events();
 
         this.reloaded = false;
@@ -23,7 +26,6 @@ class AudioController {
         this.audio.ontimeupdate = ()=>{
             if(this.audio.currentTime > this.duration){
                 this.audio.pause();
-                console.log(this.audio.currentTime);
                 this.audio.currentTime = 0;
             }
         }
