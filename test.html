@@ -47,6 +47,11 @@ class AudioController {
             this.reload();
         }
 
+
+        this.audio.oncanplaythrough = () => {
+            this.reloaded = true;
+        }
+
         this.audio.ontimeupdate = ()=>{
             if(this.audio.currentTime > this.duration){
                 this.audio.pause();
@@ -57,7 +62,6 @@ class AudioController {
     reload(){
         if(this.reloaded) return;
         this.audio.src = this.src;
-        this.reloaded = true;
     }
 
     play(){
