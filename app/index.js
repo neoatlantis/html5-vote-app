@@ -66,6 +66,11 @@ function on_countries_done(e){
 
 function on_name_done(){
     app.name_done = true;
+    app.generating_result = true;
+}
+
+function on_result_generated(){
+    app.generating_result = false;
 }
 
 
@@ -127,6 +132,7 @@ async function init(){
     stage_share.interaction({
         canvas: document.getElementById("result"),
         app,
+        on_result_generated,
         result_choices,
         result_countries
     });

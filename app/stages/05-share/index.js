@@ -18,7 +18,8 @@ async function interaction({
     canvas,
     app,
     result_choices,
-    result_countries
+    result_countries,
+    on_result_generated,
 }){
     console.log("finally", arguments);
 
@@ -74,6 +75,8 @@ async function interaction({
 
     app.result_image_dataurl = canvas.toDataURL();
     bind_long_press_saver(canvas);
+
+    on_result_generated();
 }
 
 

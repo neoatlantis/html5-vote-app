@@ -42,6 +42,12 @@
         type="text" spellcheck="false" v-model="username"
     />
 
+    <div class="fullscreen" v-if="generating_result" style="display: flex; justify-content: center; align-items: center;">
+        <div>
+            正在生成结果...
+        </div>
+    </div>
+
     <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done" style="overflow-y: scroll">
         <canvas id="result"  style="width:100%" v-show="!result_image_dataurl"></canvas>
         <img id="result-img" style="width:100%" v-show="result_image_dataurl" v-bind:src="result_image_dataurl">
@@ -77,6 +83,7 @@ export default {
         choices_done: false,
         countries_done: false,
         name_done: false,
+        generating_result: false,
 
         total_choices: choices.length,
         selected_choices: [],
