@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+<body>
+<canvas id="c" style="width:100%; height:100%; border: red 1px solid">
+
+
+</canvas>
+<audio id="a">
+    <source src="./data/touch-button.mp3" type="audio/mpeg" />
+</audio>
+
+<!--<button id="b"></button>-->
+
+<script>
+
+//const button = document.getElementById("b");
+const audio = document.getElementById("a");
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+
+class AudioController {
+    
+    constructor(audio, src, duration){
+        this.src = src;
+        this.duration = duration;
+        this.audio = audio;
+        this.bind_events();
+
+        this.reloaded = false;
+    }
+
+    bind_events(){
+        this.audio.oncomplete = ()=>{
+            this.reloaded = false;
+            this.reload();
+        }
+
+        this.audio.ontimeupdate = ()=>{
+            if(this.audio.currentTime > this.duration){
+                this.audio.pause();
+            }
+        }
+    }
+
+    reload(){
+        if(this.reloaded) return;
+        this.audio.src = this.src;
+    }
+
+    play(){
+        this.reload();
+        this.audio.currentTime = 0;
+        this.audio.play();
+    }
+
+}
+
+const audio_controller = new AudioController(
+    audio,
+    "./data/touch-button-long.mp3",
+    0.5
+);
+
+
+
+
+
+canvas.ontouchend = function(){
+    console.log("touched");
+
+
+    audio_controller.play();
+
+
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
