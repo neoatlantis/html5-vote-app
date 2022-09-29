@@ -44,7 +44,7 @@
 
     <div class="fullscreen" v-if="generating_result" style="display: flex; justify-content: center; align-items: center;">
         <div>
-            正在生成结果...
+            生成中...
         </div>
     </div>
 
