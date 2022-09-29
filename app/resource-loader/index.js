@@ -1,14 +1,12 @@
 import utils from "app/utils";
 import images from "./image_resource_list";
-
-console.log(images);
+import blob_downloader from "./blob_downloader";
 
 //const loaded_dataurls = {};
 const loaded_images = {};
 
 async function bg_load_by_name(name){
-    let response = await fetch(images[name].path + "?_=" + Math.random());
-    let blob = await response.blob(); //new Blob(chunks);
+    const blob = await blob_downloader.start_download_image(name);
     
     let dataurl = await new Promise((resolve, reject)=>{
         let freader = new FileReader();
@@ -19,10 +17,10 @@ async function bg_load_by_name(name){
     let newimage = await bg_dataurl2image(dataurl);
     try{
         if(!utils.compatibility.createImageBitmapSupport()){
-            console.warn("createImageBitmap() unsupported.", navigator.userAgent);
+            //console.warn("createImageBitmap() unsupported.", navigator.userAgent);
             throw Error();
         }
-        console.log("Use createImageBitmap() to accelerate.");
+        //console.log("Use createImageBitmap() to accelerate.");
         loaded_images[name] = await createImageBitmap(newimage);
     } catch(e){
         loaded_images[name] = newimage;
@@ -35,6 +33,7 @@ async function bg_load_all(){
         tasks.push(bg_load_by_name(image_name));
     }
     await Promise.all(tasks);
+    console.log("All images loaded:", tasks.length);
 }
 bg_load_all();
 
@@ -51,23 +50,13 @@ async function bg_dataurl2image(dataurl){
 
 async function assure_loaded(percentage_callback){
     return new Promise((resolve, reject)=>{
-        function sum_bytes(names){
-            let c = 0;
-            for(let n of names){
-                c += images[n].size;
-            } 
-            return c;
-        }
-
         function check_status(){
-            const should_load = sum_bytes(Object.keys(images));
-            let actual_total = sum_bytes(Object.keys(loaded_images));
+            let p = blob_downloader.current_percentage();
             try{
-                percentage_callback(parseInt(actual_total / should_load * 100));
+                percentage_callback(Math.round(p.percentage * 100));
             } catch(e){
             }
-            if(actual_total != should_load){
-                console.log("not all loaded");
+            if(p.unfinished > 0){
                 setTimeout(check_status, 1000);
             } else {
                 resolve();
@@ -79,6 +68,7 @@ async function assure_loaded(percentage_callback){
 
 async function get_image(image_name){
     await assure_loaded();
+
     /*return new Promise((resolve, reject) => {
         let img = new Image();
         img.onload = () => resolve(img);
