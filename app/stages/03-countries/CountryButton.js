@@ -48,7 +48,7 @@ class CountryButton extends events.EventEmitter{
             [x + w1, y-size/2],
         ];
 
-        this.image_glow_size_h = (this.size * 2) * 1.35;
+        this.image_glow_size_h = (this.size * 2) * 1.463;
         this.image_glow_size_w = 
             this.image_glow_size_h / this.image_glow.height
             * this.image_glow.width
