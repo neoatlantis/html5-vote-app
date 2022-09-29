@@ -1,4 +1,5 @@
 import constants    from "app/constants.js";
+import persist      from "app/persist.js";
 const events = require("events");
 
 
@@ -27,6 +28,8 @@ class CountryButton extends events.EventEmitter{
     }){
         super();
 
+        this.persist_id = "country-" + text;
+
         this.app = app;
         this.x0 = x;
         this.y0 = y;
@@ -52,7 +55,12 @@ class CountryButton extends events.EventEmitter{
         ;
         
         // If this option is choosen
-        this.choosen = false;
+        this.choosen = persist.get(this.persist_id); //false;
+    }
+
+    set_choosen(v){
+        this.choosen = v;
+        persist.set(this.persist_id, this.choosen);
     }
 
     draw(ctx){
@@ -98,7 +106,7 @@ class CountryButton extends events.EventEmitter{
     handle_click(x, y){
         if(!this.is_within_area(x, y)) return;
         this.app.play_touch_icon_audio();
-        this.choosen = !this.choosen;
+        this.set_choosen(!this.choosen);
 
         if(this.choosen){
             this.emit("choosen", this.text);

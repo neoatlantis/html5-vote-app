@@ -75,7 +75,7 @@ import TouchAudio from "sfc/touch-audio.vue";
 export default {
 
     data(){ return {
-        username: "",
+        username: localStorage.getItem("username") || "",
         init_percent: 0,
 
         init_done: false,
@@ -95,6 +95,12 @@ export default {
         name_alpha: 0,
         result_image_dataurl: null,
     } },
+
+    watch: {
+        username(){
+            localStorage.setItem("username", this.username);
+        }
+    },
 
     methods: {
         on_choices_header_resized: function(new_height){

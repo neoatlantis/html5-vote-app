@@ -47,7 +47,7 @@ export default {
     methods: {
         on_click_delete: function(id){
             this.$emit("clickdelete", id);
-            event_of("stage1").emit("deselect-choice", id);
+            event_of("stage2").emit("deselect-choice", id);
         }
     },
 

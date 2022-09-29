@@ -188,6 +188,18 @@ class ChoiceMenuCanvasController extends CanvasController {
         return true;
     }
 
+    emit_selection(){
+        let selected_ids = this.options_instances    
+            .filter((oi)=>oi.choosen)
+            .map((oi)=>oi.choice_id)
+        ;
+        try{
+            console.log("Stage 2:", selected_ids);
+            this.callback(selected_ids);
+        } catch(e){
+        }
+    }
+
     bind_events(){
         const ec = event_of("canvas");
 
@@ -195,16 +207,9 @@ class ChoiceMenuCanvasController extends CanvasController {
             if(y < HEADER_HEIGHT) return; // clicking header region ignored
             // handle a touch-click or mouseclick event
             this.options_instances.forEach((oi)=>oi.handle_click(x, y));
-            let selected_ids = this.options_instances    
-                .filter((oi)=>oi.choosen)
-                .map((oi)=>oi.choice_id)
-            ;
-            try{
-                console.log("Stage 2:", selected_ids);
-                this.callback(selected_ids);
-            } catch(e){
-            }
+            this.emit_selection();
         }
+        this.emit_selection();
 
         
         let touch_tracker = null;
@@ -273,11 +278,11 @@ class ChoiceMenuCanvasController extends CanvasController {
         });
         
 
-        event_of("stage1").on("deselect-choice", (choice_id) => {
+        event_of("stage2").on("deselect-choice", (choice_id) => {
             // update
             this.options_instances    
                 .filter((oi)=>oi.choosen && oi.choice_id == choice_id)
-                .forEach((oi)=>oi.choosen = false)
+                .forEach((oi)=>oi.set_choosen(false))
             ;
         });
 

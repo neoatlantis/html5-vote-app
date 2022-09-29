@@ -1,5 +1,6 @@
 import constants    from "app/constants.js";
 import utils        from "app/utils";
+import persist      from "app/persist.js";
 const events = require("events");
 
 const math = utils.math;
@@ -38,6 +39,7 @@ class CanvasOption extends events.EventEmitter{
 
         this.app = app;
 
+        this.persist_id = "choice-" + choice_id;
         this.choice_id = choice_id;
         this.text = text;
         this.image_id = image_id;
@@ -92,7 +94,7 @@ class CanvasOption extends events.EventEmitter{
 
 
         // If this option is choosen
-        this.choosen = false;
+        this.choosen = persist.get(this.persist_id); //false;
 
         // When choosen, play a short animation moving the icon from wherever
         // to the standard position given by (this.x0, this.y0). Need a flag
@@ -101,6 +103,11 @@ class CanvasOption extends events.EventEmitter{
 
 
         this.osc_sin = new math.Sin(this.osc_T);
+    }
+
+    set_choosen(v){
+        this.choosen = v;
+        persist.set(this.persist_id, this.choosen);
     }
 
     async init(){
@@ -186,7 +193,7 @@ class CanvasOption extends events.EventEmitter{
             console.log(this.text);
             this.app.play_touch_icon_audio();
 
-            this.choosen = !this.choosen;
+            this.set_choosen(!this.choosen);
             if(this.choosen){
                 this.animating_to_origin = true;
                 this.emit("choosen");
