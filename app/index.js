@@ -76,6 +76,12 @@ function on_result_generated(){
 
 async function init(){
     document.getElementById("app").style.display = "block";
+
+    if(window.innerWidth / window.innerHeight >= 1){
+        app.not_mobile = true;
+        return;
+    }
+
     await assure_loaded(function(percentage){
         app.init_percent = percentage;
     });
@@ -83,6 +89,7 @@ async function init(){
 
     const canvas = document.getElementById("options");
     utils.setup_canvas(canvas, window.innerWidth, window.innerHeight);
+
     
     const bgcontroller = await get_background_controller(canvas);
     

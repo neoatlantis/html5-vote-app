@@ -1,7 +1,14 @@
 <template><div>
 
+    <div class="fullscreen" v-show="not_mobile" style="display: flex; justify-content: center; align-items: center;">
+        <div style="text-align:center">
+            <div>我和CSAE的100件小事</div>
+            <img :src="qrcode_url" />
+            <div>手机扫码玩更精彩</div>
+        </div>
+    </div>
 
-    <div class="fullscreen" v-show="!init_done" style="display: flex; justify-content: center; align-items: center;">
+    <div class="fullscreen" v-show="!not_mobile && !init_done" style="display: flex; justify-content: center; align-items: center;">
         <div>
             {{ init_percent }}%
         </div>
@@ -75,6 +82,9 @@ import TouchAudio from "sfc/touch-audio.vue";
 export default {
 
     data(){ return {
+        qrcode_url: "/data/qrcode.png",
+        not_mobile: false,
+
         username: localStorage.getItem("username") || "",
         init_percent: 0,
 
