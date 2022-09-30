@@ -55,9 +55,12 @@
         </div>
     </div>
 
-    <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done" style="overflow-y: scroll">
+    <div class="fullscreen" v-show="init_done && choices_done && countries_done && name_done && !generating_result" style="overflow-y: scroll; background-color: #CCC">
         <canvas id="result"  style="width:100%" v-show="!result_image_dataurl"></canvas>
         <img id="result-img" style="width:100%" v-show="result_image_dataurl" v-bind:src="result_image_dataurl">
+        <div style="height: 3em; text-align:center">
+            <a :href="result_image_dataurl" :download="username + '.png'" style="text-align: center; height: 3em; line-height: 3em; color: black; text-decoration: none">点击这里下载图片</a>
+        </div>
     </div>
 
 
